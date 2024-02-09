@@ -1,0 +1,86 @@
+{
+    "cisco": {
+        "192.168.10.11": {
+            "soft": "ios",
+            "username": "cisco",
+            "password": null,
+            "pashprase": null,
+            "port": 22,
+            "connection": "ssh"
+        },
+        "192.168.10.12": {
+            "soft": "ios",
+            "username": "cisco",
+            "password": null,
+            "pashprase": null,
+            "port": 22,
+            "connection": "ssh"
+        },
+        "192.168.10.13": {
+            "soft": "ios",
+            "username": "cisco",
+            "password": null,
+            "pashprase": null,
+            "port": 22,
+            "connection": "ssh"
+        },
+        "192.168.10.14": {
+            "soft": "ios",
+            "username": "cisco",
+            "password": null,
+            "pashprase": null,
+            "port": 22,
+            "connection": "ssh"
+        },
+        "192.168.10.15": {
+            "soft": "ios",
+            "username": "cisco",
+            "password": null,
+            "pashprase": null,
+            "port": 22,
+            "connection": "ssh"
+        }
+    },
+    "mikrotik": {
+        "192.168.10.16": {
+            "soft": " v6",
+            "username": "mikrotik",
+            "password": null,
+            "pashprase": null,
+            "port": 22,
+            "connection": "ssh"
+        },
+        "192.168.10.17": {
+            "soft": " v6",
+            "username": "mikrotik",
+            "password": null,
+            "pashprase": null,
+            "port": 22,
+            "connection": "ssh"
+        },
+        "192.168.10.18": {
+            "soft": " v6",
+            "username": "mikrotik",
+            "password": null,
+            "pashprase": null,
+            "port": 22,
+            "connection": "ssh"
+        },
+        "192.168.10.19": {
+            "soft": " v7",
+            "username": "mikrotik",
+            "password": null,
+            "pashprase": null,
+            "port": 22,
+            "connection": "ssh"
+        },
+        "192.168.10.20": {
+            "soft": " v7",
+            "username": "mikrotik",
+            "password": null,
+            "pashprase": null,
+            "port": 22,
+            "connection": "ssh"
+        }
+    }
+}

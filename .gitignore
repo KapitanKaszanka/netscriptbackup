@@ -1,0 +1,8 @@
+## Python
+.venv
+test.py
+## VS Code
+.vscode/
+
+## Else
+test.txt

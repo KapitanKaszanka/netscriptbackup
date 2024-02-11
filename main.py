@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 from backaupnet_tool import Backup
+from modules.devices import Device
+
 import os
 import psutil
 
@@ -28,14 +30,11 @@ def profile(func):
 
 
 @profile
-def create_object():
-    data = Backup()
-    return data
-
-
 def main():
     
-    create_object()
+    data = Backup()
+    data.create_devices()
+    print(Device.devices_lst)
 
 if __name__ == "__main__":
     main()

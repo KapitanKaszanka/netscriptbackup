@@ -34,7 +34,8 @@ def main():
     
     data = Backup()
     data.create_devices()
-    print(Device.devices_lst)
+    stdout= data.get_configuration()
+    print(stdout)
 
 if __name__ == "__main__":
     main()

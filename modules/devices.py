@@ -9,6 +9,7 @@ class Device():
 
     def __init__(
             self,
+            name: str,
             vendor: str,
             ip: str,
             username: str,
@@ -19,6 +20,7 @@ class Device():
             passphrase: str,
             ) -> None:
         self.logger = logging.getLogger("backup_app.devices.Device")
+        self.name = name
         self.vendor = vendor
         self.ip = ip
         self.username = username
@@ -36,6 +38,7 @@ class Cisco(Device):
 
     def __init__(
             self,
+            name: str,
             vendor: str,
             ip: str,
             username: str,
@@ -46,6 +49,7 @@ class Cisco(Device):
             passphrase: str,
             ) -> "Device":
         super().__init__(
+            name,
             vendor,
             ip,
             username,
@@ -65,6 +69,7 @@ class Mikrotik(Device):
 
     def __init__(
             self,
+            name: str,
             vendor: str,
             ip: str,
             username: str,
@@ -75,6 +80,7 @@ class Mikrotik(Device):
             passphrase: str
             ) -> "Device":
         super().__init__(
+            name,
             vendor,
             ip,
             username,

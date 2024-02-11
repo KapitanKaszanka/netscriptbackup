@@ -1,0 +1,80 @@
+{
+    "192.168.10.11": {
+        "vendor": "cisco",
+        "username": "cisco",
+        "port": 22,
+        "connection": "ssh",
+        "soft": "ios"
+    },
+    "192.168.10.12": {
+        "vendor": "cisco",
+        "username": "cisco",
+        "port": 22,
+        "connection": "ssh",
+        "soft": "ios"
+    },
+    "192.168.10.13": {
+        "vendor": "cisco",
+        "soft": "ios",
+        "username": "cisco",
+        "port": 22,
+        "connection": "ssh"
+    },
+    "192.168.10.14": {
+        "vendor": "cisco",
+        "username": "cisco",
+        "port": 22,
+        "connection": "ssh",
+        "soft": "ios"
+    },
+    "192.168.10.15": {
+        "vendor": "cisco",
+        "username": "cisco",
+        "port": 22,
+        "connection": "ssh",
+        "soft": "ios"
+    },
+    "192.168.10.16": {
+        "vendor": "mikrotik",
+        "username": "mikrotik",
+        "port": 22,
+        "connection": "ssh",
+        "soft": "v6"
+    },
+    "192.168.10.17": {
+        "vendor": "mikrotik",
+        "username": "mikrotik",
+        "port": 22,
+        "connection": "ssh",
+        "soft": "v6"
+    },
+    "192.168.10.18": {
+        "vendor": "mikrotik",
+        "username": "mikrotik",
+        "port": 22,
+        "connection": "ssh",
+        "soft": "v6"
+    },
+    "192.168.10.19": {
+        "vendor": "mikrotik",
+        "username": "mikrotik",
+        "port": 22,
+        "connection": "ssh",
+        "soft": "v7"
+    },
+    "192.168.10.20": {
+        "vendor": "mikrotik",
+        "username": "mikrotik",
+        "port": 22,
+        "connection": "ssh",
+        "soft": "v7"
+    },
+    "192.168.10.21": {
+        "vendor": "mclaran",
+        "username": "f1",
+        "port": 22,
+        "connection": "ssh",
+        "soft": "v12"
+    }
+}
+

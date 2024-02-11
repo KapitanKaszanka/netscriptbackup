@@ -1,0 +1,13 @@
+## Python
+.venv
+test.py
+__pycache__
+
+## VS Code
+.vscode/
+
+## App
+files/backup_app.log
+
+## Else
+test.txt

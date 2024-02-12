@@ -7,6 +7,8 @@ from modules.devices import Device, Cisco, Mikrotik
 import paramiko
 import subprocess
 
+
+
 class Config_Load():
 
 
@@ -80,7 +82,7 @@ class Config_Load():
         stream_handler.setLevel(logging.ERROR)
 
         formatter = logging.Formatter(
-            '%(asctime)s:%(name)s:%(levelname)s:%(message)s'
+            "%(asctime)s:%(name)s:%(levelname)s:\n\t%(message)s"
             )
         file_handler.setFormatter(formatter)
         stream_handler.setFormatter(formatter)
@@ -107,15 +109,15 @@ class Devices_Load():
 
     def load_jsons(self):
         try:
-            self.logger.debug("\n\tLoading basic devices list.")
+            self.logger.debug("Loading basic devices list.")
             with open(CONFIG_LOADED.devices_path) as f:
                 _basic_devs = json.load(f)
-            self.logger.debug("\n\tLoading passwords list.")
+            self.logger.debug("Loading passwords list.")
             with open(CONFIG_LOADED.passwords_path) as f:
                 _passwords = json.load(f)
 
             def mergign_dcts(dct1, dct2):
-                self.logger.debug("\n\tMerging lists.")
+                self.logger.debug("Merging lists.")
                 for key in dct1.keys():
                     try:
                         dct1[key]["password"] = dct2[key]["password"]
@@ -124,7 +126,7 @@ class Devices_Load():
                     except KeyError as e:
                         print()
                         self.logger.error(
-                            f"\n\tKey error, check devices or passwords file for ip: {e}"
+                            f"Key error, check devices or passwords file for ip: {e}"
                             )
                         print("#! Exiting...")
                         print()
@@ -136,20 +138,20 @@ class Devices_Load():
 
         except FileNotFoundError as e:
             print()
-            self.logger.error(f"\n\t{e}")
+            self.logger.error(f"{e}")
             print("#! Exiting...")
             exit()
 
         except json.decoder.JSONDecodeError as e:
             print()
-            self.logger.error(f"\n\t{e}")
+            self.logger.error(f"{e}")
             print("#! Exiting...")
             print()
             exit()
 
         except Exception as e:
             print()
-            self.logger.error(f"\n\t{e}")
+            self.logger.error(f"{e}")
             print("#! Exiting...")
             print()
             exit()
@@ -166,16 +168,16 @@ class SSH_Connection():
 
     def connect(self):
         try:
-            self.logger.debug(f"\n\tChecking if the host {self.device.ip} is responding")
+            self.logger.debug(f"Checking if the host {self.device.ip} is responding")
             ping = ["ping", "-W", "1", "-c", "4", self.device.ip]
             subprocess.check_output(ping).decode()
 
         except subprocess.CalledProcessError as e:
-            self.logger.warning(f"\n\tHost {self.device.ip} is not responding. Skip")
+            self.logger.warning(f"Host {self.device.ip} is not responding. Skip")
             return False
 
         try:
-            self.logger.debug(f"\n\tTrying create connection with public key to: {self.device.ip}")
+            self.logger.debug(f"Trying create connection with public key to: {self.device.ip}")
             self.client = paramiko.SSHClient()
             self.client.load_system_host_keys()
             self.client.connect(
@@ -187,15 +189,15 @@ class SSH_Connection():
             return True
         
         except paramiko.BadHostKeyException as e:
-            self.logger.warning(f"\n\tBad host key\n\t{e}")
+            self.logger.warning(f"Bad host key{e}")
             return False
 
         except paramiko.SSHException as e:
             if "known_hosts" in str(e):
-                self.logger.info(f"\n\tCan't connect. You need to add key policy to: {self.device.ip}")
+                self.logger.info(f"Can't connect. You need to add key policy for host: {self.device.ip}")
                 return False
             else:
-                self.logger.debug(f"\n\tTrying create connection with password to: {self.device.ip}")
+                self.logger.debug(f"Trying create connection with password to: {self.device.ip}")
                 self.client = paramiko.SSHClient()
                 self.client.load_system_host_keys()
                 self.client.connect(
@@ -210,7 +212,8 @@ class SSH_Connection():
                 return True
         
         except Exception as e:
-            self.logger.debug(f"\n\tExceptation {e}")
+            self.logger.debug(f"Exceptation {e}")
+            return False
 
 
     def close(self):
@@ -227,24 +230,34 @@ class SSH_Connection():
 
     def get_config(self):
 
-        self.logger.debug(f"\n\tOpening a connection to: {self.device.ip}")
+        self.logger.debug(f"Opening a connection to: {self.device.ip}")
         connection = self.connect()
 
         if connection:
-            self.logger.debug(f"\n\tSending commands to: {self.device.ip}")
-            stdin, stdout, stderr = self.client.exec_command(
-                command = "show running-config",
-                bufsize = 10_000,
-                timeout = 2
-                )
-            stdout = stdout.readlines()
+            
+            self.logger.debug(f"Getting command for device: {self.device.ip}")
+            cli_command = self.device.command_show_config()
+            if not cli_command:
+                self.logger.warning(
+                    f"Can't get command. Check soft for: {self.device.ip}"
+                    )
+                return False
+            
+            else:
+                self.logger.debug(f"Sending commands to: {self.device.ip}")
+                stdin, stdout, stderr = self.client.exec_command(
+                    command = cli_command,
+                    bufsize = 10_000,
+                    timeout = 2
+                    )
+                stdout = stdout.readlines()
 
-            self.close()
+                self.close()
 
-            return stdout
+                return stdout
         
         else:
-            self.logger.warning(f"\n\tCan't get config from: {self.device.ip}")
+            self.logger.warning(f"Can't get config from: {self.device.ip}")
             self.close()
             return False
 
@@ -290,13 +303,13 @@ class Backup():
                 )
                 
             else:
-                self.logger.warning(f"\n\tDevice is not supported. IP: {ip}")
+                self.logger.warning(f"Device is not supported. IP: {ip}")
                 pass
 
 
     def get_configuration(self):
         for dev in Device.devices_lst:
-            self.logger.debug(f"\n\tStart creating backup for: {dev.ip}")
+            self.logger.debug(f"Start creating backup for: {dev.ip}")
             ssh = SSH_Connection(dev)
             stdout = ssh.get_config()
 
@@ -314,7 +327,7 @@ class Backup():
                 f.writelines(stdout)
 
         except FileNotFoundError as e:
-            self.logger.error(f"\n\tFile or dictionary not found: {file_path}")
+            self.logger.error(f"File or dictionary not found: {file_path}")
             pass
 
 

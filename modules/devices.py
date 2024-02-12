@@ -60,7 +60,18 @@ class Cisco(Device):
             passphrase
             )
         self.logger = logging.getLogger("backup_app.devices.Cisco")
-        self.logger.debug(f"\n\tDevice {self.ip} creatad.")
+        self.logger.debug(f"Device {self.ip} creatad.")
+
+
+    def command_show_config(self):
+        if self.soft == "ios":
+            self.logger.debug(f"Command return for device: {self.ip}")
+            return "show running-config"
+        else:
+            self.logger.info(
+                f"Return False for command_show_config for: {self.ip}"
+                )
+            return False
 
 
 
@@ -91,4 +102,18 @@ class Mikrotik(Device):
             passphrase
             )
         self.logger = logging.getLogger("backup_app.devices.Mikrotik")
-        self.logger.debug(f"\n\tDevice {self.ip} creatad.")
+        self.logger.debug(f"Device {self.ip} creatad.")
+
+
+    def command_show_config(self):
+        if self.soft == "ros_v6" or self.soft == "ros_v7":
+            self.logger.debug(
+                f"Command return for device: {self.ip}"
+                )
+            return "export"
+        
+        else:
+            self.logger.info(
+                f"Return False for command_show_config for: {self.ip}"
+                )
+            return False

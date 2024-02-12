@@ -2,7 +2,7 @@
     "192.168.10.11": {
         "name": "R1",
         "vendor": "cisco",
-        "username": "cisco",
+        "username": "backup",
         "port": 22,
         "connection": "ssh",
         "soft": "ios"
@@ -10,10 +10,26 @@
     "192.168.10.12": {
         "name": "R2",
         "vendor": "cisco",
-        "username": "cisco",
+        "username": "backup",
         "port": 22,
         "connection": "ssh",
         "soft": "ios"
+    },
+    "192.168.10.13": {
+        "name": "R3",
+        "vendor": "mikrotik",
+        "username": "backup_tool",
+        "port": 22,
+        "connection": "ssh",
+        "soft": "ros_v6"
+    },
+    "192.168.10.14": {
+        "name": "R4",
+        "vendor": "mikrotik",
+        "username": "backup_tool",
+        "port": 22,
+        "connection": "ssh",
+        "soft": "ros_v7"
     }
 }
 

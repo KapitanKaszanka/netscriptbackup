@@ -31,11 +31,12 @@ def profile(func):
 
 @profile
 def main():
-    
+
+
     data = Backup()
     data.create_devices()
-    stdout= data.get_configuration()
-    print(stdout)
+    data.get_configuration()
+
 
 if __name__ == "__main__":
     main()

@@ -166,14 +166,18 @@ class SSH_Connection():
         self.device = device
 
 
-    def connect(self):
+    def _connect(self):
         try:
             self.logger.debug(f"Checking if the host {self.device.ip} is responding")
             ping = ["ping", "-W", "1", "-c", "4", self.device.ip]
             subprocess.check_output(ping).decode()
 
         except subprocess.CalledProcessError as e:
-            self.logger.warning(f"Host {self.device.ip} is not responding. Skip")
+            self.logger.warning(f"Host {self.device.ip} is not responding. Skip.")
+            return False
+        
+        except Exception as e:
+            self.logger.error(f"Exception: {e}. Skip")
             return False
 
         try:
@@ -198,7 +202,7 @@ class SSH_Connection():
         
         except paramiko.SSHException as e:
             if "known_hosts" in str(e):
-                self.logger.info(
+                self.logger.warning(
                     f"Can't connect. You need to add key policy for host: {self.device.ip}"
                     )
                 return False
@@ -216,34 +220,39 @@ class SSH_Connection():
                 return True
         
         except Exception as e:
-            self.logger.debug(f"Exceptation {e}")
+            self.logger.error(f"Exceptation {e}")
             return False
 
 
-    def close(self):
+    def _close(self):
         try:
+            self.logger.debug(f"Closing connection to: {self.device.ip}")
             if self.client.get_transport().is_active():
                 self.client.close()
 
             else:
+                self.logger.debug(f"Connection to {self.device.ip} was not opened.")
                 pass
 
         except:
+            self.logger.debug(f"Connection to {self.device.ip} was not opened.")
             pass
 
 
     def get_config(self):
 
-        self.logger.debug(f"Opening a connection to: {self.device.ip}")
-        connection = self.connect()
+        self.logger.info(f"Opening a connection to: {self.device.ip}")
+        connection = self._connect()
 
         if connection:
+            self.logger.info(f"Getting config from: {self.device.ip}")
             
-            self.logger.debug(f"Getting command for device: {self.device.ip}")
+            self.logger.debug(f"Getting commands to send for device: {self.device.ip}")
             cli_command = self.device.command_show_config()
+
             if not cli_command:
                 self.logger.warning(
-                    f"Can't get command. Check soft for: {self.device.ip}"
+                    f"Can't get command. Check soft name for: {self.device.ip}"
                     )
                 return False
             
@@ -254,15 +263,18 @@ class SSH_Connection():
                     bufsize = 10_000,
                     timeout = 2
                     )
+                
+                self.logger.debug(f"Reading output from: {self.device.ip}")
                 stdout = stdout.readlines()
 
-                self.close()
+                self.logger.info(f"Closing connection to: {self.device.ip}")
+                self._close()
 
                 return stdout
         
         else:
             self.logger.warning(f"Can't get config from: {self.device.ip}")
-            self.close()
+            self._close()
             return False
 
 
@@ -313,19 +325,24 @@ class Backup():
 
     def get_configuration(self):
         for dev in Device.devices_lst:
-            self.logger.debug(f"Start creating backup for: {dev.ip}")
+            self.logger.info(f"Start creating backup for: {dev.ip}")
             ssh = SSH_Connection(dev)
             stdout = ssh.get_config()
 
             if not stdout:
+                self.logger.warning(f"Config is empty for: {dev.ip}")
                 pass
 
             else:
+                self.logger.debug("Writing config to file.")
                 self.write_config(dev.ip, dev.name, stdout)
 
 
     def write_config(self, ip, name, stdout):
         try:
+            self.logger.debug(
+                f"Opening file: {CONFIG_LOADED.configs_path}/{name}_{ip}.txt"
+                )
             file_path = f"{CONFIG_LOADED.configs_path}/{name}_{ip}.txt"
             with open(file_path, "w") as f:
                 f.writelines(stdout)

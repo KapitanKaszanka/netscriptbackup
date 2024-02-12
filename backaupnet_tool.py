@@ -184,28 +184,32 @@ class SSH_Connection():
                 hostname = self.device.ip,
                 port = self.device.port,
                 username = self.device.username,
-                passphrase = self.device.passphrase
+                passphrase = self.device.passphrase,
             )
             return True
         
         except paramiko.BadHostKeyException as e:
             self.logger.warning(f"Bad host key{e}")
             return False
-
+        
+        except paramiko.AuthenticationException as e:
+            self.logger.warning(f"{e}: {self.device.ip}")
+            return False
+        
         except paramiko.SSHException as e:
             if "known_hosts" in str(e):
-                self.logger.info(f"Can't connect. You need to add key policy for host: {self.device.ip}")
+                self.logger.info(
+                    f"Can't connect. You need to add key policy for host: {self.device.ip}"
+                    )
                 return False
             else:
                 self.logger.debug(f"Trying create connection with password to: {self.device.ip}")
                 self.client = paramiko.SSHClient()
-                self.client.load_system_host_keys()
                 self.client.connect(
                     hostname = self.device.ip,
                     port = self.device.port,
                     username = self.device.username,
                     password = self.device.password,
-                    passphrase = self.device.passphrase,
                     allow_agent = False,
                     look_for_keys = False
                 )

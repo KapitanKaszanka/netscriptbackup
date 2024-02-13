@@ -204,12 +204,13 @@ class SSH_Connection():
         except Exception as e:
             self.logger.error(f"Exception: {e}. Skip")
             return False
+        
+        self.client = paramiko.SSHClient()
+        self.logger.debug(f"Loading system host keys for.")
+        self.client.load_system_host_keys()
 
         try:
             self.logger.debug(f"Trying create connection with public key to: {self.device.ip}")
-            self.client = paramiko.SSHClient()
-            self.client.load_system_host_keys()
-            print(self.device.ip, self.device.port, self.device.username, self.device.passphrase)
             self.client.connect(
                 hostname = self.device.ip,
                 port = self.device.port,
@@ -238,8 +239,6 @@ class SSH_Connection():
             else:
                 try:
                     self.logger.debug(f"Trying create connection with password to: {self.device.ip}")
-                    self.client = paramiko.SSHClient()
-                    self.client.load_system_host_keys()
                     self.client.connect(
                         hostname = self.device.ip,
                         port = self.device.port,

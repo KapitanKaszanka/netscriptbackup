@@ -427,7 +427,20 @@ class Backup():
         if not git_path:
             try:
                 self.logger.debug(f"Repository don't exist in {file_path}. Creating")
-                subprocess.Popen(["/usr/bin/git", "init"], cwd = file_path)
+                cmd = subprocess.Popen([
+                    "/usr/bin/git", "init"],
+                    cwd = file_path,
+                    stdout = subprocess.DEVNULL
+                    )
+                cmd.communicate()
+                
+                self.logger.debug(f"Adding all file to repozitory in {file_path}")
+                cmd = subprocess.Popen(
+                    ["/usr/bin/git", "add", "-A"],
+                    cwd = file_path,
+                    stdout = subprocess.DEVNULL
+                    )
+                cmd.communicate()
 
             except Exception as e:
                 self.logger.error(f"Error ocure: {e}")
@@ -436,14 +449,14 @@ class Backup():
             self.logger.debug(f"Repository exist in {file_path}.")
 
         try:
-            self.logger.debug(f"Adding all file to repozitory in {file_path}")
-            subprocess.Popen(["/usr/bin/git", "add", "-A"], cwd = file_path)
             
             self.logger.info(f"Commiting repository {file_path}")
-            subprocess.Popen(
-                ["/usr/bin/git", "commit", "-m", f"{datetime.now().date()}-{datetime.now().time()}"],
-                cwd = file_path
+            cmd = subprocess.Popen(
+                ["/usr/bin/git", "commit", "-am", f"{datetime.now().date()}-{datetime.now().time()}"],
+                cwd = file_path,
+                stdout = subprocess.DEVNULL
                     )
+            cmd.communicate()
             sleep(0.5)
             return True
 

@@ -18,6 +18,7 @@ class Device():
             soft: str,
             password: str,
             passphrase: str,
+            conf_mode_pass: str
             ) -> None:
         self.logger = logging.getLogger("backup_app.devices.Device")
         self.name = name
@@ -29,6 +30,7 @@ class Device():
         self.soft = soft
         self.password = password
         self.passphrase = passphrase
+        self.conf_mode_pass = conf_mode_pass
         Device.devices_lst.append(self)
 
 
@@ -48,6 +50,7 @@ class Cisco(Device):
             soft: str,
             password: str,
             passphrase: str,
+            conf_mode_pass: str
             ) -> "Device":
         super().__init__(
             name,
@@ -58,7 +61,8 @@ class Cisco(Device):
             connection,
             soft,
             password,
-            passphrase
+            passphrase,
+            conf_mode_pass
             )
         self.logger = logging.getLogger("backup_app.devices.Cisco")
         self.logger.debug(f"Device {self.ip} creatad.")
@@ -92,7 +96,8 @@ class Mikrotik(Device):
             connection: str,
             soft: str,
             password: str,
-            passphrase: str
+            passphrase: str,
+            conf_mode_pass: str
             ) -> "Device":
         super().__init__(
             name,
@@ -103,7 +108,8 @@ class Mikrotik(Device):
             connection,
             soft,
             password,
-            passphrase
+            passphrase,
+            conf_mode_pass
             )
         self.logger = logging.getLogger("backup_app.devices.Mikrotik")
         self.logger.debug(f"Device {self.ip} creatad.")

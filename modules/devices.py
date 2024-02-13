@@ -35,6 +35,7 @@ class Device():
 
 class Cisco(Device):
 
+    soft_supported = ["ios"]
 
     def __init__(
             self,
@@ -64,7 +65,7 @@ class Cisco(Device):
 
 
     def command_show_config(self):
-        if self.soft == "ios":
+        if self.soft  in Cisco.soft_supported:
             self.logger.debug(f"Command return for device: {self.ip}")
             return "show running-config"
         else:
@@ -76,6 +77,9 @@ class Cisco(Device):
 
 
 class Mikrotik(Device):
+
+
+    soft_supported = ["ros_v6", "ros_v7"]
 
 
     def __init__(
@@ -106,14 +110,14 @@ class Mikrotik(Device):
 
 
     def command_show_config(self):
-        if self.soft == "ros_v6" or self.soft == "ros_v7":
+        if self.soft in Mikrotik.soft_supported:
             self.logger.debug(
                 f"Command return for device: {self.ip}"
                 )
             return "export"
         
         else:
-            self.logger.info(
-                f"Return False for command_show_config for: {self.ip}"
+            self.logger.warning(
+                f"Soft type not supported: {self.ip}"
                 )
             return False

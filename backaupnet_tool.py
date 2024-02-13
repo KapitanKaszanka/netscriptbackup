@@ -6,6 +6,7 @@ import json
 from modules.devices import Device, Cisco, Mikrotik
 import paramiko
 import subprocess
+from io import StringIO
 
 
 
@@ -17,12 +18,12 @@ class Config_Load():
         try:
             self._config.read("config.ini")
             self.load_config()
+
+        except KeyError as e:
+            print(f"Not allowed atribute: {e}")
+            exit()
         except Exception as e:
-            print()
-            print("#! CAN'T LOAD CONFIG FILE")
-            print(f"#! Problem: {e}")
-            print("#! Exiting...")
-            print()
+            print("Can't read config.ini file...")
             exit()
 
 
@@ -33,15 +34,14 @@ class Config_Load():
 
         _logging_lv_lst = ["debug", "info", "warning", "error", "critical"]
         _logging_level = self._config["Logging"]["Level"]
+
         if _logging_level not in _logging_lv_lst:
-            print()
-            print("#! Not allowed loggin level")
-            print(f"#! Allowed logging level list: {_logging_lv_lst}")
-            print("#! Exiting...")
-            print()
+            print("Not allowed loggin level. Exiting...")
             exit()
+
         else:
             self.logging_level = _logging_level.lower()
+
         self._logging_path = self._config["Logging"]["File_Path"]
     
     ## Logging setup
@@ -93,10 +93,8 @@ class Config_Load():
         return logger
 
 
-
 CONFIG_LOADED = Config_Load()
 LOGGER = CONFIG_LOADED.set_logging()
-
 
 
 class Devices_Load():
@@ -117,41 +115,68 @@ class Devices_Load():
                 _passwords = json.load(f)
 
             def mergign_dcts(dct1, dct2):
-                self.logger.debug("Merging lists.")
+                self.logger.debug("Merging devices and passwords files.")
+                dev_to_remove = []
                 for key in dct1.keys():
                     try:
-                        dct1[key]["password"] = dct2[key]["password"]
+                        self.logger.debug(f"Trying merge passphrase info for device: {key}.")
                         dct1[key]["passphrase"] = dct2[key]["passphrase"]
+                        self.logger.debug(f"Trying password passphrase info for device: {key}.")
+                        dct1[key]["password"] = dct2[key]["password"]
+                        self.logger.debug(f"Trying merge config_pass info for device: {key}.")
+                        dct1[key]["conf_mode_pass"] = dct2[key]["conf_mode_pass"]
 
                     except KeyError as e:
-                        print()
-                        self.logger.error(
+                        self.logger.warning(
                             f"Key error, check devices or passwords file for ip: {e}"
                             )
-                        print("#! Exiting...")
-                        print()
-                        exit()
+                        self.logger.warning(
+                            f"Skip device {key}, because lack of informations."
+                            )
+                        self.logger.debug(f"Append {key} to remove list.")
+                        dev_to_remove.append(key)
+                        pass
+
+                    except Exception as e:
+                        self.logger.error(
+                            f"Problem ocure: {e}"
+                            )
+                        self.logger.warning(
+                            f"Skip device {key}, because error."
+                            )
+                        self.logger.debug(f"Append {key} to remove list.")
+                        dev_to_remove.append(key)
+                        pass
+                
+                if len(dev_to_remove) != 0:
+                    self.logger.debug("Removing items.")
+                    for ip in dev_to_remove:
+                        self.logger.debug(f"Removing {ip}.")
+                        dct1.pop(ip)
 
                 return dct1
             
             self.devices_data = mergign_dcts(_basic_devs, _passwords)
+            self.logger.debug(f"Empty RAM memory.")
+            del _basic_devs
+            del _passwords
 
         except FileNotFoundError as e:
             print()
-            self.logger.error(f"{e}")
+            self.logger.critical(f"{e}")
             print("#! Exiting...")
             exit()
 
         except json.decoder.JSONDecodeError as e:
             print()
-            self.logger.error(f"{e}")
+            self.logger.critical(f"{e}")
             print("#! Exiting...")
             print()
             exit()
 
         except Exception as e:
             print()
-            self.logger.error(f"{e}")
+            self.logger.critical(f"{e}")
             print("#! Exiting...")
             print()
             exit()
@@ -188,7 +213,7 @@ class SSH_Connection():
                 hostname = self.device.ip,
                 port = self.device.port,
                 username = self.device.username,
-                passphrase = self.device.passphrase,
+                passphrase = self.device.passphrase
             )
             return True
         
@@ -206,6 +231,13 @@ class SSH_Connection():
                     f"Can't connect. You need to add key policy for host: {self.device.ip}"
                     )
                 return False
+            
+            # elif "Invalid key" in str(e):
+            #     self.logger.warning(
+            #         f"Can't connectto {self.device.ip}. Invalid key"
+            #         )
+            #     return False
+            
             else:
                 self.logger.debug(f"Trying create connection with password to: {self.device.ip}")
                 self.client = paramiko.SSHClient()
@@ -351,6 +383,15 @@ class Backup():
             self.logger.error(f"File or dictionary not found: {file_path}")
             pass
 
+
+
+def backup_execute():
+
+    data = Backup()
+    data.create_devices()
+    data.get_configuration()
+
+    return True
 
 
 if __name__ == "__main__":

@@ -5,7 +5,9 @@ module_logging = logging.getLogger("backup_app.devices")
 
 class Device():
 
+
     devices_lst = []
+
 
     def __init__(
             self,

@@ -186,6 +186,44 @@ class Devices_Load():
             exit()
 
 
+    def create_devices(self):
+        self.logger.info(f"Creating device objects..")
+        devices = self.devices_data
+
+        for ip in devices:
+            if devices[ip]["vendor"] == "cisco":
+                Cisco(
+                    name = devices[ip]["name"],
+                    vendor = devices[ip]["vendor"],
+                    ip = ip,
+                    username = devices[ip]["username"],
+                    port = devices[ip]["port"],
+                    connection = devices[ip]["connection"],
+                    soft = devices[ip]["soft"],
+                    password = devices[ip]["password"],
+                    passphrase = devices[ip]["passphrase"],
+                    conf_mode_pass = devices[ip]["conf_mode_pass"]
+                )
+
+            elif devices[ip]["vendor"] == "mikrotik":
+                Mikrotik(
+                    name = devices[ip]["name"],
+                    vendor = devices[ip]["vendor"],
+                    ip = ip,
+                    username = devices[ip]["username"],
+                    port = devices[ip]["port"],
+                    connection = devices[ip]["connection"],
+                    soft = devices[ip]["soft"],
+                    password = devices[ip]["password"],
+                    passphrase = devices[ip]["passphrase"],
+                    conf_mode_pass = devices[ip]["conf_mode_pass"]
+                )
+
+            else:
+                self.logger.warning(f"Device is not supported. IP: {ip}")
+                pass
+
+
 
 class SSH_Connection():
 
@@ -325,43 +363,7 @@ class Backup():
         self.logger = logging.getLogger("backup_app.Backup")
         self.devices = Devices_Load()
         self.devices.load_jsons()
-
-
-    def create_devices(self):
-        devices = self.devices.devices_data
-
-        for ip in devices:
-            if devices[ip]["vendor"] == "cisco":
-                Cisco(
-                    name = devices[ip]["name"],
-                    vendor = devices[ip]["vendor"],
-                    ip = ip,
-                    username = devices[ip]["username"],
-                    port = devices[ip]["port"],
-                    connection = devices[ip]["connection"],
-                    soft = devices[ip]["soft"],
-                    password = devices[ip]["password"],
-                    passphrase = devices[ip]["passphrase"],
-                    conf_mode_pass = devices[ip]["conf_mode_pass"]
-                )
-
-            elif devices[ip]["vendor"] == "mikrotik":
-                Mikrotik(
-                    name = devices[ip]["name"],
-                    vendor = devices[ip]["vendor"],
-                    ip = ip,
-                    username = devices[ip]["username"],
-                    port = devices[ip]["port"],
-                    connection = devices[ip]["connection"],
-                    soft = devices[ip]["soft"],
-                    password = devices[ip]["password"],
-                    passphrase = devices[ip]["passphrase"],
-                    conf_mode_pass = devices[ip]["conf_mode_pass"]
-                )
-                
-            else:
-                self.logger.warning(f"Device is not supported. IP: {ip}")
-                pass
+        self.devices.create_devices()
 
 
     def get_configuration(self):
@@ -449,14 +451,13 @@ class Backup():
             self.logger.debug(f"Repository exist in {file_path}.")
 
         try:
-            
             self.logger.info(f"Commiting repository {file_path}")
             cmd = subprocess.Popen(
                 ["/usr/bin/git", "commit", "-am", f"{datetime.now().date()}-{datetime.now().time()}"],
                 cwd = file_path,
-                stdout = subprocess.DEVNULL
+                stdout = subprocess.PIPE
                     )
-            cmd.communicate()
+            print(cmd.communicate())
             sleep(0.5)
             return True
 

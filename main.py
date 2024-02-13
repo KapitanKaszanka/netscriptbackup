@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 
-<<<<<<< HEAD
-from backaupnet_tool import backup_execute
-=======
 from backupnet_tool import backup_execute
->>>>>>> bc38824 (Restore git)
 
 import os
 import psutil
@@ -24,17 +20,11 @@ def profile(func):
         mem_before = process_memory()
         result = func(*args, **kwargs)
         mem_after = process_memory()
-<<<<<<< HEAD
-        print("{}:consumed memory: {:,}".format(
-            func.__name__,
-            mem_before, mem_after, mem_after - mem_before))
-=======
         print()
         print("{}:consumed memory: {:,}".format(
             func.__name__,
             mem_before, mem_after, mem_after - mem_before))
         print()
->>>>>>> bc38824 (Restore git)
 
         return result
     return wrapper

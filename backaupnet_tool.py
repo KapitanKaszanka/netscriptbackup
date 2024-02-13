@@ -209,6 +209,7 @@ class SSH_Connection():
             self.logger.debug(f"Trying create connection with public key to: {self.device.ip}")
             self.client = paramiko.SSHClient()
             self.client.load_system_host_keys()
+            print(self.device.ip, self.device.port, self.device.username, self.device.passphrase)
             self.client.connect(
                 hostname = self.device.ip,
                 port = self.device.port,
@@ -221,10 +222,6 @@ class SSH_Connection():
             self.logger.warning(f"Bad host key{e}")
             return False
         
-        except paramiko.AuthenticationException as e:
-            self.logger.warning(f"{e}: {self.device.ip}")
-            return False
-        
         except paramiko.SSHException as e:
             if "known_hosts" in str(e):
                 self.logger.warning(
@@ -232,24 +229,31 @@ class SSH_Connection():
                     )
                 return False
             
-            # elif "Invalid key" in str(e):
-            #     self.logger.warning(
-            #         f"Can't connectto {self.device.ip}. Invalid key"
-            #         )
-            #     return False
+            elif "Invalid key" in str(e):
+                self.logger.warning(
+                    f"Can't connectto {self.device.ip}. Invalid key"
+                    )
+                return False
             
             else:
-                self.logger.debug(f"Trying create connection with password to: {self.device.ip}")
-                self.client = paramiko.SSHClient()
-                self.client.connect(
-                    hostname = self.device.ip,
-                    port = self.device.port,
-                    username = self.device.username,
-                    password = self.device.password,
-                    allow_agent = False,
-                    look_for_keys = False
-                )
-                return True
+                try:
+                    self.logger.debug(f"Trying create connection with password to: {self.device.ip}")
+                    self.client = paramiko.SSHClient()
+                    self.client.load_system_host_keys()
+                    self.client.connect(
+                        hostname = self.device.ip,
+                        port = self.device.port,
+                        username = self.device.username,
+                        password = self.device.password,
+                        allow_agent = False,
+                        look_for_keys = False
+                    )
+                    return True
+                
+                except paramiko.AuthenticationException as e:
+                    self.logger.warning(f"{e}: {self.device.ip}")
+                    return False
+        
         
         except Exception as e:
             self.logger.error(f"Exceptation {e}")

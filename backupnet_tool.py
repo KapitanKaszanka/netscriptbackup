@@ -1,100 +1,17 @@
 #!/usr/bin/env python3
 
-from configparser import ConfigParser
+from modules.config_load import Config_Load
 import logging
 import json
 from modules.devices import Device, Cisco, Mikrotik
-import paramiko
+from netmiko import (
+    ConnectHandler,
+    NetmikoBaseException,
+    NetmikoAuthenticationException,
+    NetmikoTimeoutException)
 import subprocess
 from pathlib import Path
 from datetime import datetime
-from time import sleep
-
-class Config_Load():
-
-
-    def __init__(self):
-        self._config = ConfigParser()
-        try:
-            self._config.read("config.ini")
-            self.load_config()
-
-        except KeyError as e:
-            print(f"Not allowed atribute: {e}")
-            exit()
-        except Exception as e:
-            print("Can't read config.ini file...")
-            exit()
-
-
-    def load_config(self):
-        self.devices_path = self._config["Application_Setup"]["Devices_Path"]
-        self.passwords_path = self._config["Application_Setup"]["Passwords_Path"]
-
-        _configs_path = self._config["Application_Setup"]["Configs_Path"]
-        if _configs_path[-1] == "/":
-            _configs_path = _configs_path.removesuffix("/")
-        self.configs_path = _configs_path
-
-        _logging_lv_lst = ["debug", "info", "warning", "error", "critical"]
-        _logging_level = self._config["Logging"]["Level"]
-
-        if _logging_level not in _logging_lv_lst:
-            print("Not allowed loggin level. Exiting...")
-            exit()
-
-        else:
-            self.logging_level = _logging_level.lower()
-
-        self._logging_path = self._config["Logging"]["File_Path"]
-    
-    ## Logging setup
-    def set_logging(self):
-        logger = logging.getLogger("backup_app")
-        if self.logging_level.lower() == "debug":
-            logger.setLevel(logging.DEBUG)
-
-        elif self.logging_level.lower() == "info":
-            logger.setLevel(logging.INFO)
-
-        elif self.logging_level.lower() == "warning":
-            logger.setLevel(logging.WARNING)
-
-        elif self.logging_level.lower() == "error":
-            logger.setLevel(logging.ERROR)
-
-        elif self.logging_level.lower() == "critical":
-            logger.setLevel(logging.CRITICAL)
-
-        file_handler = logging.FileHandler(self._logging_path)
-        if self.logging_level.lower() == "debug":
-            file_handler.setLevel(logging.DEBUG)
-
-        elif self.logging_level.lower() == "info":
-            file_handler.setLevel(logging.INFO)
-
-        elif self.logging_level.lower() == "warning":
-            file_handler.setLevel(logging.WARNING)
-
-        elif self.logging_level.lower() == "error":
-            file_handler.setLevel(logging.ERROR)
-
-        elif self.logging_level.lower() == "critical":
-            file_handler.setLevel(logging.CRITICAL)
-
-        stream_handler = logging.StreamHandler()
-        stream_handler.setLevel(logging.ERROR)
-
-        formatter = logging.Formatter(
-            "%(asctime)s:%(name)s:%(levelname)s:\n\t%(message)s"
-            )
-        file_handler.setFormatter(formatter)
-        stream_handler.setFormatter(formatter)
-
-        logger.addHandler(file_handler)
-        logger.addHandler(stream_handler)
-
-        return logger
 
 
 CONFIG_LOADED = Config_Load()
@@ -114,62 +31,11 @@ class Devices_Load():
             self.logger.debug("Loading basic devices list.")
             with open(CONFIG_LOADED.devices_path) as f:
                 _basic_devs = json.load(f)
-            self.logger.debug("Loading passwords list.")
-            with open(CONFIG_LOADED.passwords_path) as f:
-                _passwords = json.load(f)
 
-            def mergign_dcts(dct1, dct2):
-                self.logger.debug("Merging devices and passwords files.")
-                dev_to_remove = []
-                for key in dct1.keys():
-                    try:
-                        self.logger.debug(
-                            f"Trying merge passphrase info for device: {key}."
-                            )
-                        dct1[key]["passphrase"] = dct2[key]["passphrase"]
-                        self.logger.debug(
-                            f"Trying password passphrase info for device: {key}."
-                            )
-                        dct1[key]["password"] = dct2[key]["password"]
-                        self.logger.debug(
-                            f"Trying merge config_pass info for device: {key}."
-                            )
-                        dct1[key]["conf_mode_pass"] = dct2[key]["conf_mode_pass"]
-
-                    except KeyError as e:
-                        self.logger.warning(
-                            f"Key error, check devices or passwords file for ip: {e}"
-                            )
-                        self.logger.warning(
-                            f"Skip device {key}, because lack of informations."
-                            )
-                        self.logger.debug(f"Append {key} to remove list.")
-                        dev_to_remove.append(key)
-                        pass
-
-                    except Exception as e:
-                        self.logger.error(
-                            f"Problem ocure: {e}"
-                            )
-                        self.logger.warning(
-                            f"Skip device {key}, because error."
-                            )
-                        self.logger.debug(f"Append {key} to remove list.")
-                        dev_to_remove.append(key)
-                        pass
-                
-                if len(dev_to_remove) != 0:
-                    self.logger.debug("Removing items.")
-                    for ip in dev_to_remove:
-                        self.logger.debug(f"Removing {ip}.")
-                        dct1.pop(ip)
-
-                return dct1
-            
-            self.devices_data = mergign_dcts(_basic_devs, _passwords)
+            self.devices_data = _basic_devs
             self.logger.debug(f"Empty RAM memory.")
             del _basic_devs
-            del _passwords
+
 
         except FileNotFoundError as e:
             print()
@@ -205,9 +71,10 @@ class Devices_Load():
                     username = devices[ip]["username"],
                     port = devices[ip]["port"],
                     connection = devices[ip]["connection"],
-                    soft = devices[ip]["soft"],
-                    password = devices[ip]["password"],
+                    device_type = devices[ip]["device_type"],
                     passphrase = devices[ip]["passphrase"],
+                    key_file = devices[ip]["key_file"],
+                    password = devices[ip]["password"],
                     conf_mode_pass = devices[ip]["conf_mode_pass"]
                 )
 
@@ -219,9 +86,10 @@ class Devices_Load():
                     username = devices[ip]["username"],
                     port = devices[ip]["port"],
                     connection = devices[ip]["connection"],
-                    soft = devices[ip]["soft"],
-                    password = devices[ip]["password"],
+                    device_type = devices[ip]["device_type"],
                     passphrase = devices[ip]["passphrase"],
+                    key_file = devices[ip]["key_file"],
+                    password = devices[ip]["password"],
                     conf_mode_pass = devices[ip]["conf_mode_pass"]
                 )
 
@@ -237,6 +105,10 @@ class SSH_Connection():
     def __init__(self, device) -> None:
         self.logger = logging.getLogger("backup_app.SSH_Connection")
         self.device = device
+        if CONFIG_LOADED.ssh_config_file != None:
+            self.ssh_config_file = CONFIG_LOADED.ssh_config_file
+        else:
+            self.ssh_config_file = None
 
 
     def _connect(self):
@@ -244,6 +116,7 @@ class SSH_Connection():
             self.logger.debug(f"Checking if the host {self.device.ip} is responding")
             ping = ["/usr/bin/ping", "-W", "1", "-c", "4", self.device.ip]
             subprocess.check_output(ping).decode()
+            self.logger.debug(f"Device {self.device.ip} responding")
 
         except subprocess.CalledProcessError as e:
             self.logger.warning(f"Host {self.device.ip} is not responding. Skip.")
@@ -253,55 +126,35 @@ class SSH_Connection():
             self.logger.error(f"Exception: {e}. Skip")
             return False
         
-        self.client = paramiko.SSHClient()
-        self.logger.debug(f"Loading system host keys for.")
-        self.client.load_system_host_keys()
+        connection_parametrs = {
+            "host": self.device.ip,
+            "username": self.device.username,
+            "port": self.device.port,
+            "device_type": self.device.device_type,
+            "key_file": self.device.key_file,
+            "passphrase": self.device.passphrase,
+            "password": self.device.password,
+            "secret": self.device.conf_mode_pass
+        }
 
         try:
-            self.logger.debug(f"Trying create connection with public key to: {self.device.ip}")
-            self.client.connect(
-                hostname = self.device.ip,
-                port = self.device.port,
-                username = self.device.username,
-                passphrase = self.device.passphrase
-            )
+            self.logger.debug(f"Trying create connection to: {self.device.ip}")
+            self.client = ConnectHandler(**connection_parametrs)
             return True
         
-        except paramiko.BadHostKeyException as e:
-            self.logger.warning(f"Bad host key{e}")
+        except NetmikoTimeoutException as e:
+            self.logger.warning(
+                f"Can't connect to {self.device.ip}."
+                )
+            self.logger.warning(f"Error {e}")
             return False
-        
-        except paramiko.SSHException as e:
-            if "known_hosts" in str(e):
-                self.logger.warning(
-                    f"Can't connect. You need to add key policy for host: {self.device.ip}"
-                    )
-                return False
-            
-            elif "Invalid key" in str(e):
-                self.logger.warning(
-                    f"Can't connectto {self.device.ip}. Invalid key"
-                    )
-                return False
-            
-            else:
-                try:
-                    self.logger.debug(f"Trying create connection with password to: {self.device.ip}")
-                    self.client.connect(
-                        hostname = self.device.ip,
-                        port = self.device.port,
-                        username = self.device.username,
-                        password = self.device.password,
-                        allow_agent = False,
-                        look_for_keys = False
-                    )
-                    return True
-                
-                except paramiko.AuthenticationException as e:
-                    self.logger.warning(f"{e}: {self.device.ip}")
-                    return False
-        
-        
+
+        except NetmikoAuthenticationException as e:
+            self.logger.warning(
+                f"Can't connect to {self.device.ip}"
+                )
+            self.logger.warning(f"Error {e}")
+
         except Exception as e:
             self.logger.error(f"Exceptation {e}")
             return False
@@ -310,8 +163,8 @@ class SSH_Connection():
     def _close(self):
         try:
             self.logger.debug(f"Closing connection to: {self.device.ip}")
-            if self.client.get_transport().is_active():
-                self.client.close()
+            if self.client.is_alive():
+                self.client.disconnect()
 
             else:
                 self.logger.debug(f"Connection to {self.device.ip} was not opened.")
@@ -341,19 +194,17 @@ class SSH_Connection():
             
             else:
                 self.logger.debug(f"Sending commands to: {self.device.ip}")
-                stdin, stdout, stderr = self.client.exec_command(
-                    command = cli_command,
-                    bufsize = 10_000,
-                    timeout = 2
+                stdout = self.client.send_command(
+                    command_string = cli_command
                     )
                 
                 self.logger.debug(f"Reading output from: {self.device.ip}")
-                stdout = stdout.readlines()
+                pars_output = self.device.config_parser(stdout)
 
                 self.logger.info(f"Closing connection to: {self.device.ip}")
                 self._close()
 
-                return stdout
+                return pars_output
         
         else:
             self.logger.warning(f"Can't get config from: {self.device.ip}")
@@ -407,7 +258,9 @@ class Backup():
             self.logger.debug(f"Check if folder {file_path} exist.")
 
             if not path.is_dir():
-                self.logger.debug(f"Folder {file_path} don't exist or account don't have permionss. Creating.")
+                self.logger.debug(
+                    f"Folder {file_path} don't exist or account don't have permionss. Creating."
+                    )
                 path.mkdir()
 
             try:
@@ -463,8 +316,10 @@ class Backup():
                 cwd = file_path,
                 stdout = subprocess.PIPE
                     )
-            print(cmd.communicate())
-            sleep(0.5)
+            # _string = str(cmd).decode()
+            # if "nothing to commit" in _string:
+            #     self.logger.info(f"Nothing to commit for {ip}")
+
             return True
 
         except Exception as e:

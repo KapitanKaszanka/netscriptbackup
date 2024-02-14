@@ -5,7 +5,11 @@
         "username": "cisco",
         "port": 22,
         "connection": "ssh",
-        "soft": "ios"
+        "device_type": "cisco_ios",
+        "key_file": null,
+        "passphrase": "superstrongpassword",
+        "password": "cisco",
+        "conf_mode_pass": "cisco"
     },
     "192.168.10.12": {
         "name": "R2",
@@ -13,15 +17,11 @@
         "username": "cisco",
         "port": 22,
         "connection": "ssh",
-        "soft": "ios"
-    },
-    "192.168.10.13": {
-        "name": "R3",
-        "vendor": "mikrotik",
-        "username": "backup_tool",
-        "port": 22,
-        "connection": "ssh",
-        "soft": "ros_v6"
+        "device_type": "cisco_ios",
+        "key_file": "~/.ssh/id_rsa",
+        "passphrase": "superstrongpassword",
+        "password": "cisco",
+        "conf_mode_pass": "cisco"
     },
     "192.168.10.14": {
         "name": "R4",
@@ -29,7 +29,11 @@
         "username": "backup_tool",
         "port": 22,
         "connection": "ssh",
-        "soft": "ros_v7"
+        "device_type": "mikrotik_routeros",
+        "key_file": null,
+        "passphrase": null,
+        "password": "superstrongpassword",
+        "conf_mode_pass": null
     }
 }
 

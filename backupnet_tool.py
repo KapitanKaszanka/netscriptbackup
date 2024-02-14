@@ -123,11 +123,17 @@ class Devices_Load():
                 dev_to_remove = []
                 for key in dct1.keys():
                     try:
-                        self.logger.debug(f"Trying merge passphrase info for device: {key}.")
+                        self.logger.debug(
+                            f"Trying merge passphrase info for device: {key}."
+                            )
                         dct1[key]["passphrase"] = dct2[key]["passphrase"]
-                        self.logger.debug(f"Trying password passphrase info for device: {key}.")
+                        self.logger.debug(
+                            f"Trying password passphrase info for device: {key}."
+                            )
                         dct1[key]["password"] = dct2[key]["password"]
-                        self.logger.debug(f"Trying merge config_pass info for device: {key}.")
+                        self.logger.debug(
+                            f"Trying merge config_pass info for device: {key}."
+                            )
                         dct1[key]["conf_mode_pass"] = dct2[key]["conf_mode_pass"]
 
                     except KeyError as e:
@@ -470,7 +476,6 @@ class Backup():
 def backup_execute():
 
     data = Backup()
-    data.create_devices()
     data.get_configuration()
 
     return True

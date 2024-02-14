@@ -39,7 +39,9 @@ class Device():
 
 class Cisco(Device):
 
+
     soft_supported = ["ios"]
+
 
     def __init__(
             self,
@@ -79,6 +81,10 @@ class Cisco(Device):
                 f"Return False for command_show_config for: {self.ip}"
                 )
             return False
+
+
+    def config_parser(self):
+        pass
 
 
 

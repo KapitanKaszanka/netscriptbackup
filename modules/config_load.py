@@ -34,15 +34,6 @@ class Config_Load():
             exit()
 
         try:
-            _ssh_config_file = self._config["SSH_setup"]["SSH_Config_File"]
-
-            self.ssh_config_file = _ssh_config_file
-
-        except KeyError as e:
-            self.ssh_config_file = None
-
-
-        try:
             _logging_lv_lst = ["debug", "info", "warning", "error", "critical"]
             _logging_level = self._config["Logging"]["Level"].lower()
             if _logging_level not in _logging_lv_lst:

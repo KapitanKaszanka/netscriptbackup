@@ -1,13 +1,91 @@
 #!/usr/bin/env python3.10
 import logging
+import json
 
-module_logging = logging.getLogger("backup_app.devices")
+
+class Devices_Load():
+    """Class loads device and store this in object."""
+
+
+    def __init__(self) -> None:
+        self.logger = logging.getLogger("backup_app.devices.Devices_Load")
+
+
+    def load_jsons(self, path):
+        try:
+            self.logger.debug("Loading basic devices list.")
+            with open(path, "r") as f:
+                _basic_devs = json.load(f)
+
+            self.devices_data = _basic_devs
+            self.logger.debug(f"Empty RAM memory.")
+            del _basic_devs
+
+
+        except FileNotFoundError as e:
+            print()
+            self.logger.critical(f"{e}")
+            print("#! Exiting...")
+            exit()
+
+        except json.decoder.JSONDecodeError as e:
+            print()
+            self.logger.critical(f"{e}")
+            print("#! Exiting...")
+            print()
+            exit()
+
+        except Exception as e:
+            print()
+            self.logger.critical(f"{e}")
+            print("#! Exiting...")
+            print()
+            exit()
+
+
+    def create_devices(self):
+        self.logger.info(f"Creating device objects..")
+        devices = self.devices_data
+
+        for ip in devices:
+            _device_parametrs = {
+                "name": devices[ip]["name"],
+                "vendor": devices[ip]["vendor"],
+                "ip": ip,
+                "username": devices[ip]["username"],
+                "port": devices[ip]["port"],
+                "connection": devices[ip]["connection"],
+                "device_type": devices[ip]["device_type"],
+                "passphrase": devices[ip]["passphrase"],
+                "key_file": devices[ip]["key_file"],
+                "password": devices[ip]["password"],
+                "conf_mode_pass": devices[ip]["conf_mode_pass"]
+            }
+
+            if devices[ip]["vendor"] == "cisco":
+                Cisco(**_device_parametrs)
+
+            elif devices[ip]["vendor"] == "mikrotik":
+                Mikrotik(**_device_parametrs)
+
+            elif devices[ip]["vendor"] == "juniper":
+                Mikrotik(**_device_parametrs)
+
+            else:
+                self.logger.warning(f"Device is not supported. IP: {ip}")
+                pass
+
+
 
 class Device():
 
 
     devices_lst = []
-    supported_dev_type = ["cisco_ios", "mikrotik_routeros"]
+    supported_dev_type = [
+        "cisco_ios", 
+        "mikrotik_routeros",
+        "juniper"
+        ]
 
 
     def __init__(
@@ -39,11 +117,12 @@ class Device():
         Device.devices_lst.append(self)
 
 
+    def config_parser(self, config):
+        return config
+
+
 
 class Cisco(Device):
-
-
-    soft_supported = ["cisco_ios"]
 
 
     def __init__(
@@ -78,15 +157,8 @@ class Cisco(Device):
 
 
     def command_show_config(self):
-        if self.device_type  in Cisco.soft_supported:
-            self.logger.debug(f"Command return for device: {self.ip}")
-            return "show running-config"
-
-        else:
-            self.logger.info(
-                f"Return False for command_show_config for: {self.ip}"
-                )
-            return False
+        self.logger.debug(f"Command return for device: {self.ip}")
+        return "show running-config"
 
 
     def config_parser(self, config):
@@ -95,19 +167,27 @@ class Cisco(Device):
         config = config.splitlines()
 
         for line in config:
-            self.logger.debug(f"Skiping line ! for {self.ip}.")
             if "!" in line:
-                _tmp_config.append("")
+                if add_enter == True or add_enter == None:
+                    _tmp_config.append("")
+                    add_enter = False
                 continue
 
             elif "Building configuration" in line:
+                self.logger.debug(f"Skiping line 'Building configuration' for {self.ip}.")
                 continue
 
             elif "Current configuration" in line:
+                self.logger.debug(f"Skiping line 'Current configuration' for {self.ip}.")
+                continue
+
+            elif len(line) == 0:
+                self.logger.debug(f"Skiping empty line for {self.ip}.")
                 continue
 
             else:
                 _tmp_config.append(line)
+                add_enter = True
 
         config_to_return = "\n".join(_tmp_config)
 
@@ -116,9 +196,6 @@ class Cisco(Device):
 
 
 class Mikrotik(Device):
-
-
-    soft_supported = ["mikrotik_routeros"]
 
 
     def __init__(
@@ -153,18 +230,66 @@ class Mikrotik(Device):
 
 
     def command_show_config(self):
-        if self.device_type in Mikrotik.soft_supported:
-            self.logger.debug(
-                f"Command return for device: {self.ip}"
-                )
-            return "export"
+        self.logger.debug(f"Command return for device: {self.ip}")
+        return "export"
+
+
+    def config_parser(self, config):
+        self.logger.debug(f"Parsing config {self.ip}")
+        _tmp_config = []
+        config = config.splitlines()
+
+        for line in config:
+            if "#" in line:
+                self.logger.debug(f"Skiping line {line} for {self.ip}.")
+                continue
+
+            _tmp_config.append(line)
         
-        else:
-            self.logger.warning(
-                f"Soft type not supported: {self.ip}"
-                )
-            return False
-        
+        config_to_return = "\n".join(_tmp_config)
+
+        return config_to_return
+
+
+
+class Juniper(Device):
+
+
+    def __init__(
+            self,
+            name: str,
+            vendor: str,
+            ip: str,
+            username: str,
+            port: int,
+            connection: str,
+            device_type: str,
+            passphrase: str,
+            key_file: str,
+            password: str,
+            conf_mode_pass: str
+            ) -> "Device":
+        super().__init__(
+            name,
+            vendor,
+            ip,
+            username,
+            port,
+            connection,
+            device_type,
+            passphrase,
+            key_file,
+            password,
+            conf_mode_pass
+            )
+        self.logger = logging.getLogger("backup_app.devices.Juniper")
+        self.logger.debug(f"Device {self.ip} creatad.")
+
+
+    def command_show_config(self):
+        self.logger.debug(f"Command return for device: {self.ip}")
+        return "show config | display set"
+
     def config_parser(self, config):
         self.logger.debug(f"Parsing config {self.ip}")
         _tmp_config = []

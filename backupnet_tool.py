@@ -21,6 +21,7 @@ class Backup():
         self.devices = Devices_Load()
         self.devices.load_jsons(CONFIG_LOADED.devices_path)
         self.devices.create_devices()
+        self.configs_path = CONFIG_LOADED.configs_path
 
 
     def get_configuration(self):
@@ -29,24 +30,24 @@ class Backup():
             ssh = SSH_Connection(dev)
             stdout = ssh.get_config()
 
-            if not stdout:
-                self.logger.warning(f"Config is empty for: {dev.ip}")
-                pass
-
-            else:
-                self.logger.info("Writing config to file and execute git commit.")
+            if isinstance(stdout, str):
+                self.logger.info(f"Writing config to file and execute git commit {dev.ip}")
                 self.logger.debug("Writing config to file.")
-                path = CONFIG_LOADED.configs_path
+                path = self.configs_path 
                 done = self.write_config(path, dev.ip, dev.name, stdout)
+
                 if done:
-                    self.logger.debug("Git commands execute.")
+                    self.logger.debug(f"Git commands execute {dev.ip}")
                     done = self.git_execute(path, dev.ip, dev.name)
                     if not done:
-                        self.logger.error("Can't create backup config.")
+                        self.logger.error(f"Can't create backup config {dev.ip}")
                         pass
                 else:
-                    self.logger.error("Can't create backup config.")
+                    self.logger.error(f"Can't create backup config dev.ip")
                     pass
+            else:
+                self.logger.warning(f"Can't connect to device {dev.ip}")
+                pass
 
 
     def write_config(self, path, ip, name, stdout):

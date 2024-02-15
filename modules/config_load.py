@@ -50,8 +50,8 @@ class Config_Load():
 
         except KeyError as e:
             self._logging_path = "files/backup_app.log"
-    
-    ## Logging setup
+
+
     def set_logging(self):
         logger = logging.getLogger("backup_app")
         if self.logging_level.lower() == "debug":

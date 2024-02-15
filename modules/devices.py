@@ -72,7 +72,7 @@ class Devices_Load():
                 Juniper(**_device_parametrs)
 
             else:
-                self.logger.warning(f"Device is not supported. IP: {ip}")
+                self.logger.warning(f"{ip} - Device is not supported.")
                 pass
 
 
@@ -117,7 +117,7 @@ class Device():
         Device.devices_lst.append(self)
 
 
-    def config_parser(self, config):
+    def config_filternig(self, config):
         return config
 
 
@@ -153,16 +153,16 @@ class Cisco(Device):
             conf_mode_pass
             )
         self.logger = logging.getLogger("backup_app.devices.Cisco")
-        self.logger.debug(f"Device {self.ip} creatad.")
+        self.logger.debug(f"{self.ip} - Creatad.")
 
 
     def command_show_config(self):
-        self.logger.debug(f"Command return for device: {self.ip}")
+        self.logger.debug(f"{self.ip} - Returning commands.")
         return "show running-config"
 
 
-    def config_parser(self, config):
-        self.logger.debug(f"Parsing config {self.ip}")
+    def config_filternig(self, config):
+        self.logger.debug(f"{self.ip} - Configuration filtering.")
         _tmp_config = []
         config = config.splitlines()
 
@@ -174,15 +174,15 @@ class Cisco(Device):
                 continue
 
             elif "Building configuration" in line:
-                self.logger.debug(f"Skiping line 'Building configuration' for {self.ip}.")
+                self.logger.debug(f"{self.ip} - Skiping line '{line}'.")
                 continue
 
             elif "Current configuration" in line:
-                self.logger.debug(f"Skiping line 'Current configuration' for {self.ip}.")
+                self.logger.debug(f"{self.ip} - Skiping line '{line}'.")
                 continue
 
             elif len(line) == 0:
-                self.logger.debug(f"Skiping empty line for {self.ip}.")
+                self.logger.debug(f"{self.ip} - Skiping empty line for.")
                 continue
 
             else:
@@ -226,22 +226,22 @@ class Mikrotik(Device):
             conf_mode_pass
             )
         self.logger = logging.getLogger("backup_app.devices.Mikrotik")
-        self.logger.debug(f"Device {self.ip} creatad.")
+        self.logger.debug(f"{self.ip} - Creatad.")
 
 
     def command_show_config(self):
-        self.logger.debug(f"Command return for device: {self.ip}")
+        self.logger.debug(f"{self.ip} - Returning commands.")
         return "export"
 
 
-    def config_parser(self, config):
-        self.logger.debug(f"Parsing config {self.ip}")
+    def config_filternig(self, config):
+        self.logger.debug(f"{self.ip} - Configuration filtering.")
         _tmp_config = []
         config = config.splitlines()
 
         for line in config:
             if "#" in line:
-                self.logger.debug(f"Skiping line {line} for {self.ip}.")
+                self.logger.debug(f"{self.ip} - Skiping line '{line}'.")
                 continue
 
             _tmp_config.append(line)
@@ -287,17 +287,17 @@ class Juniper(Device):
 
 
     def command_show_config(self):
-        self.logger.debug(f"Command return for device: {self.ip}")
+        self.logger.debug(f"{self.ip} - Returning commands.")
         return "show config | display set"
 
-    def config_parser(self, config):
-        self.logger.debug(f"Parsing config {self.ip}")
+    def config_filternig(self, config):
+        self.logger.debug(f"{self.ip} - Configuration filtering.")
         _tmp_config = []
         config = config.splitlines()
 
         for line in config:
             if "#" in line:
-                self.logger.debug(f"Skiping line {line} for {self.ip}.")
+                self.logger.debug(f"{self.ip} - Skiping line '{line}'.")
                 continue
 
             _tmp_config.append(line)

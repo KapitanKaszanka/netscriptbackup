@@ -23,7 +23,6 @@ class Backup():
         self.devices.load_jsons(CONFIG_LOADED.devices_path)
         self.devices.create_devices()
         self.configs_path = CONFIG_LOADED.configs_path
-        self.git = Git()
 
 
     def _file_working(self, ip, name, stdout):
@@ -33,53 +32,56 @@ class Backup():
 
             path = Path(dir_path)
 
-            self.logger.debug(f"Check if folder {dir_path} exist.")
+            self.logger.debug(f"{ip} - Check if the folder exist.")
 
             if not path.is_dir():
-                self.logger.debug(
-                    f"Folder {dir_path}/ don't exist or account don't have permionss. Creating."
+                self.logger.info(
+                    f"{self.devices.ip} - The folder doesn't exist or account doesn't have permissions."
                     )
+                self.logger.info(f"{ip} - Creating a folder.")
                 path.mkdir()
 
             try:
-                self.logger.debug(f"Opening file: {file_path}")
+                self.logger.debug(f"{ip} - Opening the file.")
                 with open(file_path, "w") as f:
-                    self.logger.debug(f"Writing config for {ip}")
+                    self.logger.debug(f"{ip} - Writing config.")
                     f.writelines(stdout)
                 return True
 
             except PermissionError:
-                self.logger.warning(f"Can't open {file_path}. Permission error.")
+                self.logger.warning(f"{ip} - The file cannot be opened. Permission error.")
                 return False
 
         except Exception as e:
-            self.logger.error(f"Error: {e}")
+            self.logger.error(f"{ip} - Error: {e}")
             pass
 
 
     def execute_backup(self):
         for dev in Device.devices_lst:
-            self.logger.info(f"Start creating backup for: {dev.ip}")
+            self.logger.info(f"{dev.ip} - Start creating backup.")
             ssh = SSH_Connection(dev)
             stdout = ssh.get_config()
 
             if isinstance(stdout, str):
-                self.logger.debug(f"Writing config to file for {dev.ip}.")
+                self.logger.debug(f"{dev.ip} - Writing config to the file.")
                 done = self._file_working(dev.ip, dev.name, stdout)
 
                 if done:
-                    self.logger.debug(f"Git commands execute {dev.ip}")
-                    done = self.git.git_exceute(dev.ip, dev.name)
+                    self.logger.debug(f"{dev.ip} - Git commands execute.")
+                    _git = Git(dev.ip, dev.name, self.configs_path)
+                    done = _git.git_exceute()
+
                     if not done:
-                        self.logger.warning(f"Can't create backup config {dev.ip}")
+                        self.logger.warning(f"{dev.ip} - Unable to create backup.")
                         pass
 
                 else:
-                    self.logger.warning(f"Can't create backup config {dev.ip}")
+                    self.logger.warning(f"{dev.ip} - Unable to create backup.")
                     pass
 
             else:
-                self.logger.warning(f"Can't connect to device {dev.ip}")
+                self.logger.warning(f"{dev.ip} - Unable to connect to device.")
                 pass
 
 

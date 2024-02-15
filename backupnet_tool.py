@@ -15,9 +15,7 @@ LOGGER = CONFIG_LOADED.set_logging()
 
 
 class Backup():
-    """
-    Backup object.
-    """
+
 
     def __init__(self) -> None:
         self.logger = logging.getLogger("backup_app.Backup")
@@ -112,7 +110,7 @@ class Backup():
             self.logger.debug(f"Repository exist in {dir_path}.")
 
         try:
-            self.logger.info(f"Commiting repository {dir_path}")
+            self.logger.debug(f"Commiting repository {dir_path}")
             cmd = subprocess.Popen(
                 ["/usr/bin/git", "commit", "-am", f"{datetime.now().date()}-{datetime.now().time()}"],
                 cwd = dir_path,
@@ -125,11 +123,14 @@ class Backup():
             if "nothing to commit" in _string_output:
                 self.logger.info(f"Nothing to commit for {ip}")
 
-            elif "file changed" in _string_output and "rewrite" in _string_output:
+            elif "file changed" in _string_output:
                 self.logger.info(f"Config change for {ip}")
 
             elif "Untracked files" in _string_output:
                 self.logger.warning(f"Untracked files in {dir_path}")
+            
+            else:
+                self.logger.error("Something goes wrong?")
 
             return True
 
@@ -145,19 +146,18 @@ class Backup():
             stdout = ssh.get_config()
 
             if isinstance(stdout, str):
-                self.logger.info(f"Writing config to file and execute git commit {dev.ip}")
-                self.logger.debug("Writing config to file.")
+                self.logger.debug(f"Writing config to file for {dev.ip}.")
                 done = self._file_working(dev.ip, dev.name, stdout)
 
                 if done:
                     self.logger.debug(f"Git commands execute {dev.ip}")
                     done = self._git_working(dev.ip, dev.name)
                     if not done:
-                        self.logger.error(f"Can't create backup config {dev.ip}")
+                        self.logger.warning(f"Can't create backup config {dev.ip}")
                         pass
 
                 else:
-                    self.logger.error(f"Can't create backup config {dev.ip}")
+                    self.logger.warning(f"Can't create backup config {dev.ip}")
                     pass
 
             else:

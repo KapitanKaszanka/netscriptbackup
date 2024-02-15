@@ -69,7 +69,7 @@ class Devices_Load():
                 Mikrotik(**_device_parametrs)
 
             elif devices[ip]["vendor"] == "juniper":
-                Mikrotik(**_device_parametrs)
+                Juniper(**_device_parametrs)
 
             else:
                 self.logger.warning(f"Device is not supported. IP: {ip}")

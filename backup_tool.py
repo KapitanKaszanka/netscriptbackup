@@ -4,7 +4,7 @@ from modules.config_load import Config_Load
 from modules.devices import Devices_Load, Device
 from modules.connections import SSH_Connection
 from modules.git_operations import Git
-import subprocess
+import concurrent.futures
 from pathlib import Path
 
 
@@ -19,9 +19,10 @@ class Backup():
 
     def __init__(self) -> None:
         self.logger = logging.getLogger("backup_app.Backup")
-        self.devices = Devices_Load()
-        self.devices.load_jsons(CONFIG_LOADED.devices_path)
-        self.devices.create_devices()
+        devices_load = Devices_Load()
+        devices_load.load_jsons(CONFIG_LOADED.devices_path)
+        devices_load.create_devices()
+        self.devices = Device.devices_lst
         self.configs_path = CONFIG_LOADED.configs_path
 
 
@@ -36,7 +37,7 @@ class Backup():
 
             if not path.is_dir():
                 self.logger.info(
-                    f"{self.devices.ip} - The folder doesn't exist or account doesn't have permissions."
+                    f"{ip} - The folder doesn't exist or account doesn't have permissions."
                     )
                 self.logger.info(f"{ip} - Creating a folder.")
                 path.mkdir()
@@ -58,7 +59,7 @@ class Backup():
 
 
     def execute_backup(self):
-        for dev in Device.devices_lst:
+        for dev in self.devices:
             self.logger.info(f"{dev.ip} - Start creating backup.")
             ssh = SSH_Connection(dev)
             stdout = ssh.get_config()

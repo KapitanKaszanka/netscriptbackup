@@ -58,7 +58,8 @@ class SSH_Connection():
                 self.logger.debug(f"{self.device.ip} - Connection created.")
                 self.logger.debug(f"{self.device.ip} - Sending commands.")
                 stdout = connection.send_command(
-                    command_string = cli_command
+                    command_string = cli_command,
+                    read_timeout = 30
                     )
 
             self.logger.debug(f"{self.device.ip} - Filtering the configuration file.")

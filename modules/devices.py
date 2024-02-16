@@ -81,11 +81,6 @@ class Device():
 
 
     devices_lst = []
-    supported_dev_type = [
-        "cisco_ios", 
-        "mikrotik_routeros",
-        "juniper"
-        ]
 
 
     def __init__(
@@ -231,7 +226,7 @@ class Mikrotik(Device):
 
     def command_show_config(self):
         self.logger.debug(f"{self.ip} - Returning commands.")
-        return "export"
+        return "/export"
 
 
     def config_filternig(self, config):

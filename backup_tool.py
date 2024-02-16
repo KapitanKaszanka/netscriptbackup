@@ -26,7 +26,7 @@ class Backup():
         self.configs_path = CONFIG_LOADED.configs_path
 
 
-    def _file_working(self, ip, name, stdout):
+    def _save_config_to_file(self, ip, name, stdout):
         try:
             dir_path = f"{self.configs_path}/{name}_{ip}"
             file_path = f"{self.configs_path}/{name}_{ip}/{ip}_conf.txt"
@@ -65,7 +65,7 @@ class Backup():
 
             if isinstance(stdout, str):
                 self.logger.debug(f"{dev.ip} - Writing config to the file.")
-                done = self._file_working(dev.ip, dev.name, stdout)
+                done = self._save_config_to_file(dev.ip, dev.name, stdout)
 
                 if done:
                     self.logger.debug(f"{dev.ip} - Git commands execute.")

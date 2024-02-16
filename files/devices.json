@@ -13,7 +13,7 @@
     },
     "192.168.10.12": {
         "name": "R2",
-        "vendor": "cisco",
+        "vendor": "ciscoo",
         "username": "cisco",
         "port": 22,
         "connection": "ssh",

@@ -7,4 +7,5 @@ The application is based on the GIT version control system.
 Currently supports:
 - cisco IOS,
 - mikrotik RouterOS,
-- juniper.
+- juniper,
+Theoretically, the script will support any vendor. Just add an object in modules.devices, which is quite simple.

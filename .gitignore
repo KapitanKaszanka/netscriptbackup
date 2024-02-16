@@ -8,7 +8,9 @@ __pycache__/
 
 ## App
 files/backup_app.log
-backup_configuration/
+backup_config/
 
 ## Else
 test.txt
+
+

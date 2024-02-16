@@ -174,11 +174,11 @@ class Cisco(Device):
                 continue
 
             elif "Building configuration" in line:
-                self.logger.debug(f"{self.ip} - Skiping line '{line}'.")
+                self.logger.info(f"{self.ip} - Skiping line '{line}'.")
                 continue
 
             elif "Current configuration" in line:
-                self.logger.debug(f"{self.ip} - Skiping line '{line}'.")
+                self.logger.info(f"{self.ip} - Skiping line '{line}'.")
                 continue
 
             elif len(line) == 0:
@@ -241,7 +241,7 @@ class Mikrotik(Device):
 
         for line in config:
             if "#" in line:
-                self.logger.debug(f"{self.ip} - Skiping line '{line}'.")
+                self.logger.info(f"{self.ip} - Skiping line '{line}'.")
                 continue
 
             _tmp_config.append(line)
@@ -297,7 +297,7 @@ class Juniper(Device):
 
         for line in config:
             if "#" in line:
-                self.logger.debug(f"{self.ip} - Skiping line '{line}'.")
+                self.logger.info(f"{self.ip} - Skiping line '{line}'.")
                 continue
 
             _tmp_config.append(line)

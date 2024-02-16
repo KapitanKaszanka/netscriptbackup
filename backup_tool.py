@@ -58,8 +58,7 @@ class Backup():
             pass
 
 
-    def execute_backup(self):
-        for dev in self.devices:
+    def _make_backup(self, dev):
             self.logger.info(f"{dev.ip} - Start creating backup.")
             ssh = SSH_Connection(dev)
             stdout = ssh.get_config()
@@ -73,24 +72,34 @@ class Backup():
                     _git = Git(dev.ip, dev.name, self.configs_path)
                     done = _git.git_exceute()
 
-                    if not done:
+                    if done:
+                        self.logger.info(f"{dev.ip} - Backup completed.")
+                        return True
+
+                    else:
                         self.logger.warning(f"{dev.ip} - Unable to create backup.")
-                        pass
+                        return False
 
                 else:
                     self.logger.warning(f"{dev.ip} - Unable to create backup.")
-                    pass
+                    return False
 
             else:
                 self.logger.warning(f"{dev.ip} - Unable to connect to device.")
-                pass
+                return False
+
+
+    def start_backup(self):
+        self.logger.info(f"Start creating backup.")
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            executor.map(self._make_backup, self.devices)
 
 
 
 def backup_execute():
 
     data = Backup()
-    data.execute_backup()
+    data.start_backup()
 
     return True
 

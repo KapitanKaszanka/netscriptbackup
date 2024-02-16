@@ -154,6 +154,10 @@ class Git():
             output = _cmd.communicate()
             _string_output = output[0].decode()
 
+            if "file changed" in _string_output:
+                self.logger.info(f"{self.ip} - Commited.")
+                return True
+
             if "files changed" in _string_output:
                 self.logger.info(f"{self.ip} - Commited.")
                 return True
@@ -165,6 +169,7 @@ class Git():
             
             else:
                 self.logger.error(f"{self.ip} - Something goes wrong?")
+                self.logger.error(f"{self.ip} - {_string_output}")
 
         except Exception as e:
             self.logger.error(f"{self.ip} - Error ocure: {e}")

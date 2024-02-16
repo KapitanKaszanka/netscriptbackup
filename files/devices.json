@@ -23,6 +23,18 @@
         "password": "cisco",
         "conf_mode_pass": "cisco"
     },
+    "192.168.10.13": {
+        "name": "R3",
+        "vendor": "mikrotik",
+        "username": "backup_tool",
+        "port": 22,
+        "connection": "ssh",
+        "device_type": "mikrotik_routeros",
+        "key_file": null,
+        "passphrase": null,
+        "password": "superstrongpassword",
+        "conf_mode_pass": null
+    },
     "192.168.10.14": {
         "name": "R4",
         "vendor": "mikrotik",

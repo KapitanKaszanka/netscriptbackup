@@ -42,10 +42,10 @@ class SSH_Connection():
             "username": self.device.username,
             "port": self.device.port,
             "device_type": self.device.device_type,
-            "key_file": self.device.key_file,
-            "passphrase": self.device.passphrase,
             "password": self.device.password,
-            "secret": self.device.conf_mode_pass
+            "secret": self.device.conf_mode_pass,
+            "key_file": self.device.key_file,
+            "passphrase": self.device.passphrase
         }
         self.logger.info(f"{self.device.ip} - Downloading configuration from the device.")
 
@@ -54,18 +54,30 @@ class SSH_Connection():
 
         try:
             self.logger.debug(f"{self.device.ip} - Attempting to create an SSH connection.")
-            with ConnectHandler(**connection_parametrs) as connection:
-                self.logger.debug(f"{self.device.ip} - Connection created.")
-                self.logger.debug(f"{self.device.ip} - Sending commands.")
-                stdout = connection.send_command(
-                    command_string = cli_command,
-                    read_timeout = 30
-                    )
+            if connection_parametrs["key_file"] == None:
+                with ConnectHandler(
+                    **connection_parametrs,
+                    ssh_strict = True,
+                    system_host_keys = True
+                    ) as connection:
+                    self.logger.debug(f"{self.device.ip} - Connection created.")
+                    self.logger.debug(f"{self.device.ip} - Sending commands.")
+                    stdout = connection.send_command(
+                        command_string = cli_command,
+                        read_timeout = 30
+                        )
 
-            self.logger.debug(f"{self.device.ip} - Filtering the configuration file.")
-            pars_output = self.device.config_filternig(stdout)
-
-            return pars_output
+            else:
+                with ConnectHandler(
+                    **connection_parametrs,
+                    use_keys = True
+                    ) as connection:
+                    self.logger.debug(f"{self.device.ip} - Connection created.")
+                    self.logger.debug(f"{self.device.ip} - Sending commands.")
+                    stdout = connection.send_command(
+                        command_string = cli_command,
+                        read_timeout = 30
+                        )
 
         except NetmikoTimeoutException as e:
             self.logger.warning(f"{self.device.ip} - Can't connect.")
@@ -80,3 +92,8 @@ class SSH_Connection():
         except Exception as e:
             self.logger.error(f"{self.device.ip} - Exceptation {e}")
             return False
+
+        self.logger.debug(f"{self.device.ip} - Filtering the configuration file.")
+        pars_output = self.device.config_filternig(stdout)
+
+        return pars_output

@@ -140,12 +140,15 @@ class Git():
 
     def _commiting_git_repo(self):
         try:
+            timestamp = datetime.now()
+            timestamp = timestamp.strftime("%d/%m/%Y - %H:%M:%S")
+
             self.logger.info(f"{self.ip} - Commiting repository.")
             _cmd = subproc_Popen(
                 [
                     "/usr/bin/git",
                     "commit", "-am",
-                    f"{datetime.now().date()}-{datetime.now().time()}"
+                    timestamp
                 ],
                 cwd = self.dir_path,
                 stdout = subproc_PIPE

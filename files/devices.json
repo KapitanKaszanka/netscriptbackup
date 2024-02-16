@@ -6,22 +6,22 @@
         "port": 22,
         "connection": "ssh",
         "device_type": "cisco_ios",
-        "key_file": null,
-        "passphrase": "superstrongpassword",
         "password": "cisco",
-        "conf_mode_pass": "cisco"
+        "conf_mode_pass": "cisco",
+        "key_file": null,
+        "passphrase": "superstrongpassword"
     },
     "192.168.10.12": {
         "name": "R2",
-        "vendor": "ciscoo",
+        "vendor": "cisco",
         "username": "cisco",
         "port": 22,
         "connection": "ssh",
         "device_type": "cisco_ios",
-        "key_file": "~/.ssh/id_rsa",
-        "passphrase": "superstrongpassword",
-        "password": "cisco",
-        "conf_mode_pass": "cisco"
+        "password": null,
+        "conf_mode_pass": "cisco",
+        "key_file": "~/.ssh/lab_id_rsa",
+        "passphrase": "superstrongpassword"
     },
     "192.168.10.13": {
         "name": "R3",
@@ -30,10 +30,10 @@
         "port": 22,
         "connection": "ssh",
         "device_type": "mikrotik_routeros",
-        "key_file": null,
-        "passphrase": null,
         "password": "superstrongpassword",
-        "conf_mode_pass": null
+        "conf_mode_pass": null,
+        "key_file": null,
+        "passphrase": null
     },
     "192.168.10.14": {
         "name": "R4",
@@ -42,10 +42,10 @@
         "port": 22,
         "connection": "ssh",
         "device_type": "mikrotik_routeros",
-        "key_file": null,
-        "passphrase": null,
         "password": "superstrongpassword",
-        "conf_mode_pass": null
+        "conf_mode_pass": null,
+        "key_file": null,
+        "passphrase": null
     }
 }
 

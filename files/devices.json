@@ -1,80 +1,51 @@
 {
     "192.168.10.11": {
+        "name": "R1",
         "vendor": "cisco",
         "username": "cisco",
         "port": 22,
         "connection": "ssh",
-        "soft": "ios"
+        "device_type": "cisco_ios",
+        "password": "cisco",
+        "conf_mode_pass": "cisco",
+        "key_file": null,
+        "passphrase": "superstrongpassword"
     },
     "192.168.10.12": {
+        "name": "R2",
         "vendor": "cisco",
         "username": "cisco",
         "port": 22,
         "connection": "ssh",
-        "soft": "ios"
+        "device_type": "cisco_ios",
+        "password": null,
+        "conf_mode_pass": "cisco",
+        "key_file": "~/.ssh/lab_id_rsa",
+        "passphrase": "superstrongpassword"
     },
     "192.168.10.13": {
-        "vendor": "cisco",
-        "soft": "ios",
-        "username": "cisco",
+        "name": "R3",
+        "vendor": "mikrotik",
+        "username": "backup_tool",
         "port": 22,
-        "connection": "ssh"
+        "connection": "ssh",
+        "device_type": "mikrotik_routeros",
+        "password": "superstrongpassword",
+        "conf_mode_pass": null,
+        "key_file": null,
+        "passphrase": null
     },
     "192.168.10.14": {
-        "vendor": "cisco",
-        "username": "cisco",
-        "port": 22,
-        "connection": "ssh",
-        "soft": "ios"
-    },
-    "192.168.10.15": {
-        "vendor": "cisco",
-        "username": "cisco",
-        "port": 22,
-        "connection": "ssh",
-        "soft": "ios"
-    },
-    "192.168.10.16": {
+        "name": "R4",
         "vendor": "mikrotik",
-        "username": "mikrotik",
+        "username": "backup_tool",
         "port": 22,
         "connection": "ssh",
-        "soft": "v6"
-    },
-    "192.168.10.17": {
-        "vendor": "mikrotik",
-        "username": "mikrotik",
-        "port": 22,
-        "connection": "ssh",
-        "soft": "v6"
-    },
-    "192.168.10.18": {
-        "vendor": "mikrotik",
-        "username": "mikrotik",
-        "port": 22,
-        "connection": "ssh",
-        "soft": "v6"
-    },
-    "192.168.10.19": {
-        "vendor": "mikrotik",
-        "username": "mikrotik",
-        "port": 22,
-        "connection": "ssh",
-        "soft": "v7"
-    },
-    "192.168.10.20": {
-        "vendor": "mikrotik",
-        "username": "mikrotik",
-        "port": 22,
-        "connection": "ssh",
-        "soft": "v7"
-    },
-    "192.168.10.21": {
-        "vendor": "mclaran",
-        "username": "f1",
-        "port": 22,
-        "connection": "ssh",
-        "soft": "v12"
+        "device_type": "mikrotik_routeros",
+        "password": "superstrongpassword",
+        "conf_mode_pass": null,
+        "key_file": null,
+        "passphrase": null
     }
 }
 

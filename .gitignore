@@ -1,13 +1,16 @@
 ## Python
 .venv
 test.py
-__pycache__
+__pycache__/
 
 ## VS Code
 .vscode/
 
 ## App
 files/backup_app.log
+backup_config/
 
 ## Else
 test.txt
+
+

@@ -32,11 +32,11 @@ class SSH_Connection():
         except subproc_CalledProcessError as e:
             self.logger.warning(f"{self.device.ip} - Host isn't responding. Skip.")
             return False
-        
+
         except Exception as e:
             self.logger.error(f"{self.device.ip} - Exception: {e}. Skip")
             return False
-        
+
         connection_parametrs = {
             "host": self.device.ip,
             "username": self.device.username,
@@ -51,7 +51,7 @@ class SSH_Connection():
 
         self.logger.debug(f"{self.device.ip} - Downloading the necessary commands.")
         cli_command = self.device.command_show_config()
-        
+
         try:
             self.logger.debug(f"{self.device.ip} - Attempting to create an SSH connection.")
             with ConnectHandler(**connection_parametrs) as connection:
@@ -66,7 +66,7 @@ class SSH_Connection():
             pars_output = self.device.config_filternig(stdout)
 
             return pars_output
-        
+
         except NetmikoTimeoutException as e:
             self.logger.warning(f"{self.device.ip} - Can't connect.")
             self.logger.warning(f"{self.device.ip} - Error {e}")

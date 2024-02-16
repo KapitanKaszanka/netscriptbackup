@@ -6,7 +6,10 @@ from backup_tool import backup_execute
 
 def main():
 
-    backup_execute()
+    backup = backup_execute()
+    
+    if backup:
+        print("Script execute..")
 
 
 if __name__ == "__main__":

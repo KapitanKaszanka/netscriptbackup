@@ -36,7 +36,7 @@ class Git():
                 cwd = self.dir_path,
                 stdout = subproc_PIPE
                 )
-            
+
             _output = _cmd.communicate()
             _string_output = _output[0].decode()
             _git_status = _string_output.splitlines()
@@ -166,7 +166,7 @@ class Git():
                 self.logger.info(f"{self.ip} - Commited.")
                 self.logger.warning(f"{self.ip} - Untracked files.")
                 return True
-            
+
             else:
                 self.logger.error(f"{self.ip} - Something goes wrong?")
                 self.logger.error(f"{self.ip} - {_string_output}")
@@ -213,7 +213,7 @@ class Git():
             else:
                 self.logger.warning(f"{self.ip} - Can't add file to repozitory.")
                 return False
-            
+
         elif _file_status == "new_file" or "modify":
             self.logger.info(f"{self.ip} - File modify.")
             return self._commiting_git_repo() 

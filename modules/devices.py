@@ -1,10 +1,13 @@
 #!/usr/bin/env python3.10
 import logging
 import json
-
+from pathlib import Path
 
 class Devices_Load():
-    """Class loads device and store this in object."""
+    """
+    An object that collects all the functions 
+    needed to create device objects.
+    """
 
 
     def __init__(self) -> None:
@@ -44,6 +47,16 @@ class Devices_Load():
 
 
     def create_devices(self):
+        def _get_and_valid_path(path, ip):
+            valid_path = Path(path)
+            if valid_path.exists():
+                return valid_path
+            else:
+                self.logger.warning(
+                    f"{ip} - Path to key doesn't exist {path}."
+                    )
+                return None
+
         self.logger.info(f"Creating device objects..")
         devices = self.devices_data
 
@@ -60,6 +73,10 @@ class Devices_Load():
                 "password": devices[ip]["password"],
                 "conf_mode_pass": devices[ip]["conf_mode_pass"]
             }
+            if devices[ip]["key_file"] != None:
+                _device_parametrs["key_file"] = _get_and_valid_path(
+                    devices[ip]["key_file"], ip
+                    )
 
             if devices[ip]["vendor"] == "cisco":
                 Cisco(**_device_parametrs)
@@ -77,7 +94,11 @@ class Devices_Load():
 
 
 class Device():
-
+    """
+    Main device object. Assigns all necessary information.
+    Returns appropriate variables when the object's child
+    does not support the given module.
+    """
 
     devices_lst = []
 
@@ -115,6 +136,7 @@ class Device():
 
 
 class Cisco(Device):
+    """Cisco device object."""
 
 
     def __init__(
@@ -187,7 +209,7 @@ class Cisco(Device):
 
 
 class Mikrotik(Device):
-
+    """Mikrotik device object."""
 
     def __init__(
             self,
@@ -243,6 +265,7 @@ class Mikrotik(Device):
 
 
 class Juniper(Device):
+    """Juniper device object."""
 
 
     def __init__(

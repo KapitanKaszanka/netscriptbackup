@@ -69,19 +69,26 @@ class Git():
                     _status = "nothing"
                     pass
                 
-                elif self.file_name in line and _new_file_index < index < _commit_index:
-                    self.logger.debug(f"{self.ip} - The file added to repozitory.")
+                elif (self.file_name in line and
+                      _new_file_index < index < _commit_index):
+                    self.logger.debug(
+                        f"{self.ip} - The file added to repozitory."
+                        )
                     _status = "new_file"
                     pass
 
-                elif self.file_name in line and _commit_index < index < _untracked_index:
-                    self.logger.debug(f"{self.ip} - The file has been modified.")
+                elif (self.file_name in line and
+                      _commit_index < index < _untracked_index):
+                    self.logger.debug(
+                        f"{self.ip} - The file has been modified."
+                        )
                     _status = "modify"
                     pass
 
                 elif self.file_name in line and index > _untracked_index:
                     self.logger.warning(
-                        f"{self.ip} - The file has not been added to the repository."
+                        f"{self.ip} - The file has not been ",
+                        "added to the repository."
                         )
                     _status = "untracked"
                     pass
@@ -127,7 +134,9 @@ class Git():
                 return False
 
             if self._check_file_git_status() == "new_file":
-                self.logger.debug(f"{self.ip} - Status correct after create git for.")
+                self.logger.debug(
+                    f"{self.ip} - Status correct after create git for."
+                    )
                 return True
 
             else:
@@ -188,7 +197,9 @@ class Git():
             _create_local_repo_status = self._create_local_git_repo()
 
             if not _create_local_repo_status:
-                self.logger.warning(f"{self.ip} - Can't create local repozitory.")
+                self.logger.warning(
+                    f"{self.ip} - Can't create local repozitory."
+                    )
                 return False
 
         else:
@@ -207,14 +218,20 @@ class Git():
 
                 if self._check_file_git_status() == "untracked":
 
-                    self.logger.warning(f"{self.ip} - Can't add file to repozitory.")
+                    self.logger.warning(
+                        f"{self.ip} - Can't add file to repozitory."
+                        )
                     return False
                 
                 else:
-                    self.logger.debug(f"{self.ip} - Added file to repozitory.")
+                    self.logger.debug(
+                        f"{self.ip} - Added file to repozitory."
+                        )
                     return self._commiting_git_repo()
             else:
-                self.logger.warning(f"{self.ip} - Can't add file to repozitory.")
+                self.logger.warning(
+                    f"{self.ip} - Can't add file to repozitory."
+                    )
                 return False
 
         elif _file_status == "new_file" or "modify":

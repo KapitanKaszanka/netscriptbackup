@@ -7,7 +7,10 @@ import logging
 
 
 class Config_Load():
-
+    """
+    An object that has the necessary functions 
+    to load config.ini and validate it.
+    """
 
     def __init__(self):
         self._config = ConfigParser()
@@ -17,29 +20,32 @@ class Config_Load():
 
         except Exception as e:
             print("Can't read config.ini file...")
+            print(e)
             exit()
 
 
     def load_config(self):
-        def _valid_path(path):
-            if Path(path).exists():
-                return path
+        def _get_and_valid_path(path):
+            valid_path = Path(path)
+            if valid_path.exists():
+                return valid_path
             else:
                 print(f"Error: {path} doesn't exist.")
                 exit()
 
         try:
             _devices_path = self._config["Application_Setup"]["Devices_Path"]
-            self.devices_path = _valid_path(_devices_path)
+            self.devices_path = _get_and_valid_path(_devices_path)
 
             _configs_path = self._config["Application_Setup"]["Configs_Path"]
-            _configs_path = _valid_path(_configs_path)
-            if _configs_path[-1] == "/":
-                _configs_path = _configs_path.removesuffix("/")
+            _configs_path = _get_and_valid_path(_configs_path)
+
             self.configs_path = _configs_path
 
         except KeyError as e:
-            print(f"Loading mandatory parametrs faild. Not allowed atribute: {e}")
+            print(
+                f"Loading mandatory parametrs faild. Not allowed atribute: {e}"
+                )
             exit()
 
         try:
@@ -56,7 +62,7 @@ class Config_Load():
             
         try:
             _logging_path = self._config["Logging"]["File_Path"]
-            self.logging_path = _valid_path(_logging_path)
+            self.logging_path = _get_and_valid_path(_logging_path)
 
         except KeyError as e:
             self.logging_path = "backup_app.log"

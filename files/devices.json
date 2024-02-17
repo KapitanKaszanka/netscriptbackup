@@ -18,7 +18,7 @@
         "connection": "ssh",
         "password": null,
         "conf_mode_pass": null,
-        "key_file": "~/.ssh/cisco_id_rsa",
+        "key_file": "/home/mateusz/.ssh/cisco_id_rsa",
         "passphrase": "strongpassword"
     },
     "192.168.11.13": {
@@ -33,14 +33,14 @@
         "passphrase": null
     },
     "192.168.11.14": {
-        "name": "R3",
+        "name": "R4",
         "vendor": "mikrotik",
         "username": "mikrotik",
         "port": 22,
         "connection": "ssh",
         "password": null,
         "conf_mode_pass": null,
-        "key_file": "~/.ssh/mikrotik_id_rsa",
+        "key_file": "/home/mateusz/.ssh/mikrotik_id_rsa",
         "passphrase": "strongpassword"
     },
     "192.168.11.15": {

@@ -15,7 +15,7 @@ LOGGER = CONFIG_LOADED.set_logging()
 
 
 class Backup():
-
+    """Main application object. Manages the backup process."""
 
     def __init__(self) -> None:
         self.logger = logging.getLogger("backup_app.Backup")
@@ -28,19 +28,18 @@ class Backup():
 
     def _save_config_to_file(self, ip, name, stdout):
         try:
-            dir_path = f"{self.configs_path}/{name}_{ip}"
-            file_path = f"{self.configs_path}/{name}_{ip}/{ip}_conf.txt"
-
-            path = Path(dir_path)
+            dir_path = self.configs_path / f"{name}_{ip}"
+            file_path = self.configs_path / f"{name}_{ip}" / f"{ip}_conf.txt"
 
             self.logger.debug(f"{ip} - Check if the folder exist.")
 
-            if not path.is_dir():
+            if not dir_path.is_dir():
                 self.logger.info(
-                    f"{ip} - The folder doesn't exist or account doesn't have permissions."
+                    f"{ip} - The folder doesn't exist ",
+                    "or account doesn't have permissions."
                     )
                 self.logger.info(f"{ip} - Creating a folder.")
-                path.mkdir()
+                dir_path.mkdir()
 
             try:
                 self.logger.debug(f"{ip} - Opening the file.")
@@ -50,7 +49,9 @@ class Backup():
                 return True
 
             except PermissionError:
-                self.logger.warning(f"{ip} - The file cannot be opened. Permission error.")
+                self.logger.warning(
+                    f"{ip} - The file cannot be opened. Permission error."
+                    )
                 return False
 
         except Exception as e:
@@ -77,7 +78,9 @@ class Backup():
                         return True
 
                     else:
-                        self.logger.warning(f"{dev.ip} - Unable to create backup.")
+                        self.logger.warning(
+                            f"{dev.ip} - Unable to create backup."
+                            )
                         return False
 
                 else:

@@ -87,9 +87,13 @@ class SSH_Connection():
             if "known_hosts" in str(e):
                 self.logger.warning(
                     f"{self.device.ip} - Can't connect. Device not found in known_host file."
-                    )
+                )
                 return False
-
+            
+            else:
+                self.logger.warning(f"{self.device.ip} - Can't connect. {e}")
+                return False
+            
         except NetmikoAuthenticationException as e:
             self.logger.warning(f"{self.device.ip} - Can't connect.")
             self.logger.warning(f"{self.device.ip} - Error {e}")
@@ -99,6 +103,7 @@ class SSH_Connection():
             self.logger.error(f"{self.device.ip} - Exceptation {e}")
             return False
 
+        print("This is output: {stdout}")
         self.logger.debug(f"{self.device.ip} - Filtering the configuration file.")
         pars_output = self.device.config_filternig(stdout)
 

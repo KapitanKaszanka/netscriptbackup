@@ -23,9 +23,9 @@ class Git():
         self.logger = logging.getLogger("backup_app.git_operations.Git")
         self.ip = ip
         self.name = name
-        self.dir_path = f"{configs_path}/{self.name}_{self.ip}"
+        self.dir_path = configs_path / f"{self.name}_{self.ip}"
         self.file_name = f"{self.ip}_conf.txt"
-        self.git_path = f"{self.dir_path}/.git"
+        self.git_path = Path(f"{self.dir_path}/.git/")
 
 
     def _check_file_git_status(self):
@@ -96,7 +96,7 @@ class Git():
             return _status
 
         except Exception as e:
-            self.logger.error(f"{self.ip} - Error ocure: {e}")
+            self.logger.error(f"{self.ip} - Check error ocure: {e}")
             return False
 
 
@@ -111,7 +111,7 @@ class Git():
             return True
 
         except Exception as e:
-            self.logger.error(f"Error ocure: {e}")
+            self.logger.error(f"{self.ip} - Add error ocure: {e}")
             return False
 
 
@@ -143,7 +143,7 @@ class Git():
                 return False
 
         except Exception as e:
-            self.logger.error(f"{self.ip} - Error ocure: {e}")
+            self.logger.error(f"{self.ip} - Create error ocure: {e}")
             return False
 
 
@@ -184,7 +184,7 @@ class Git():
                 self.logger.error(f"{self.ip} - {_string_output}")
 
         except Exception as e:
-            self.logger.error(f"{self.ip} - Error ocure: {e}")
+            self.logger.error(f"{self.ip} - Commit error ocure: {e}")
             return False
 
 
@@ -192,7 +192,7 @@ class Git():
         self.logger.debug(f"{self.ip} - Check if git repozitory exist.")
         _status_checked = False
 
-        if not Path(self.git_path).is_dir():
+        if not self.git_path.is_dir():
             self.logger.debug(f"{self.ip} - Repozitory don't exist.")
             _create_local_repo_status = self._create_local_git_repo()
 

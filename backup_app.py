@@ -90,7 +90,7 @@ class Backup():
 
 
     def start_backup(self):
-        self.logger.info(f"Start creating backup.")
+        self.logger.info(f"Start application.")
         with concurrent.futures.ThreadPoolExecutor() as executor:
             executor.map(self._make_backup, self.devices)
 

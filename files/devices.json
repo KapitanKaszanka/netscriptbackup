@@ -1,4 +1,15 @@
 {
+    "192.168.11.11": {
+        "name": "R1",
+        "vendor": "cisco",
+        "username": "cisco",
+        "port": 22,
+        "connection": "ssh",
+        "password": "cisco",
+        "conf_mode_pass": null,
+        "key_file": null,
+        "passphrase": null
+    },
     "192.168.11.12": {
         "name": "R2",
         "vendor": "cisco",
@@ -7,8 +18,52 @@
         "connection": "ssh",
         "password": null,
         "conf_mode_pass": null,
-        "key_file": "~/.ssh/id_rsa",
+        "key_file": "~/.ssh/cisco_id_rsa",
+        "passphrase": "strongpassword"
+    },
+    "192.168.11.13": {
+        "name": "R3",
+        "vendor": "mikrotik",
+        "username": "mikrotik",
+        "port": 22,
+        "connection": "ssh",
+        "password": "mikrotik",
+        "conf_mode_pass": null,
+        "key_file": null,
         "passphrase": null
+    },
+    "192.168.11.14": {
+        "name": "R3",
+        "vendor": "mikrotik",
+        "username": "mikrotik",
+        "port": 22,
+        "connection": "ssh",
+        "password": null,
+        "conf_mode_pass": null,
+        "key_file": "~/.ssh/mikrotik_id_rsa",
+        "passphrase": "strongpassword"
+    },
+    "192.168.11.15": {
+        "name": "R5",
+        "vendor": "juniper",
+        "username": "juniper",
+        "port": 22,
+        "connection": "ssh",
+        "password": "juniper",
+        "conf_mode_pass": null,
+        "key_file": null,
+        "passphrase": null
+    },
+    "192.168.11.16": {
+        "name": "R6",
+        "vendor": "juniper",
+        "username": "juniper",
+        "port": 22,
+        "connection": "ssh",
+        "password": null,
+        "conf_mode_pass": null,
+        "key_file": "~/.ssh/juniper_id_rsa.pub",
+        "passphrase": "strongpassword"
     }
 }
 

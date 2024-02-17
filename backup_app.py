@@ -59,7 +59,7 @@ class Backup():
 
 
     def _make_backup(self, dev):
-            self.logger.info(f"{dev.ip} - Start creating backup.")
+            self.logger.info(f"{dev.ip} - Trying create backup.")
             ssh = SSH_Connection(dev)
             stdout = ssh.get_config()
 

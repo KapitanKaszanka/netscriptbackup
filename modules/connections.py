@@ -73,7 +73,9 @@ class SSH_Connection():
                 self.logger.debug(f"{self.device.ip} - Connecting with public key.")
                 with ConnectHandler(
                     **connection_parametrs,
-                    use_keys = True
+                    use_keys = True,
+                    ssh_strict = True,
+                    system_host_keys = True
                     ) as connection:
                     self.logger.debug(f"{self.device.ip} - Connection created.")
                     self.logger.debug(f"{self.device.ip} - Sending commands.")
@@ -81,8 +83,8 @@ class SSH_Connection():
                         command_string = cli_command,
                         read_timeout = 30
                         )
-
                 self.logger.debug(f"{self.device.ip} - Connection completend sucessfully.")
+
         except NetmikoTimeoutException as e:
             if "known_hosts" in str(e):
                 self.logger.warning(
@@ -99,11 +101,14 @@ class SSH_Connection():
             self.logger.warning(f"{self.device.ip} - Error {e}")
             return False
 
+        except ValueError:
+            self.logger.warning(f"{self.device.ip} - Unsuported device type.")
+            return False
+        
         except Exception as e:
             self.logger.error(f"{self.device.ip} - Exceptation {e}")
             return False
 
-        print("This is output: {stdout}")
         self.logger.debug(f"{self.device.ip} - Filtering the configuration file.")
         pars_output = self.device.config_filternig(stdout)
 

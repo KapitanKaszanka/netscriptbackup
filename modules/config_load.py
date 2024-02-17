@@ -21,9 +21,19 @@ class Config_Load():
 
 
     def load_config(self):
+        def _valid_path(path):
+            if Path(path).exists():
+                return path
+            else:
+                print(f"Error: {path} doesn't exist.")
+                exit()
+
         try:
-            self.devices_path = self._config["Application_Setup"]["Devices_Path"]
+            _devices_path = self._config["Application_Setup"]["Devices_Path"]
+            self.devices_path = _valid_path(_devices_path)
+
             _configs_path = self._config["Application_Setup"]["Configs_Path"]
+            _configs_path = _valid_path(_configs_path)
             if _configs_path[-1] == "/":
                 _configs_path = _configs_path.removesuffix("/")
             self.configs_path = _configs_path
@@ -45,14 +55,16 @@ class Config_Load():
             self.logging_level = "warning"
             
         try:
-            self._logging_path = self._config["Logging"]["File_Path"]
+            _logging_path = self._config["Logging"]["File_Path"]
+            self.logging_path = _valid_path(_logging_path)
 
         except KeyError as e:
-            self._logging_path = "files/backup_app.log"
+            self.logging_path = "backup_app.log"
 
 
     def set_logging(self):
         logger = logging.getLogger("backup_app")
+
         if self.logging_level.lower() == "debug":
             logger.setLevel(logging.DEBUG)
 
@@ -68,7 +80,7 @@ class Config_Load():
         elif self.logging_level.lower() == "critical":
             logger.setLevel(logging.CRITICAL)
 
-        file_handler = logging.FileHandler(self._logging_path)
+        file_handler = logging.FileHandler(self.logging_path)
         if self.logging_level.lower() == "debug":
             file_handler.setLevel(logging.DEBUG)
 

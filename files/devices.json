@@ -1,15 +1,4 @@
 {
-    "192.168.11.11": {
-        "name": "R1",
-        "vendor": "cisco",
-        "username": "cisco",
-        "port": 22,
-        "connection": "ssh",
-        "password": "cisco",
-        "conf_mode_pass": "cisco",
-        "key_file": null,
-        "passphrase": null
-    },
     "192.168.11.12": {
         "name": "R2",
         "vendor": "cisco",
@@ -19,28 +8,6 @@
         "password": null,
         "conf_mode_pass": null,
         "key_file": "~/.ssh/id_rsa",
-        "passphrase": null
-    },
-    "192.168.11.13": {
-        "name": "R3",
-        "vendor": "mikrotik",
-        "username": "backup_tool",
-        "port": 22,
-        "connection": "ssh",
-        "password": "superstrongpassword",
-        "conf_mode_pass": null,
-        "key_file": null,
-        "passphrase": null
-    },
-    "192.168.11.14": {
-        "name": "R3",
-        "vendor": "mikrotik",
-        "username": "backup_tool",
-        "port": 22,
-        "connection": "ssh",
-        "password": "superstrongpassword",
-        "conf_mode_pass": null,
-        "key_file": null,
         "passphrase": null
     }
 }

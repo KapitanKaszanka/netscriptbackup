@@ -23,7 +23,6 @@ class Config_Load():
     def load_config(self):
         try:
             self.devices_path = self._config["Application_Setup"]["Devices_Path"]
-            self.passwords_path = self._config["Application_Setup"]["Passwords_Path"]
             _configs_path = self._config["Application_Setup"]["Configs_Path"]
             if _configs_path[-1] == "/":
                 _configs_path = _configs_path.removesuffix("/")

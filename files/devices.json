@@ -1,35 +1,43 @@
 {
-    "192.168.10.11": {
+    "192.168.11.11": {
         "name": "R1",
         "vendor": "cisco",
         "username": "cisco",
         "port": 22,
         "connection": "ssh",
-        "device_type": "cisco_ios",
         "password": "cisco",
         "conf_mode_pass": "cisco",
         "key_file": null,
-        "passphrase": "superstrongpassword"
+        "passphrase": null
     },
-    "192.168.10.12": {
+    "192.168.11.12": {
         "name": "R2",
+        "vendor": "cisco",
+        "username": "cisco",
+        "port": 22,
+        "connection": "ssh",
+        "password": null,
+        "conf_mode_pass": null,
+        "key_file": "~/.ssh/id_rsa",
+        "passphrase": null
+    },
+    "192.168.11.13": {
+        "name": "R3",
         "vendor": "mikrotik",
         "username": "backup_tool",
         "port": 22,
         "connection": "ssh",
-        "device_type": "mikrotik_routeros",
         "password": "superstrongpassword",
         "conf_mode_pass": null,
         "key_file": null,
         "passphrase": null
     },
-    "192.168.10.13": {
+    "192.168.11.14": {
         "name": "R3",
-        "vendor": "juniper",
+        "vendor": "mikrotik",
         "username": "backup_tool",
         "port": 22,
         "connection": "ssh",
-        "device_type": "juniper",
         "password": "superstrongpassword",
         "conf_mode_pass": null,
         "key_file": null,

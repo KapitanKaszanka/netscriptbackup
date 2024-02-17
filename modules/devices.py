@@ -55,7 +55,6 @@ class Devices_Load():
                 "username": devices[ip]["username"],
                 "port": devices[ip]["port"],
                 "connection": devices[ip]["connection"],
-                "device_type": devices[ip]["device_type"],
                 "passphrase": devices[ip]["passphrase"],
                 "key_file": devices[ip]["key_file"],
                 "password": devices[ip]["password"],
@@ -91,7 +90,6 @@ class Device():
             username: str,
             port: int,
             connection: str,
-            device_type: str,
             passphrase: str,
             key_file: str,
             password: str,
@@ -104,7 +102,6 @@ class Device():
         self.username = username
         self.port = port
         self.connection = connection
-        self.device_type = device_type
         self.passphrase = passphrase
         self.key_file = key_file
         self.password = password
@@ -128,7 +125,6 @@ class Cisco(Device):
             username: str,
             port: int,
             connection: str,
-            device_type: str,
             passphrase: str,
             key_file: str,
             password: str,
@@ -141,7 +137,6 @@ class Cisco(Device):
             username,
             port,
             connection,
-            device_type,
             passphrase,
             key_file,
             password,
@@ -149,6 +144,7 @@ class Cisco(Device):
             )
         self.logger = logging.getLogger("backup_app.devices.Cisco")
         self.logger.debug(f"{self.ip} - Creatad.")
+        self.device_type = "cisco_ios"
 
 
     def command_show_config(self):
@@ -201,7 +197,6 @@ class Mikrotik(Device):
             username: str,
             port: int,
             connection: str,
-            device_type: str,
             passphrase: str,
             key_file: str,
             password: str,
@@ -214,7 +209,6 @@ class Mikrotik(Device):
             username,
             port,
             connection,
-            device_type,
             passphrase,
             key_file,
             password,
@@ -222,6 +216,7 @@ class Mikrotik(Device):
             )
         self.logger = logging.getLogger("backup_app.devices.Mikrotik")
         self.logger.debug(f"{self.ip} - Creatad.")
+        self.device_type = "mikrotik_routeros"
 
 
     def command_show_config(self):
@@ -258,7 +253,6 @@ class Juniper(Device):
             username: str,
             port: int,
             connection: str,
-            device_type: str,
             passphrase: str,
             key_file: str,
             password: str,
@@ -271,7 +265,6 @@ class Juniper(Device):
             username,
             port,
             connection,
-            device_type,
             passphrase,
             key_file,
             password,
@@ -279,7 +272,7 @@ class Juniper(Device):
             )
         self.logger = logging.getLogger("backup_app.devices.Juniper")
         self.logger.debug(f"Device {self.ip} creatad.")
-
+        self.device_type = "juniper"
 
     def command_show_config(self):
         self.logger.debug(f"{self.ip} - Returning commands.")

@@ -80,9 +80,11 @@ class SSH_Connection():
                         )
 
         except NetmikoTimeoutException as e:
-            self.logger.warning(f"{self.device.ip} - Can't connect.")
-            self.logger.warning(f"{self.device.ip} - Error {e}")
-            return False
+            if "known_hosts" in str(e):
+                self.logger.warning(
+                    f"{self.device.ip} - Can't connect. Device not found in known_host file."
+                    )
+                return False
 
         except NetmikoAuthenticationException as e:
             self.logger.warning(f"{self.device.ip} - Can't connect.")

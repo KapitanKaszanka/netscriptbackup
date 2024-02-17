@@ -55,6 +55,7 @@ class SSH_Connection():
         try:
             self.logger.debug(f"{self.device.ip} - Attempting to create an SSH connection.")
             if connection_parametrs["key_file"] == None:
+                self.logger.debug(f"{self.device.ip} - Connecting with password.")
                 with ConnectHandler(
                     **connection_parametrs,
                     ssh_strict = True,
@@ -66,8 +67,10 @@ class SSH_Connection():
                         command_string = cli_command,
                         read_timeout = 30
                         )
+                self.logger.debug(f"{self.device.ip} - Connection completend sucessfully.")
 
             else:
+                self.logger.debug(f"{self.device.ip} - Connecting with public key.")
                 with ConnectHandler(
                     **connection_parametrs,
                     use_keys = True
@@ -79,6 +82,7 @@ class SSH_Connection():
                         read_timeout = 30
                         )
 
+                self.logger.debug(f"{self.device.ip} - Connection completend sucessfully.")
         except NetmikoTimeoutException as e:
             if "known_hosts" in str(e):
                 self.logger.warning(

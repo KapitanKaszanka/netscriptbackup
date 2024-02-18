@@ -8,7 +8,8 @@
 - Cisco IOS, IOS-XE.
 - Mikrotik RouterOSv6, RouterOSv7.
 - Juniper.
-- DCN.
 
 *Theoretically, the script will support any vendor. Check docs.*
+
+[First run step by step](./docs/1.first_run.md)
 

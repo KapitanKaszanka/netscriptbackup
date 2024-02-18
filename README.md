@@ -17,5 +17,5 @@
 | 3 | [Config file](./docs/doc_config.md) |
 | 4 | [Device parametrs](./docs/doc_devices_file.md) |
 
-#### *Secret information*
-*Theoretically, the script will support any vendor with very little work. How and does not have to be used only for backup.*
+##### *Super sneaky information*
+###### *Theoretically, the script will support any vendor with very little work. How and can be used to download telemetry from devices.*

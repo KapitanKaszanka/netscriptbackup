@@ -8,7 +8,6 @@
 - Cisco IOS, IOS-XE.
 - Mikrotik RouterOSv6, RouterOSv7.
 - Juniper.
-- 
 ### Basic operation of the application:
 #### Short version:
 - [1] Configuration parsing.

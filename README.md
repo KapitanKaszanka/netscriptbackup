@@ -1,6 +1,6 @@
 
 # BackupApp
-
+### Working in progress. 
 **A multi-vendor script for automating backups of network device configurations using Git version control.**
 
 
@@ -11,20 +11,19 @@
 - 
 ### Basic operation of the application:
 #### Short version:
-- Configuration parsing.
-- Creating device objects.
-- Connecting to device.
-- Downloading configuration.
-- Filtering downloaded configuration.
-- Creating/overwriting configuration folders/files.
-- Creating git repozytory.
-- Commiting chagnes to repozytory.
+- [1] Configuration parsing.
+- [2] Creating device objects.
+- [3] Connecting to device.
+- [4] Downloading configuration.
+- [5] Filtering downloaded configuration.
+- [6] Creating/overwriting configuration folders/files.
+- [7] Creating git repozytory.
+- [8] Commiting chagnes to repozytory.
 
 #### Long version:
-The app starts by parsing all the information it needs about its settings and device logins. 
-If there is an error in the settings, an error occurs and the startup is canceled. 
-In case of an error in the device parameters, it will be skipped.
-Using the netmiko module and an SSH connection, their configuration is downloaded from the devices and then filtered from unnecessary things, e.g. comments, "!".
+- [1] App start parsing information from config.ini. This is place where first validation occur. If something is wrong with config.ini file error will occur application stop working.
+  For more information about config.ini check [here](./docs/doc_config.md).
+- Using the netmiko module and an SSH connection, their configuration is downloaded from the devices and then filtered from unnecessary things, e.g. comments, "!".
 
 ### Documentation:
 | | Name |

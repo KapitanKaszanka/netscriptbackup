@@ -86,10 +86,10 @@ class Git():
                     pass
 
                 elif self.file_name in line and index > _untracked_index:
-                    self.logger.warning((
-                        f"{self.ip} - The file has not been ",
+                    self.logger.warning(
+                        f"{self.ip} - The file has not been "
                         "added to the repository."
-                        ))
+                        )
                     _status = "untracked"
                     pass
 

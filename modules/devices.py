@@ -63,20 +63,19 @@ class Devices_Load():
         for ip in devices:
             try:
                 _device_parametrs = {
+                    "ip": ip,
+                    "port": devices[ip]["port"],
                     "name": devices[ip]["name"],
                     "vendor": devices[ip]["vendor"],
-                    "ip": ip,
-                    "username": devices[ip]["username"],
-                    "port": devices[ip]["port"],
                     "connection": devices[ip]["connection"],
-                    "passphrase": devices[ip]["passphrase"],
-                    "key_file": devices[ip]["key_file"],
-                    "password": devices[ip]["password"]
+                    "username": devices[ip]["username"],
+                    "password": devices[ip]["password"],
+                    "mode_cmd": "",
+                    "mode_password": None,
+                    "key_file": None,
+                    "passphrase": None
                 }
-                if devices[ip]["key_file"] != None:
-                    _device_parametrs["key_file"] = _get_and_valid_path(
-                        devices[ip]["key_file"], ip
-                        )
+
                 if devices[ip]["change_mode"] != None:
                     mode = devices[ip]["change_mode"]
                     if isinstance(devices[ip]["change_mode"], list):
@@ -84,11 +83,14 @@ class Devices_Load():
                             _device_parametrs["mode_cmd"] = ""
                         else:
                             _device_parametrs["mode_cmd"] = mode[0]
-                        _device_parametrs["mode_password"] = mode[1]
-                else:
-                    _device_parametrs["mode_cmd"] = None
-                    _device_parametrs["mode_password"] = None
-                    
+                        _device_parametrs["mode_password"] = mode[1]\
+
+                if devices[ip]["key_file"] != None:
+                    _device_parametrs["key_file"] = _get_and_valid_path(
+                        devices[ip]["key_file"], ip
+                        )
+                    _device_parametrs["passphrase"] = devices[ip]["passphrase"]
+
             except KeyError as e:
                 self.logger.warning(f"{ip} - KeyError in devices file: {e}")
                 pass
@@ -104,6 +106,7 @@ class Devices_Load():
                 Mikrotik(**_device_parametrs)
 
             elif devices[ip]["vendor"] == "juniper":
+                print(_device_parametrs["mode_password"])
                 Juniper(**_device_parametrs)
 
             else:
@@ -124,17 +127,17 @@ class Device():
 
     def __init__(
             self,
+            ip: str,
+            port: int,
             name: str,
             vendor: str,
-            ip: str,
-            username: str,
-            port: int,
             connection: str,
-            passphrase: str,
-            key_file: str,
+            username: str,
             password: str,
             mode_cmd: str,
-            mode_password: str
+            mode_password: str,
+            key_file: str,
+            passphrase: str
             ) -> None:
         self.logger = logging.getLogger("backup_app.devices.Device")
         self.name = name
@@ -162,30 +165,30 @@ class Cisco(Device):
 
     def __init__(
             self,
+            ip: str,
+            port: int,
             name: str,
             vendor: str,
-            ip: str,
-            username: str,
-            port: int,
             connection: str,
-            passphrase: str,
-            key_file: str,
+            username: str,
             password: str,
             mode_cmd: str,
-            mode_password: str
+            mode_password: str,
+            key_file: str,
+            passphrase: str
             ) -> "Device":
         super().__init__(
+            ip,
+            port,
             name,
             vendor,
-            ip,
-            username,
-            port,
             connection,
-            passphrase,
-            key_file,
+            username,
             password,
             mode_cmd,
-            mode_password
+            mode_password,
+            key_file,
+            passphrase
             )
         self.logger = logging.getLogger("backup_app.devices.Cisco")
         self.logger.debug(f"{self.ip} - Creatad.")
@@ -237,30 +240,30 @@ class Mikrotik(Device):
 
     def __init__(
             self,
+            ip: str,
+            port: int,
             name: str,
             vendor: str,
-            ip: str,
-            username: str,
-            port: int,
             connection: str,
-            passphrase: str,
-            key_file: str,
+            username: str,
             password: str,
             mode_cmd: str,
-            mode_password: str
+            mode_password: str,
+            key_file: str,
+            passphrase: str
             ) -> "Device":
         super().__init__(
+            ip,
+            port,
             name,
             vendor,
-            ip,
-            username,
-            port,
             connection,
-            passphrase,
-            key_file,
+            username,
             password,
             mode_cmd,
-            mode_password
+            mode_password,
+            key_file,
+            passphrase
             )
         self.logger = logging.getLogger("backup_app.devices.Mikrotik")
         self.logger.debug(f"{self.ip} - Creatad.")
@@ -296,29 +299,30 @@ class Juniper(Device):
 
     def __init__(
             self,
+            ip: str,
+            port: int,
             name: str,
             vendor: str,
-            ip: str,
-            username: str,
-            port: int,
             connection: str,
-            passphrase: str,
-            key_file: str,
+            username: str,
             password: str,
             mode_cmd: str,
-            mode_password: str
+            mode_password: str,
+            key_file: str,
+            passphrase: str
             ) -> "Device":
         super().__init__(
+            ip,
+            port,
             name,
             vendor,
-            ip,
-            username,
-            port,
             connection,
-            passphrase,
-            key_file,
+            username,
+            password,
             mode_cmd,
-            mode_password
+            mode_password,
+            key_file,
+            passphrase
             )
         self.logger = logging.getLogger("backup_app.devices.Juniper")
         self.logger.debug(f"Device {self.ip} creatad.")

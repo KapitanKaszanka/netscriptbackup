@@ -50,9 +50,9 @@
         "passphrase": "strongpassword"
     },
     "192.168.11.15": {
+        "port": 22,
         "name": "R5",
         "vendor": "juniper",
-        "port": 22,
         "connection": "ssh",
         "username": "juniper",
         "password": "juniper",

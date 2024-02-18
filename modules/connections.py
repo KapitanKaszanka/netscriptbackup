@@ -63,10 +63,10 @@ class SSH_Connection():
         cli_command = self.device.command_show_config()
 
         try:
-            self.logger.info((
+            self.logger.info(
                 f"{self.device.ip} - Trying download configuration ",
                 "from the device."
-                ))
+                )
             self.logger.debug(
                 f"{self.device.ip} - Attempting to create an SSH connection."
                 )
@@ -133,10 +133,10 @@ class SSH_Connection():
 
         except NetmikoTimeoutException as e:
             if "known_hosts" in str(e):
-                self.logger.error((
-                    f"{self.device.ip} - Can't connect. Device ", 
+                self.logger.error(
+                    f"{self.device.ip} - Can't connect. Device "
                     "not found in known_host file."
-                    ))
+                    )
                 return False
             
             else:
@@ -152,10 +152,10 @@ class SSH_Connection():
 
         except ValueError as e:
             if "enable mode" in str(e):
-                self.logger.warning((
-                f"{self.device.ip} - Failed enter enable mode. ",
+                self.logger.warning(
+                f"{self.device.ip} - Failed enter enable mode. "
                 "Check password."
-                ))
+                )
                 return False
             
             else:

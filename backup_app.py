@@ -34,10 +34,10 @@ class Backup():
             self.logger.debug(f"{ip} - Check if the folder exist.")
 
             if not dir_path.is_dir():
-                self.logger.info((
-                    f"{ip} - The folder doesn't exist ",
+                self.logger.info(
+                    f"{ip} - The folder doesn't exist "
                     "or account doesn't have permissions."
-                    ))
+                    )
                 self.logger.info(f"{ip} - Creating a folder.")
                 dir_path.mkdir()
 

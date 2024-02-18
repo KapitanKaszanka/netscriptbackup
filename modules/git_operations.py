@@ -33,8 +33,8 @@ class Git():
         try:
             _cmd = subproc_Popen(
                 ["/usr/bin/git", "status"],
-                cwd = self.dir_path,
-                stdout = subproc_PIPE
+                cwd=self.dir_path,
+                stdout=subproc_PIPE
                 )
 
             _output = _cmd.communicate()
@@ -86,10 +86,10 @@ class Git():
                     pass
 
                 elif self.file_name in line and index > _untracked_index:
-                    self.logger.warning(
+                    self.logger.warning((
                         f"{self.ip} - The file has not been ",
                         "added to the repository."
-                        )
+                        ))
                     _status = "untracked"
                     pass
 
@@ -105,8 +105,8 @@ class Git():
             self.logger.debug(f"{self.ip} - Adding file to repozitory.")
             _cmd = subproc_Popen(
                 ["/usr/bin/git", "add", self.file_name],
-                cwd = self.dir_path,
-                stdout = subproc_DEVNULL
+                cwd=self.dir_path,
+                stdout=subproc_DEVNULL
                 )
             return True
 
@@ -120,8 +120,8 @@ class Git():
             self.logger.debug(f"{self.ip} - Creating repozitory.")
             _cmd = subproc_Popen([
                 "/usr/bin/git", "init"],
-                cwd = self.dir_path,
-                stdout = subproc_PIPE
+                cwd=self.dir_path,
+                stdout=subproc_PIPE
                 )
             _output = _cmd.communicate()
             _string_output = _output[0].decode()
@@ -159,8 +159,8 @@ class Git():
                     "commit", "-am",
                     timestamp
                 ],
-                cwd = self.dir_path,
-                stdout = subproc_PIPE
+                cwd=self.dir_path,
+                stdout=subproc_PIPE
                     )
 
             output = _cmd.communicate()

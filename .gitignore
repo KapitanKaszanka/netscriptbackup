@@ -8,7 +8,10 @@ __pycache__/
 
 ## App
 files/backup_app.log
+files/backup_test.json
+config.ini.cp
 backup_config/
+
 
 ## Else
 test.txt

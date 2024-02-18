@@ -106,7 +106,7 @@ class Config_Load():
         stream_handler.setLevel(logging.ERROR)
 
         formatter = logging.Formatter(
-            "%(asctime)s:%(name)s:%(levelname)s:\n\t%(message)s"
+            "%(asctime)s:%(name)s:%(levelname)s:%(message)s"
             )
         file_handler.setFormatter(formatter)
         stream_handler.setFormatter(formatter)

@@ -68,7 +68,7 @@
         "username": "juniper",
         "password": "juniper",
         "change_mode": null,
-        "key_file": "/home/backup_app/.ssh/juniper_id_rsa.pub",
-        "passphrase": "strongpassword"
+        "key_file": "/home/backup_app/.ssh/juniper_id_rsa",
+        "passphrase": "superstrongpassword"
     }
 }

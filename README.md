@@ -1,12 +1,14 @@
+
 # BackupApp
 
-A set of scripts written in Python to automatically create a backup copy of the configuration of devices connected to the network.
+**A multi-vendor script for automating backups of network device configurations using Git version control.**
 
-The application is based on the GIT version control system.
 
-Currently supports:
-- cisco IOS,
-- mikrotik RouterOS,
-- juniper.
+### Currently supports devices:
+- Cisco IOS, IOS-XE.
+- Mikrotik RouterOSv6, RouterOSv7.
+- Juniper.
+- DCN.
 
-Theoretically, the script will support any vendor. Just add an object in modules.devices, which is quite simple.
+*Theoretically, the script will support any vendor. Check docs.*
+

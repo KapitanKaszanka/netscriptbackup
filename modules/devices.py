@@ -61,22 +61,41 @@ class Devices_Load():
         devices = self.devices_data
 
         for ip in devices:
-            _device_parametrs = {
-                "name": devices[ip]["name"],
-                "vendor": devices[ip]["vendor"],
-                "ip": ip,
-                "username": devices[ip]["username"],
-                "port": devices[ip]["port"],
-                "connection": devices[ip]["connection"],
-                "passphrase": devices[ip]["passphrase"],
-                "key_file": devices[ip]["key_file"],
-                "password": devices[ip]["password"],
-                "conf_mode_pass": devices[ip]["conf_mode_pass"]
-            }
-            if devices[ip]["key_file"] != None:
-                _device_parametrs["key_file"] = _get_and_valid_path(
-                    devices[ip]["key_file"], ip
-                    )
+            try:
+                _device_parametrs = {
+                    "name": devices[ip]["name"],
+                    "vendor": devices[ip]["vendor"],
+                    "ip": ip,
+                    "username": devices[ip]["username"],
+                    "port": devices[ip]["port"],
+                    "connection": devices[ip]["connection"],
+                    "passphrase": devices[ip]["passphrase"],
+                    "key_file": devices[ip]["key_file"],
+                    "password": devices[ip]["password"]
+                }
+                if devices[ip]["key_file"] != None:
+                    _device_parametrs["key_file"] = _get_and_valid_path(
+                        devices[ip]["key_file"], ip
+                        )
+                if devices[ip]["change_mode"] != None:
+                    mode = devices[ip]["change_mode"]
+                    if isinstance(devices[ip]["change_mode"], list):
+                        if mode[0] == None:
+                            _device_parametrs["mode_cmd"] = ""
+                        else:
+                            _device_parametrs["mode_cmd"] = mode[0]
+                        _device_parametrs["mode_password"] = mode[1]
+                else:
+                    _device_parametrs["mode_cmd"] = None
+                    _device_parametrs["mode_password"] = None
+                    
+            except KeyError as e:
+                self.logger.warning(f"{ip} - KeyError in devices file: {e}")
+                pass
+            
+            except Exception as e:
+                self.logger.critical(f"Error ocure {e}")
+                exit()
 
             if devices[ip]["vendor"] == "cisco":
                 Cisco(**_device_parametrs)
@@ -114,7 +133,8 @@ class Device():
             passphrase: str,
             key_file: str,
             password: str,
-            conf_mode_pass: str
+            mode_cmd: str,
+            mode_password: str
             ) -> None:
         self.logger = logging.getLogger("backup_app.devices.Device")
         self.name = name
@@ -126,7 +146,8 @@ class Device():
         self.passphrase = passphrase
         self.key_file = key_file
         self.password = password
-        self.conf_mode_pass = conf_mode_pass
+        self.mode_cmd = mode_cmd
+        self.mode_password = mode_password
         Device.devices_lst.append(self)
 
 
@@ -150,7 +171,8 @@ class Cisco(Device):
             passphrase: str,
             key_file: str,
             password: str,
-            conf_mode_pass: str
+            mode_cmd: str,
+            mode_password: str
             ) -> "Device":
         super().__init__(
             name,
@@ -162,7 +184,8 @@ class Cisco(Device):
             passphrase,
             key_file,
             password,
-            conf_mode_pass
+            mode_cmd,
+            mode_password
             )
         self.logger = logging.getLogger("backup_app.devices.Cisco")
         self.logger.debug(f"{self.ip} - Creatad.")
@@ -171,7 +194,7 @@ class Cisco(Device):
 
     def command_show_config(self):
         self.logger.debug(f"{self.ip} - Returning commands.")
-        return "show running-config"
+        return "show running-config view full"
 
 
     def config_filternig(self, config):
@@ -179,9 +202,10 @@ class Cisco(Device):
         _tmp_config = []
         config = config.splitlines()
 
+        # add_enter = True
         for line in config:
             if "!" in line:
-                if add_enter == True or add_enter == None:
+                if add_enter == True:
                     _tmp_config.append("")
                     add_enter = False
                 continue
@@ -222,7 +246,8 @@ class Mikrotik(Device):
             passphrase: str,
             key_file: str,
             password: str,
-            conf_mode_pass: str
+            mode_cmd: str,
+            mode_password: str
             ) -> "Device":
         super().__init__(
             name,
@@ -234,7 +259,8 @@ class Mikrotik(Device):
             passphrase,
             key_file,
             password,
-            conf_mode_pass
+            mode_cmd,
+            mode_password
             )
         self.logger = logging.getLogger("backup_app.devices.Mikrotik")
         self.logger.debug(f"{self.ip} - Creatad.")
@@ -279,7 +305,8 @@ class Juniper(Device):
             passphrase: str,
             key_file: str,
             password: str,
-            conf_mode_pass: str
+            mode_cmd: str,
+            mode_password: str
             ) -> "Device":
         super().__init__(
             name,
@@ -290,8 +317,8 @@ class Juniper(Device):
             connection,
             passphrase,
             key_file,
-            password,
-            conf_mode_pass
+            mode_cmd,
+            mode_password
             )
         self.logger = logging.getLogger("backup_app.devices.Juniper")
         self.logger.debug(f"Device {self.ip} creatad.")

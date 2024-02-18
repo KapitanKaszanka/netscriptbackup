@@ -49,13 +49,13 @@ class SSH_Connection():
             "port": self.device.port,
             "device_type": self.device.device_type,
             "password": self.device.password,
-            "secret": self.device.conf_mode_pass,
+            "secret": self.device.mode_password,
             "key_file": self.device.key_file,
             "passphrase": self.device.passphrase
         }
-        self.logger.info(
-            f"{self.device.ip} - Downloading configuration from the device."
-            )
+        other_parametrs = {
+            "cmd": self.device.mode_cmd
+        }
 
         self.logger.debug(
             f"{self.device.ip} - Downloading the necessary commands."
@@ -63,22 +63,39 @@ class SSH_Connection():
         cli_command = self.device.command_show_config()
 
         try:
+            self.logger.info((
+                f"{self.device.ip} - Trying download configuration ",
+                "from the device."
+                ))
             self.logger.debug(
                 f"{self.device.ip} - Attempting to create an SSH connection."
                 )
             if connection_parametrs["key_file"] == None:
-                self.logger.debug(f"{self.device.ip} - Connecting with password.")
+                self.logger.debug(
+                    f"{self.device.ip} - Connecting with password."
+                    )
                 with ConnectHandler(
                     **connection_parametrs,
-                    ssh_strict = True,
-                    system_host_keys = True
+                    ssh_strict=True,
+                    system_host_keys=True
                     ) as connection:
-                    self.logger.debug(f"{self.device.ip} - Connection created.")
-                    self.logger.debug(f"{self.device.ip} - Sending commands.")
-                    stdout = connection.send_command(
-                        command_string = cli_command,
-                        read_timeout = 30
+                    self.logger.debug(
+                        f"{self.device.ip} - Connection created."
                         )
+                    self.logger.debug(
+                        f"{self.device.ip} - Sending commands."
+                        )
+
+                    if not connection.check_enable_mode():
+                        connection.enable(
+                            cmd=other_parametrs["cmd"]
+                            )
+
+                    stdout = connection.send_command(
+                        command_string=cli_command,
+                        read_timeout=30
+                        )
+
                 self.logger.debug(
                     f"{self.device.ip} - Connection completend sucessfully."
                     )
@@ -89,9 +106,9 @@ class SSH_Connection():
                     )
                 with ConnectHandler(
                     **connection_parametrs,
-                    use_keys = True,
-                    ssh_strict = True,
-                    system_host_keys = True
+                    use_keys=True,
+                    ssh_strict=True,
+                    system_host_keys=True
                     ) as connection:
                     self.logger.debug(
                         f"{self.device.ip} - Connection created."
@@ -99,24 +116,31 @@ class SSH_Connection():
                     self.logger.debug(
                         f"{self.device.ip} - Sending commands."
                         )
+
+                    if not connection.check_enable_mode():
+                        connection.enable(
+                            cmd=other_parametrs["cmd"]
+                            )
+
                     stdout = connection.send_command(
-                        command_string = cli_command,
-                        read_timeout = 30
+                        command_string=cli_command,
+                        read_timeout=30
                         )
+
                 self.logger.debug(
                     f"{self.device.ip} - Connection completend sucessfully."
                     )
 
         except NetmikoTimeoutException as e:
             if "known_hosts" in str(e):
-                self.logger.warning(
-                    f"{self.device.ip} - Can't connect. ",
-                    "Device not found in known_host file."
-                )
+                self.logger.error((
+                    f"{self.device.ip} - Can't connect. Device ", 
+                    "not found in known_host file."
+                    ))
                 return False
             
             else:
-                self.logger.warning(
+                self.logger.error(
                     f"{self.device.ip} - Can't connect. {e}"
                     )
                 return False
@@ -127,10 +151,18 @@ class SSH_Connection():
             return False
 
         except ValueError as e:
-            self.logger.warning(
-                f"{self.device.ip} - Unsuported device type."
-                )
-            return False
+            if "enable mode" in str(e):
+                self.logger.warning((
+                f"{self.device.ip} - Failed enter enable mode. ",
+                "Check password."
+                ))
+                return False
+            
+            else:
+                self.logger.warning(
+                    f"{self.device.ip} - Unsuported device type."
+                    )
+                return False
         
         except Exception as e:
             self.logger.error(f"{self.device.ip} - Exceptation {e}")

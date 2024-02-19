@@ -64,7 +64,7 @@ class SSH_Connection():
 
         try:
             self.logger.info(
-                f"{self.device.ip} - Trying download configuration ",
+                f"{self.device.ip} - Trying download configuration "
                 "from the device."
                 )
             self.logger.debug(

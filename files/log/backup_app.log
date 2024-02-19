@@ -961,3 +961,85 @@
 2024-02-18 16:42:28,639:backup_app.devices.Cisco:INFO:r1.home - Skiping line 'Current configuration : 3540 bytes'.
 2024-02-18 16:42:28,646:backup_app.git_operations.Git:INFO:r1.home - Nothing to commit.
 2024-02-18 16:42:28,647:backup_app.Backup:INFO:r1.home - Backup completed.
+2024-02-19 09:28:50,490:backup_app.devices.Devices_Load:INFO:Creating device objects..
+2024-02-19 09:28:50,491:backup_app.devices.Devices_Load:WARNING:192.168.11.12 - Path to key doesn't exist /home/backup_app/.ssh/cisco_id_rsa.
+2024-02-19 09:28:50,491:backup_app.devices.Devices_Load:WARNING:192.168.11.14 - Path to key doesn't exist /home/backup_app/.ssh/mikrotik_id_rsa.
+2024-02-19 09:28:50,492:backup_app.devices.Devices_Load:WARNING:192.168.11.16 - Path to key doesn't exist /home/backup_app/.ssh/juniper_id_rsa.
+2024-02-19 09:28:50,492:backup_app.Backup:INFO:Start application.
+2024-02-19 09:28:50,496:backup_app.Backup:INFO:192.168.11.11 - Trying create backup.
+2024-02-19 09:28:50,498:backup_app.Backup:INFO:192.168.11.12 - Trying create backup.
+2024-02-19 09:28:50,500:backup_app.Backup:INFO:192.168.11.13 - Trying create backup.
+2024-02-19 09:28:50,503:backup_app.Backup:INFO:192.168.11.14 - Trying create backup.
+2024-02-19 09:28:50,509:backup_app.Backup:INFO:192.168.11.15 - Trying create backup.
+2024-02-19 09:28:50,514:backup_app.Backup:INFO:192.168.11.16 - Trying create backup.
+2024-02-19 09:29:01,307:backup_app.connections.SSH_Connection:WARNING:192.168.11.16 - Host isn't responding. Skip.
+2024-02-19 09:29:01,325:backup_app.connections.SSH_Connection:WARNING:192.168.11.15 - Host isn't responding. Skip.
+2024-02-19 09:29:01,327:backup_app.connections.SSH_Connection:WARNING:192.168.11.14 - Can't connect.
+2024-02-19 09:29:01,327:backup_app.connections.SSH_Connection:WARNING:192.168.11.14 - Error Authentication to device failed.
+
+Common causes of this problem are:
+1. Invalid username and password
+2. Incorrect SSH-key file
+3. Connecting to the wrong device
+
+Device settings: mikrotik_routeros 192.168.11.14:22
+
+
+Authentication failed.
+2024-02-19 09:29:01,328:backup_app.Backup:WARNING:192.168.11.16 - Unable to connect to device.
+2024-02-19 09:29:01,330:backup_app.Backup:WARNING:192.168.11.14 - Unable to connect to device.
+2024-02-19 09:29:01,334:backup_app.Backup:WARNING:192.168.11.15 - Unable to connect to device.
+2024-02-19 09:29:01,451:backup_app.devices.Mikrotik:INFO:192.168.11.13 - Skiping line '# feb/19/2024 08:29:00 by RouterOS 6.49.7'.
+2024-02-19 09:29:01,452:backup_app.devices.Mikrotik:INFO:192.168.11.13 - Skiping line '# software id = '.
+2024-02-19 09:29:01,452:backup_app.devices.Mikrotik:INFO:192.168.11.13 - Skiping line '#'.
+2024-02-19 09:29:01,452:backup_app.devices.Mikrotik:INFO:192.168.11.13 - Skiping line '#'.
+2024-02-19 09:29:01,452:backup_app.devices.Mikrotik:INFO:192.168.11.13 - Skiping line '#'.
+2024-02-19 09:29:01,462:backup_app.Backup:INFO:192.168.11.13 - The folder doesn't exist or account doesn't have permissions.
+2024-02-19 09:29:01,463:backup_app.Backup:INFO:192.168.11.13 - Creating a folder.
+2024-02-19 09:29:01,499:backup_app.git_operations.Git:INFO:192.168.11.13 - File modify.
+2024-02-19 09:29:01,500:backup_app.git_operations.Git:INFO:192.168.11.13 - Commiting repository.
+2024-02-19 09:29:01,513:backup_app.git_operations.Git:INFO:192.168.11.13 - Commited.
+2024-02-19 09:29:01,513:backup_app.Backup:INFO:192.168.11.13 - Backup completed.
+2024-02-19 09:29:02,532:backup_app.devices.Cisco:INFO:192.168.11.11 - Skiping line 'Building configuration...'.
+2024-02-19 09:29:02,532:backup_app.devices.Cisco:INFO:192.168.11.11 - Skiping line 'Current configuration : 3540 bytes'.
+2024-02-19 09:29:02,533:backup_app.Backup:INFO:192.168.11.11 - The folder doesn't exist or account doesn't have permissions.
+2024-02-19 09:29:02,534:backup_app.Backup:INFO:192.168.11.11 - Creating a folder.
+2024-02-19 09:29:02,542:backup_app.devices.Cisco:INFO:192.168.11.12 - Skiping line 'Building configuration...'.
+2024-02-19 09:29:02,544:backup_app.devices.Cisco:INFO:192.168.11.12 - Skiping line 'Current configuration : 3631 bytes'.
+2024-02-19 09:29:02,545:backup_app.Backup:INFO:192.168.11.12 - The folder doesn't exist or account doesn't have permissions.
+2024-02-19 09:29:02,546:backup_app.Backup:INFO:192.168.11.12 - Creating a folder.
+2024-02-19 09:29:02,555:backup_app.git_operations.Git:INFO:192.168.11.11 - File modify.
+2024-02-19 09:29:02,556:backup_app.git_operations.Git:INFO:192.168.11.11 - Commiting repository.
+2024-02-19 09:29:02,568:backup_app.git_operations.Git:INFO:192.168.11.12 - File modify.
+2024-02-19 09:29:02,568:backup_app.git_operations.Git:INFO:192.168.11.12 - Commiting repository.
+2024-02-19 09:29:02,569:backup_app.git_operations.Git:INFO:192.168.11.11 - Commited.
+2024-02-19 09:29:02,570:backup_app.Backup:INFO:192.168.11.11 - Backup completed.
+2024-02-19 09:29:02,580:backup_app.git_operations.Git:INFO:192.168.11.12 - Commited.
+2024-02-19 09:29:02,580:backup_app.Backup:INFO:192.168.11.12 - Backup completed.
+2024-02-19 09:30:14,884:backup_app.devices.Devices_Load:INFO:Creating device objects..
+2024-02-19 09:30:14,885:backup_app.devices.Devices_Load:WARNING:192.168.11.12 - Path to key doesn't exist /home/backup_app/.ssh/cisco_id_rsa.
+2024-02-19 09:30:14,885:backup_app.devices.Devices_Load:WARNING:192.168.11.14 - Path to key doesn't exist /home/backup_app/.ssh/mikrotik_id_rsa.
+2024-02-19 09:30:14,885:backup_app.devices.Devices_Load:WARNING:192.168.11.16 - Path to key doesn't exist /home/backup_app/.ssh/juniper_id_rsa.
+2024-02-19 09:30:14,885:backup_app.Backup:INFO:Start application.
+2024-02-19 09:30:14,890:backup_app.Backup:INFO:192.168.11.11 - Trying create backup.
+2024-02-19 09:30:14,893:backup_app.Backup:INFO:192.168.11.12 - Trying create backup.
+2024-02-19 09:30:14,894:backup_app.Backup:INFO:192.168.11.13 - Trying create backup.
+2024-02-19 09:30:14,898:backup_app.Backup:INFO:192.168.11.14 - Trying create backup.
+2024-02-19 09:30:14,902:backup_app.Backup:INFO:192.168.11.15 - Trying create backup.
+2024-02-19 09:30:14,906:backup_app.Backup:INFO:192.168.11.16 - Trying create backup.
+2024-02-19 09:30:17,920:backup_app.connections.SSH_Connection:INFO:192.168.11.14 - Trying download configuration from the device.
+2024-02-19 09:30:17,920:backup_app.connections.SSH_Connection:INFO:192.168.11.11 - Trying download configuration from the device.
+2024-02-19 09:30:17,927:backup_app.connections.SSH_Connection:INFO:192.168.11.12 - Trying download configuration from the device.
+2024-02-19 09:30:17,938:backup_app.connections.SSH_Connection:INFO:192.168.11.13 - Trying download configuration from the device.
+2024-02-19 09:30:18,093:backup_app.connections.SSH_Connection:WARNING:192.168.11.15 - Host isn't responding. Skip.
+2024-02-19 09:30:18,094:backup_app.connections.SSH_Connection:ERROR:192.168.11.13 - Can't connect. Device not found in known_host file.
+2024-02-19 09:30:18,094:backup_app.Backup:WARNING:192.168.11.15 - Unable to connect to device.
+2024-02-19 09:30:18,094:backup_app.Backup:WARNING:192.168.11.13 - Unable to connect to device.
+2024-02-19 09:30:18,159:backup_app.connections.SSH_Connection:ERROR:192.168.11.14 - Can't connect. Device not found in known_host file.
+2024-02-19 09:30:18,160:backup_app.Backup:WARNING:192.168.11.14 - Unable to connect to device.
+2024-02-19 09:30:18,333:backup_app.connections.SSH_Connection:ERROR:192.168.11.11 - Can't connect. Device not found in known_host file.
+2024-02-19 09:30:18,335:backup_app.Backup:WARNING:192.168.11.11 - Unable to connect to device.
+2024-02-19 09:30:18,338:backup_app.connections.SSH_Connection:ERROR:192.168.11.12 - Can't connect. Device not found in known_host file.
+2024-02-19 09:30:18,339:backup_app.Backup:WARNING:192.168.11.12 - Unable to connect to device.
+2024-02-19 09:30:18,976:backup_app.connections.SSH_Connection:WARNING:192.168.11.16 - Host isn't responding. Skip.
+2024-02-19 09:30:18,977:backup_app.Backup:WARNING:192.168.11.16 - Unable to connect to device.

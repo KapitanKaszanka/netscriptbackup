@@ -108,6 +108,7 @@ with ConnectHandler(
 <span style="color: orange">
 If it is not necessary, I suggest leaving this option enabled. It adds another layer of security.
 </span>
+
 #### 7. Now you can perform the first run. The console should show any errors.
 
 ```bash

@@ -18,7 +18,7 @@ I highly suggest changing to the settings recommended in the config.ini document
 nano config.ini
 ```
 
-#### 4. Configuration of device login parameters. The file is located in the files/devices.json folder by default.
+#### 4. Configuration of device login parameters. Default file path files/devices.json.
 ```bash
 nano files/devices.json
 ```

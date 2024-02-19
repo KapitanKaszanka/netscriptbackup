@@ -49,7 +49,7 @@ nano files/devices.json
         "key_file": null,
         "passphrase": null
     },
-"2001:db8:abcd::2": {
+    "2001:db8:abcd::2": {
         "name": "R12",
         "vendor": "cisco",
         "port": 22,

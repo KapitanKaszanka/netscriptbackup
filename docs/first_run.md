@@ -89,7 +89,7 @@ git config --global init.defaultBranch main # Optional
 <span style="color: orange">
 The script does not allow connection to hosts whose keys have not been previously manually accepted. To disable this, go to [here](./modules/connections.py) of the file and comment out the ssh_stric line. It occurs twice.
 </span>
-```py
+```python
 with ConnectHandler(
     **connection_parametrs,
     # ssh_strict=True,

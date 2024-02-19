@@ -9,9 +9,8 @@ __pycache__/
 ## App
 files/backup_app.log
 files/backup_test.json
+files/backup_configuration/
 config.ini.cp
-backup_config/
-
 
 ## Else
 test.txt

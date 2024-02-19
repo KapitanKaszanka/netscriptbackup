@@ -24,11 +24,11 @@ nano files/devices.json
 ```
  - A brief description of the required pools. Marked with [x] they are required for correct operation. Marked with [o] may be set to null:
    - [x] ip -> main json key; it cannot be repeated; use to connect to device; can be dns name,
-   - port -> SSH port through which you can connect to the device,
+   - [ ] port -> SSH port through which you can connect to the device,
    - [x] vendor -> the value must be the same as in supported devices,
-   - connection -> for future use; it is worth setting 'ssh'
+   - [ ] connection -> for future use; it is worth setting 'ssh'
    - [x] username,
-   - change_mode -> settings for switching to privileged mode; default null; check docs for more information
+   - [ ] change_mode -> settings for switching to privileged mode; default null; check docs for more information
    - [x] password or key_file/passphrase -> login method; check docs for more information
 - [Docs devices.json](./docs/doc_devices_file.md)
 - [Supported vedors](./docs/supported_vendors.md)
@@ -105,8 +105,6 @@ git config --global init.defaultBranch main # Optional
 .venv/bin/python3 main.py
 ```
 > [!IMPORTANT]
-> 
->
 > The script does not allow connection to hosts whose keys have not been previously manually accepted.
 > To disable this, go to [modules/connections.py](./modules/connections.py) and comment out the ssh_stric line. It occurs twice in code.
 > After the first run, I suggest uncommenting these lines.

@@ -13,7 +13,7 @@
         "key_file": null,
         "passphrase": null
     },
-    "192.168.11.12": {
+    "2001:db8::2": {
         "name": "R2",
         "vendor": "cisco",
         "port": 22,
@@ -60,7 +60,7 @@
         "key_file": null,
         "passphrase": null
     },
-    "192.168.11.16": {
+    "r6.juniper.network": {
         "name": "R6",
         "vendor": "juniper",
         "port": 22,

@@ -10,7 +10,7 @@ git clone http://github.com/krupczynskimateusz/backup_app.git
 ```bash
 cd backup_app/
 ```
-#### 3. Application operation configuration. The file is located in the config.ini folder by default.
+#### 3. Configure application settings. The file is located in the config.ini folder by default.
 There are paths where device data will be downloaded, where backups will be saved, and where application logs will be stored.
 I highly suggest changing to the settings recommended in the config.ini documentation for practical reasons.
 *[Config.ini documentation](./docs/doc_config.md)*
@@ -85,10 +85,16 @@ git config --global user.email backupapp@superexample.com
 git config --global init.defaultBranch main # Optional
 ```
 
-##### <span style="color: red">IMPORTANT</span>
-<span style="color: orange">
-The script does not allow connection to hosts whose keys have not been previously manually accepted. To disable this, go to [here](./modules/connections.py) of the file and comment out the ssh_stric line. It occurs twice.
-</span>
+#### 7. Now you can perform the first run. The console should show any errors.
+
+```bash
+.venv/bin/python3 main.py
+```
+> [!IMPORTANT]
+> 
+>
+> The script does not allow connection to hosts whose keys have not been previously manually accepted. To disable this, go to [modules/connections.py](./modules/connections.py) and comment out the ssh_stric line. It occurs twice in code.
+> If it is not necessary, I suggest leaving this option enabled. More information: [Security considerations](./docs/security_considerations.md)
 
 ```python
 with ConnectHandler(
@@ -105,16 +111,6 @@ with ConnectHandler(
     ) as connection:
 ```
 
-<span style="color: orange">
-If it is not necessary, I suggest leaving this option enabled. It adds another layer of security.
-</span>
-
-#### 7. Now you can perform the first run. The console should show any errors.
-
-```bash
-.venv/bin/python3 main.py
-```
-
 #### 8. End
 If everything works correctly, a configuration backup will appear in the folder of your choice. 
 A local Git repository will also be created, thanks to which you can track changes in device configuration. 
@@ -122,6 +118,7 @@ The script currently does not have the ability to push changes to a remote repos
 Now you can have the script run automatically using cron or systemd.timers.
 
 
+#### Good luck
 
 
 

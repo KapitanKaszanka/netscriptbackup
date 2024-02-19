@@ -7,9 +7,9 @@ __pycache__/
 .vscode/
 
 ## App
-files/backup_app.log
 files/backup_test.json
 files/backup_configuration/
+files/log/backup_app.log
 config.ini.cp
 
 ## Else

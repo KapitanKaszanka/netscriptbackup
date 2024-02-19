@@ -27,7 +27,7 @@
 ### Documentation:
 | | Name |
 | ---- | ---- |
-| 1 | [First run step by step](./docs/1.first_run.md) |
+| 1 | [First run step by step](./docs/first_run.md) |
 | 2 | [Supported devices](./docs/supported_vendors.md) |
 | 3 | [Config file](./docs/doc_config.md) |
 | 4 | [Device parametrs](./docs/doc_devices_file.md) |

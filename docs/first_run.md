@@ -49,6 +49,20 @@ nano files/devices.json
         "key_file": null,
         "passphrase": null
     },
+"2001:db8:abcd::2": {
+        "name": "R12",
+        "vendor": "cisco",
+        "port": 22,
+        "connection": "ssh",
+        "username": "cisco",
+        "password": "cisco",
+        "change_mode": [
+            null,
+            "superstrongpassword"
+        ],
+        "key_file": "/home/backup_app/.ssh/cisco_id_ed25519",
+        "passphrase": "superstrongpassword"
+    },
     "r6.juniper.network": {
         "name": "R6",
         "vendor": "juniper",

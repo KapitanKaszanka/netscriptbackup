@@ -107,8 +107,10 @@ git config --global init.defaultBranch main # Optional
 > [!IMPORTANT]
 > 
 >
-> The script does not allow connection to hosts whose keys have not been previously manually accepted. To disable this, go to [modules/connections.py](./modules/connections.py) and comment out the ssh_stric line. It occurs twice in code.
-> If it is not necessary, I suggest leaving this option enabled. More information: [Security considerations](./docs/security_considerations.md)
+> The script does not allow connection to hosts whose keys have not been previously manually accepted.
+> To disable this, go to [modules/connections.py](./modules/connections.py) and comment out the ssh_stric line. It occurs twice in code.
+> After the first run, I suggest uncommenting these lines.
+> More information: [Security considerations](./docs/security_considerations.md)
 
 ```python
 with ConnectHandler(

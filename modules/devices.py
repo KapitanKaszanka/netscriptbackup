@@ -26,23 +26,15 @@ class Devices_Load():
 
 
         except FileNotFoundError as e:
-            print()
             self.logger.critical(f"{e}")
-            print("#! Exiting...")
             exit()
 
         except json.decoder.JSONDecodeError as e:
-            print()
             self.logger.critical(f"{e}")
-            print("#! Exiting...")
-            print()
             exit()
 
         except Exception as e:
-            print()
             self.logger.critical(f"{e}")
-            print("#! Exiting...")
-            print()
             exit()
 
 
@@ -106,7 +98,6 @@ class Devices_Load():
                 Mikrotik(**_device_parametrs)
 
             elif devices[ip]["vendor"] == "juniper":
-                print(_device_parametrs["mode_password"])
                 Juniper(**_device_parametrs)
 
             else:

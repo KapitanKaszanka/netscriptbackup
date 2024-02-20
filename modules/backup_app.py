@@ -4,8 +4,7 @@ from modules.config_load import Config_Load
 from modules.devices import Devices_Load, Device
 from modules.connections import SSH_Connection
 from modules.git_operations import Git
-import concurrent.futures
-from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor
 
 
 
@@ -14,7 +13,7 @@ LOGGER = CONFIG_LOADED.set_logging()
 
 
 
-class Backup():
+class Aplication():
     """Main application object. Manages the backup process."""
 
     def __init__(self) -> None:
@@ -96,14 +95,14 @@ class Backup():
 
     def start_backup(self):
         self.logger.info(f"Start application.")
-        with concurrent.futures.ThreadPoolExecutor() as executor:
+        with ThreadPoolExecutor() as executor:
             executor.map(self._make_backup, self.devices)
 
 
 
 def backup_execute():
 
-    data = Backup()
+    data = Aplication()
     data.start_backup()
 
     return True

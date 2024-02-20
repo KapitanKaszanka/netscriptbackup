@@ -1,7 +1,6 @@
 
 # BackupApp
-### Working in progress. 
-**A multi-vendor script for automating backups of network device configurations using Git version control.**
+**An app to automate configuration backups and more.**
 
 ### Currently supports devices:
 - Cisco IOS, IOS-XE.

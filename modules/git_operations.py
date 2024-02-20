@@ -103,7 +103,7 @@ class Git():
     def _add_file_to_git(self):
         try:
             self.logger.debug(f"{self.ip} - Adding file to repozitory.")
-            _cmd = subproc_Popen(
+            subproc_Popen(
                 ["/usr/bin/git", "add", self.file_name],
                 cwd=self.dir_path,
                 stdout=subproc_DEVNULL

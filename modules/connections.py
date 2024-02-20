@@ -2,8 +2,10 @@
 
 import logging
 from subprocess import (
+    Popen as subproc_Popen,
     check_output as subproc_check_outpu,
-    CalledProcessError as subproc_CalledProcessError
+    CalledProcessError as subproc_CalledProcessError,
+    DEVNULL as subproc_DEVNULL
 )
 from netmiko import (
     ConnectHandler,
@@ -17,6 +19,7 @@ from netmiko import (
 class SSH_Connection():
     """An object responsible for SSH connections and their validation."""
 
+
     def __init__(self, device) -> None:
         self.logger = logging.getLogger(
             "backup_app.connections.SSH_Connection"
@@ -24,14 +27,15 @@ class SSH_Connection():
         self.device = device
 
 
-    def get_config(self):
+    def _check_ping_response(self):
         try:
             self.logger.debug(
                 f"{self.device.ip} - Checking if the host is responding"
                 )
             ping = ["/usr/bin/ping", "-W", "1", "-c", "4", self.device.ip]
-            subproc_check_outpu(ping).decode()
+            subproc_check_outpu(ping, stderr=subproc_DEVNULL)
             self.logger.debug(f"{self.device.ip} - The host responds")
+            return True
 
         except subproc_CalledProcessError as e:
             self.logger.warning(
@@ -41,6 +45,12 @@ class SSH_Connection():
 
         except Exception as e:
             self.logger.error(f"{self.device.ip} - Exception: {e}. Skip")
+            return False
+
+
+    def _get_conection_and_send(self, command_lst):
+        
+        if not self._check_ping_response():
             return False
 
         connection_parametrs = {
@@ -60,7 +70,6 @@ class SSH_Connection():
         self.logger.debug(
             f"{self.device.ip} - Downloading the necessary commands."
             )
-        cli_command = self.device.command_show_config()
 
         try:
             self.logger.info(
@@ -91,14 +100,15 @@ class SSH_Connection():
                             cmd=other_parametrs["cmd"]
                             )
 
-                    stdout = connection.send_command(
-                        command_string=cli_command,
+                    stdout = connection.send_config_set(
+                        config_commands=command_lst,
                         read_timeout=30
                         )
 
                 self.logger.debug(
                     f"{self.device.ip} - Connection completend sucessfully."
                     )
+                return stdout
 
             else:
                 self.logger.debug(
@@ -122,14 +132,15 @@ class SSH_Connection():
                             cmd=other_parametrs["cmd"]
                             )
 
-                    stdout = connection.send_command(
-                        command_string=cli_command,
+                    stdout = connection.send_config_set(
+                        config_commands=command_lst,
                         read_timeout=30
                         )
 
                 self.logger.debug(
                     f"{self.device.ip} - Connection completend sucessfully."
                     )
+                return stdout
 
         except NetmikoTimeoutException as e:
             if "known_hosts" in str(e):
@@ -168,9 +179,15 @@ class SSH_Connection():
             self.logger.error(f"{self.device.ip} - Exceptation {e}")
             return False
 
+
+
+    def get_config(self):
         self.logger.debug(
             f"{self.device.ip} - Filtering the configuration file."
             )
+        command = self.device.command_show_config()
+        commands_list = [command]
+        stdout = self._get_conection_and_send(commands_list)
         pars_output = self.device.config_filternig(stdout)
 
         return pars_output

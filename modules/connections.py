@@ -91,19 +91,26 @@ class SSH_Connection():
                     self.logger.debug(
                         f"{self.device.ip} - Connection created."
                         )
-                    self.logger.debug(
-                        f"{self.device.ip} - Sending commands."
-                        )
 
+                    self.logger.debug(
+                        f"{self.device.ip} - Check mode."
+                        )
                     if not connection.check_enable_mode():
+                        self.logger.debug(
+                            f"{self.device.ip} - Change mode."
+                            )
                         connection.enable(
                             cmd=other_parametrs["cmd"]
                             )
 
-                    stdout = connection.send_config_set(
-                        config_commands=command_lst,
-                        read_timeout=30
+                    self.logger.debug(
+                        f"{self.device.ip} - Sending commands."
                         )
+                    for command in command_lst:
+                        stdout = connection.send_command(
+                            command_string=command,
+                            read_timeout=60
+                            )
 
                 self.logger.debug(
                     f"{self.device.ip} - Connection completend sucessfully."
@@ -123,19 +130,28 @@ class SSH_Connection():
                     self.logger.debug(
                         f"{self.device.ip} - Connection created."
                         )
-                    self.logger.debug(
-                        f"{self.device.ip} - Sending commands."
-                        )
 
+                    self.logger.debug(
+                        f"{self.device.ip} - Check mode."
+                        )
                     if not connection.check_enable_mode():
+                        self.logger.debug(
+                            f"{self.device.ip} - Change mode."
+                            )
                         connection.enable(
                             cmd=other_parametrs["cmd"]
                             )
 
-                    stdout = connection.send_config_set(
-                        config_commands=command_lst,
-                        read_timeout=30
+                    self.logger.debug(
+                        f"{self.device.ip} - Sending commands."
                         )
+
+                    for command in command_lst:
+                        stdout = connection.send_command(
+                            command_string=command,
+                            read_timeout=60
+                            )
+
 
                 self.logger.debug(
                     f"{self.device.ip} - Connection completend sucessfully."

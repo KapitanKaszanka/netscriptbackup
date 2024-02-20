@@ -3,11 +3,11 @@
 ### Working in progress. 
 **A multi-vendor script for automating backups of network device configurations using Git version control.**
 
-
 ### Currently supports devices:
 - Cisco IOS, IOS-XE.
 - Mikrotik RouterOSv6, RouterOSv7.
 - Juniper.
+
 ### Basic operation of the application:
 #### Short version:
 - [1] Configuration parsing.
@@ -42,6 +42,12 @@
 | 2 | [Supported devices](./docs/supported_vendors.md) |
 | 3 | [Config file - docs](./docs/doc_config.md) |
 | 4 | [Device parametrs - docs](./docs/doc_devices_file.md) |
+
+### One day:
+- encryption,
+- better logging,
+- restconf module,
+- telemetry.
 
 ##### *Super sneaky information*
 ##### *Theoretically, the script will support any vendor with very little work. How and can be used to get telemetry from devices.*

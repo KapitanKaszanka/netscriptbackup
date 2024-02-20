@@ -44,7 +44,7 @@
 | 4 | [Device parametrs - docs](./docs/doc_devices_file.md) |
 
 ##### *Super sneaky information*
-###### *Theoretically, the script will support any vendor with very little work. How and can be used to get telemetry from devices.*
+##### *Theoretically, the script will support any vendor with very little work. How and can be used to get telemetry from devices.*
 
 
 

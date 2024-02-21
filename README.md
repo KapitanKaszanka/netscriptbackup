@@ -2,6 +2,10 @@
 # BackupApp
 **An app to automate configuration backups and more.**
 
+The script is created to automate backup creation and collect telemetry from network devices. It is still in development and will likely be in development for a very long time. The plan is to create a tool that will collect data from devices that can be used to make life easier for administrators.
+
+#### [First run - step by step](./docs/first_run.md) 
+
 ### Currently supports devices:
 - Cisco IOS, IOS-XE.
 - Mikrotik RouterOSv6, RouterOSv7.
@@ -47,6 +51,9 @@
 - better logging,
 - restconf module,
 - telemetry.
+  
+> [!WARNING]
+> The application and advice on how to use it should be tested first before implementing them into production. I take no responsibility for any damage resulting from the use of the content contained in the publication.
 
 ##### *Super sneaky information*
 ##### *Theoretically, the script will support any vendor with very little work. How and can be used to get telemetry from devices.*

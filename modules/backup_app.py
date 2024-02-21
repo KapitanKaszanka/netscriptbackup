@@ -2,7 +2,7 @@
 import logging
 from modules.config_load import Config_Load
 from modules.devices import Devices_Load, Device
-from modules.connections import SSH_Connection
+from modules.connections.ssh_connection import SSH_Connection
 from modules.git_operations import Git
 from concurrent.futures import ThreadPoolExecutor
 
@@ -25,7 +25,12 @@ class Aplication():
         self.configs_path = CONFIG_LOADED.configs_path
 
 
-    def _save_config_to_file(self, ip, name, stdout):
+    def _save_config_to_file(
+            self,
+            ip: str,
+            name: str,
+            stdout: str
+            ) -> bool:
         try:
             dir_path = self.configs_path / f"{name}_{ip}"
             file_path = self.configs_path / f"{name}_{ip}" / f"{ip}_conf.txt"
@@ -55,10 +60,13 @@ class Aplication():
 
         except Exception as e:
             self.logger.error(f"{ip} - Error: {e}")
-            pass
+            return False
 
 
-    def _make_backup(self, dev):
+    def _make_backup(
+            self, 
+            dev: object
+            ) -> bool:
             self.logger.info(f"{dev.ip} - Trying create backup.")
             ssh = SSH_Connection(dev)
             stdout = ssh.get_config()

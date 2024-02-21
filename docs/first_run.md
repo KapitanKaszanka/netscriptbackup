@@ -13,7 +13,7 @@ cd backup_app/
 #### 3. Configure application settings. The file is located in the config.ini folder by default.
 There are paths where device data will be downloaded, where backups will be saved, and where application logs will be stored.
 I highly suggest changing to the settings recommended in the config.ini documentation for practical reasons.
-*[Config.ini documentation](./docs/doc_config.md)*
+*[Config.ini documentation](doc_config.md)*
 ```bash
 nano config.ini
 ```
@@ -30,8 +30,8 @@ nano files/devices.json
    - [x] username,
    - [ ] change_mode -> settings for switching to privileged mode; default null; check docs for more information
    - [x] password or key_file/passphrase -> login method; check docs for more information
-- [Docs devices.json](./docs/doc_devices_file.md)
-- [Supported vedors](./docs/supported_vendors.md)
+- [Docs devices.json](doc_devices_file.md)
+- [Supported vedors](supported_vendors.md)
   
 ```json
 {

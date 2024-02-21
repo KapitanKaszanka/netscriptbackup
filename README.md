@@ -29,10 +29,9 @@ The script is created to automate backup creation and collect telemetry from net
 - [4] Basic filtering. For example, comments are removed from the file.
 - [5] Let's move on to file management. The application will check the paths to the  files and if they do not exist, it will create them. File permissions will also be checked. If they are not allocated to the user, an error will be returned and the backup will be interrupted. Once the files are created, they are overwritten/updated with the newly output from device.
 - [6] After creating the files, the application will move on to tasks related to the Git repository. These are very basic actions without advanced git features. First, it will be checked whether the repository exists, if it doesn't exist, it will be created and a configuration file added to it. The application checks whether the configuration file is added to the repository. If everything is OK, a 'commit' occurs with the date of any modification.
+  > - A separate repository will be created for each device.
+  > - The module doesn't yet have the ability to push changes to a remote repository.
 
-> [!NOTE]
-> - A separate repository will be created for each device.
-> - The module doesn't yet have the ability to push changes to a remote repository.
 - [7] End. The application will wait for a restart.
   
 > [!TIP]

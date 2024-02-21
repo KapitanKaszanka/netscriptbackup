@@ -1,5 +1,5 @@
 
-#### Linux setup. How I do it.
+### Linux setup. How I do it.
 #### Setup is done on Ubuntu 22.04
 
 1. Log in to linux server.
@@ -50,8 +50,7 @@ sudo su - script_run
 ```bash
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N "strongpassword"
 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "diffrentstrongpassword"
-``` and download the script.
-```bash
+``` 
 
 9. Downloading the git repository
 ```bash
@@ -59,35 +58,37 @@ git clone https://github.com/krupczynskimateusz/backup_app.git
 ````
 
 10. Changing script setting.
-Config
-```bash
-cd backup_app/
-nano config.ini
-```
-```ini
-[Applications_Setup]
-Configs_Path = /script/backup_app/backup_configuration/
-[Logging]
-File_Path = /var/log/backup_app/backup_app.log
-```
-Adding devices to the JSON database.
+- Config
+ ```bash
+  cd backup_app/
+  nano config.ini
+  ```
+  ```ini
+  [Applications_Setup]
+  Configs_Path = /script/backup_app/backup_configuration/
+  [Logging]
+  File_Path = /var/log/backup_app/backup_app.log
+  ```
+
+- Adding devices to the JSON database.
 ```bash
 nano files/devices.json
 ```
+  
 Well, do it yourself ;)
 
-12. I recommend using a python virtual environment.
-```bash
-python3 -m venv .venv/
-```
-If it doesn't work, check online how to set up a Python virtual environment for Ubuntu.
-
-10. Installing the necessary modules.
-```bash
-source .venv/bin/activate
-pip install -r requirements.txt
-deactivate
-```
+11. Setup python
+- I recommend using a python virtual environment.
+  ```bash
+  python3 -m venv .venv/
+  ```
+  If it doesn't work, check online how to set up a Python virtual environment for Ubuntu.
+- Installing the necessary modules.
+  ```bash
+  source .venv/bin/activate
+  pip install -r requirements.txt
+  deactivate
+  ```
 
 12. Setup git for user.
 ```bash
@@ -102,9 +103,9 @@ git config --global init.defaultBranch main # Optional
 > To disable this, go to [modules/connections.py](./modules/connections.py) and comment out the "ssh_strict=True" line. It occurs twice in code.
 > After the first run, I suggest uncommenting these lines.
 
-```bash
-.venv/bin/python3 main.py
-```
+  ```bash
+  .venv/bin/python3 main.py
+  ```
 
 14. Checking if everything works properly.
 ```bash
@@ -121,7 +122,7 @@ git log
 - linux hardering,
 - nftables.
 
-#### Good luck.
+### Good luck.
 
 
 

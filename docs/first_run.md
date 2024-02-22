@@ -3,15 +3,15 @@
 #### 1. Download the repository to your local system:
 
 ```bash
-git clone http://github.com/krupczynskimateusz/backup_app.git
+git clone http://github.com/krupczynskimateusz/netscriptbackup.git
 ```
 #### 2. Go to the repository folder:
 
 ```bash
-cd backup_app/
+cd netscriptbackup/
 ```
-#### 3. Configure application settings. The file is located in the config.ini folder by default.
-There are paths where device data will be downloaded, where backups will be saved, and where application logs will be stored.
+#### 3. Configure the script settings. The file is located in the config.ini folder by default.
+There are paths where device data will be downloaded, where backups will be saved, and where the script logs will be stored.
 I highly suggest changing to the settings recommended in the config.ini documentation for practical reasons.
 *[Config.ini documentation](doc_config.md)*
 ```bash
@@ -60,7 +60,7 @@ nano files/devices.json
             null,
             "superstrongpassword"
         ],
-        "key_file": "/home/backup_app/.ssh/cisco_id_ed25519",
+        "key_file": "/home/netscriptbackup/.ssh/cisco_id_ed25519",
         "passphrase": "superstrongpassword"
     },
     "r6.juniper.network": {
@@ -71,7 +71,7 @@ nano files/devices.json
         "username": "juniper",
         "password": null,
         "change_mode": null,
-        "key_file": "/home/backup_app/.ssh/juniper_id_rsa",
+        "key_file": "/home/netscriptbackup/.ssh/juniper_id_rsa",
         "passphrase": "superstrongpassword"
     }
 }
@@ -94,8 +94,8 @@ pip install -r requirements.txt
 Before running, you need to change the global git settings if they are not already set.
 
 ```bash
-git config --global user.name "Backup App"  
-git config --global user.email backupapp@superexample.com 
+git config --global user.name "Net Script Backup"  
+git config --global user.email netscriptbackup@superexample.com 
 git config --global init.defaultBranch main # Optional
 ```
 
@@ -132,18 +132,3 @@ Now you can have the script run automatically using cron or systemd.timers.
 
 
 #### Good luck
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

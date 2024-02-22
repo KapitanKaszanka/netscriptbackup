@@ -10,9 +10,11 @@ from subprocess import (
 )
 
 
-
 class Git():
-
+    """
+    An object that collects all 
+    the functions needed to operate on the Git repository.
+    """
 
     def __init__(
             self,
@@ -20,6 +22,10 @@ class Git():
             name,
             configs_path
             ) -> None:
+        """
+        :param ip: device ip, used for naming purpose,
+        :param configs_path: path to file where configs are store
+        """
         self.logger = logging.getLogger("backup_app.git_operations.Git")
         self.ip = ip
         self.name = name

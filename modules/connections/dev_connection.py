@@ -23,7 +23,6 @@ class Dev_Connection:
             f"backup_app.connections. Dev_connection:{device.ip}"
             )
 
-
     def _check_ping_response(self) -> bool:
         """
         Sends 4 pings, and check if host is responding.
@@ -38,11 +37,9 @@ class Dev_Connection:
             subproc_check_outpu(ping, stderr=subproc_DEVNULL)
             self.logger.debug("The host responds")
             return True
-
         except subproc_CalledProcessError:
             self.logger.warning("Host isn't responding. Skip.")
             return False
-
         except Exception as e:
             self.logger.error(f"Exception: {e}. Skip")
             return False

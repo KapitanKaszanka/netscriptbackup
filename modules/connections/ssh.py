@@ -15,7 +15,6 @@ class SSH_Connection(Dev_Connection):
     An object responsible for SSH connections and their validation.
     """
 
-
     def __init__(self, device: object) -> "Dev_Connection":
         """
         A class for SSH connections. Connects via netmiko to the device. 
@@ -23,6 +22,7 @@ class SSH_Connection(Dev_Connection):
 
         :param connection_parametrs: all the data you need to connect.
         """
+        
         super().__init__(device)
         self.logger = logging.getLogger(
             f"backup_app.connections.SSH_Connection:{self.device.ip}"
@@ -38,13 +38,13 @@ class SSH_Connection(Dev_Connection):
             "passphrase": self.device.passphrase
         }
 
-
     def _set_privilege(self, _connection: object) -> None:
         """
         This function change privilge level if device support it.
 
         :param _connection: netmiko connection object.
         """
+
         self.logger.debug("Check mode.")
         if not _connection.check_enable_mode():
             self.logger.debug("Change mode.")
@@ -58,13 +58,13 @@ class SSH_Connection(Dev_Connection):
         :param _connection: netmiko connection object.
         :param command_lst: command to send.
         """
+
         self.logger.debug("Sending commands.")
         output = _connection.send_command(
             command_string=command,
             read_timeout=60
             )
         return output
-
 
     def _send_commands(
             self,
@@ -77,6 +77,7 @@ class SSH_Connection(Dev_Connection):
         :param _connection: netmiko connection object.
         :param command_lst: list of commands to send.
         """
+
         self.logger.debug("Sending commands.")
         output = []
         for command in command_lst:
@@ -86,7 +87,6 @@ class SSH_Connection(Dev_Connection):
                 )
             output.append(stdout)
         return output
-
 
     def _send(
             self,
@@ -99,6 +99,7 @@ class SSH_Connection(Dev_Connection):
         :param _connection: netmiko connection object.
         :param command_lst: list of commands to send.
         """
+
         if isinstance(commands, list):
             output = self._send_commands(_connection, commands)
             return output
@@ -108,7 +109,6 @@ class SSH_Connection(Dev_Connection):
         else:
             self.logger.warning("Can't send command.")
             return False
-
 
     def _get_conection_and_send(self, commands: str | list) -> object:
         """
@@ -138,7 +138,6 @@ class SSH_Connection(Dev_Connection):
                 if self.device.ip == "r3.home":
                     print(output)
                 return output
-
             else:
                 self.logger.debug("Connecting with public key.")
                 with ConnectHandler(
@@ -153,41 +152,33 @@ class SSH_Connection(Dev_Connection):
 
                 self.logger.debug("Connection completend sucessfully.")
                 return stdout
-
         except NetmikoTimeoutException as e:
             if "known_hosts" in str(e):
                 self.logger.error("Can't connect. Device "
                                   "not found in known_host file.")
                 return False
-
             else:
                 self.logger.error(f"Can't connect. {e}")
                 return False
-
         except NetmikoBaseException as e:
             self.logger.warning("Can't connect.")
             self.logger.warning(f"Error {e}")
             return False
-
         except NetmikoAuthenticationException as e:
             self.logger.warning("Can't connect.")
             self.logger.warning(f"Error {e}")
             return False
-
         except ValueError as e:
             if "enable mode" in str(e):
                 self.logger.warning("Failed enter enable mode. "
                                     "Check password.")
                 return False
-            
             else:
                 self.logger.warning("Unsuported device type.")
                 return False
-        
         except Exception as e:
             self.logger.error(f"{self.device.ip} - Exceptation {e}")
             return False
-
 
     def get_config(self) -> bool | str:
         """
@@ -196,13 +187,11 @@ class SSH_Connection(Dev_Connection):
 
         :return: filtered device configuration.
         """
-        self.logger.debug("Filtering the configuration file.")
 
+        self.logger.debug("Filtering the configuration file.")
         command = self.device.command_show_config()
         output = self._get_conection_and_send(command)
-
         if not output:
             return False
-
         pars_output = self.device.config_filternig(output)
         return pars_output

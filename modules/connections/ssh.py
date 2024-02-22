@@ -132,10 +132,12 @@ class SSH_Connection(Dev_Connection):
                     ) as _connection:
                     self.logger.debug("Connection created.")
                     self._set_privilege(_connection)
-                    stdout = self._send(_connection, commands)
+                    output = self._send(_connection, commands)
 
                 self.logger.debug("Connection completend sucessfully.")
-                return stdout
+                if self.device.ip == "r3.home":
+                    print(output)
+                return output
 
             else:
                 self.logger.debug("Connecting with public key.")

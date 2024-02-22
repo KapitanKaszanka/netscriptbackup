@@ -32,8 +32,15 @@ class Aplication():
         stdout: str
         ) -> bool:
         try:
-            dir_path = self.configs_path / f"{name}_{ip}"
-            file_path = self.configs_path / f"{name}_{ip}" / f"{ip}_conf.txt"
+            if name == None:
+                dir_path = self.configs_path / f"{ip}"
+                file_path = self.configs_path / f"{ip}" / f"{ip}_conf.txt"
+
+            else:
+                dir_path = self.configs_path / f"{name}_{ip}"
+                file_path = (self.configs_path / 
+                             f"{name}_{ip}" / 
+                             f"{ip}_conf.txt")
 
             self.logger.debug(f"{ip} - Check if the folder exist.")
 

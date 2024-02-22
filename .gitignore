@@ -3,6 +3,7 @@
 test.py
 __pycache__/
 modules/my_decorators.py
+profiling.prof
 
 ## VS Code
 .vscode/

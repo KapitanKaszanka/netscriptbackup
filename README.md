@@ -1,5 +1,5 @@
 
-# NetScriptBack
+# NetScriptBackUP
 **Script to automate configuration backups and more.**
 
 The script is created to automate backup creation and collect telemetry from network devices. It is still in development and will likely be in development for a very long time. The plan is to create a tool that will collect data from devices that can be used to make life easier for administrators.

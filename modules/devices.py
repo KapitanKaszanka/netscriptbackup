@@ -338,5 +338,6 @@ class Juniper(Device):
             _tmp_config.append(line)
         
         config_to_return = "\n".join(_tmp_config)
+        print(type(config_to_return))
 
         return config_to_return

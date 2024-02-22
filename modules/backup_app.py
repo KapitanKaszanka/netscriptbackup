@@ -1,8 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.10
 import logging
 from modules.config_load import Config_Load
 from modules.devices import Devices_Load, Device
-from modules.connections.ssh_connection import SSH_Connection
+from modules.connections.ssh import SSH_Connection
 from modules.git_operations import Git
 from concurrent.futures import ThreadPoolExecutor
 
@@ -26,11 +26,11 @@ class Aplication():
 
 
     def _save_config_to_file(
-            self,
-            ip: str,
-            name: str,
-            stdout: str
-            ) -> bool:
+        self,
+        ip: str,
+        name: str,
+        stdout: str
+        ) -> bool:
         try:
             dir_path = self.configs_path / f"{name}_{ip}"
             file_path = self.configs_path / f"{name}_{ip}" / f"{ip}_conf.txt"

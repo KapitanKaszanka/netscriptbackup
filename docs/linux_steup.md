@@ -19,24 +19,24 @@ sudo addgroup script_runners
 
 4. Now create a folder where the downloaded data from devices will be stored.
 ```bash
-sudo mkdir -p /script/backup_app/backup_configuration/
+sudo mkdir -p /script/netscriptbackup/backup_configuration/
 ```
 
 5. You need to change permissions for users.
 ```bash
 sudo chown root:script_runners /script/
 sudo chmod 750 /script/
-sudo chown -R script_run:script_runners /script/backup_app/
-sudo chmod -R 750 /script/backup_app
+sudo chown -R script_run:script_runners /script/netscriptbackup/
+sudo chmod -R 750 /script/netscriptbackup
 ```
 
 6. Creating a file for logs.
 ```bash
-sudo mkdir -p /var/log/backup_app/
-touch /var/log/backup_app/backup_app.log
-sudo chown -R root:script_run /var/log/backup_app/
-sudo chmod 610 /script/backup_app/
-sudo chmod 620 /script/backup_app/backup_app.log
+sudo mkdir -p /var/log/netscriptbackup/
+touch /var/log/netscriptbackup/netscriptbackup.log
+sudo chown -R root:script_run /var/log/netscriptbackup/
+sudo chmod 610 /script/netscriptbackup/
+sudo chmod 620 /script/netscriptbackup/netscriptbackup.log
 ```
 The script does not rotate logs for now. You have to take care of it yourself. Logrotate works very well.
 
@@ -54,20 +54,20 @@ ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "diffrentstrongpassword"
 
 9. Downloading the git repository
 ```bash
-git clone https://github.com/krupczynskimateusz/backup_app.git
+git clone https://github.com/krupczynskimateusz/netscriptbackup.git
 ````
 
 10. Changing script setting.
 - Config
  ```bash
-  cd backup_app/
+  cd netscriptbackup/
   nano config.ini
   ```
   ```ini
   [Applications_Setup]
-  Configs_Path = /script/backup_app/backup_configuration/
+  Configs_Path = /script/netscriptbackup/backup_configuration/
   [Logging]
-  File_Path = /var/log/backup_app/backup_app.log
+  File_Path = /var/log/netscriptbackup/netscriptbackup.log
   ```
 
 - Adding devices to the JSON database.
@@ -92,8 +92,8 @@ Well, do it yourself ;)
 
 12. Setup git for user.
 ```bash
-git config --global user.name "Backup App"  
-git config --global user.email backupapp@superexample.com 
+git config --global user.name "Net Script Backup"  
+git config --global user.email netscriptbackup@superexample.com 
 git config --global init.defaultBranch main # Optional
 ```
 
@@ -109,8 +109,8 @@ git config --global init.defaultBranch main # Optional
 
 14. Checking if everything works properly.
 ```bash
-ls /script/backup_app/backup_configuration/
-cd /script/backup_app/backup_configuration/r1.network/
+ls /script/netscriptbackup/backup_configuration/
+cd /script/netscriptbackup/backup_configuration/r1.network/
 cat r1.network_conf.txt
 git status
 git log
@@ -123,6 +123,3 @@ git log
 - nftables.
 
 ### Good luck.
-
-
-

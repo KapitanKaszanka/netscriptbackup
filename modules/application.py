@@ -2,9 +2,8 @@
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from modules.config_load import Config_Load
-from modules.devices.base_device import Device
+from modules.devices.base_device import BaseDevice
 from modules.devices.devices_load import Devices_Load
-from modules.connections.conn_ssh import ConnSSH
 from modules.git_operations import Git
 from modules.functions import save_to_file
 
@@ -22,7 +21,7 @@ class Application:
         self.logger = logging.getLogger(
             "netscriptbackup.application.Application"
             )
-        self.devices = Device.devices_lst
+        self.devices = BaseDevice.devices_lst
         self.configs_path = configs_path
 
     def _make_backup_ssh(
@@ -36,37 +35,41 @@ class Application:
         :return bool: done or not.
         """
 
-        self.logger.info(f"{dev.ip} - Trying create backup.")
-        ssh = ConnSSH(dev)
-        stdout = ssh.get_config()
+        self.logger.info(f"{dev.ip}:Trying create backup.")
+        config_string = dev.get_config()
 
-        if isinstance(stdout, str):
-            self.logger.debug(f"{dev.ip} - Writing config to the file.")
-            done = save_to_file(self.configs_path, dev.ip, dev.name, stdout)
+        if config_string is not None:
+            self.logger.debug(f"{dev.ip}:Writing config to the file.")
+            done = save_to_file(
+                self.configs_path,
+                dev.ip,
+                dev.name,
+                config_string
+                )
             if done:
-                self.logger.debug(f"{dev.ip} - Git commands execute.")
+                self.logger.debug(f"{dev.ip}:Git commands execute.")
                 _git = Git(dev.ip, dev.name, self.configs_path)
                 done = _git.git_exceute()
                 if done:
-                    self.logger.info(f"{dev.ip} - Backup completed.")
+                    self.logger.info(f"{dev.ip}:Backup completed.")
                     return True
                 else:
                     self.logger.warning(
-                        f"{dev.ip} - Unable to create backup."
+                        f"{dev.ip}:Unable to create backup."
                         )
                     return False
             else:
-                self.logger.warning(f"{dev.ip} - Unable to create backup.")
+                self.logger.warning(f"{dev.ip}:Unable to create backup.")
                 return False
         else:
             self.logger.warning(
-                f"{dev.ip} - Unable to connect to device."
+                f"{dev.ip}:Unable to connect to device."
                 )
             return False
 
     def start_backup(self):
         """
-        Functions used to implement multithreading in a script
+        Functions used to implement multithreading in a script.
         """
 
         self.logger.info(f"Start creating backup for devices.")

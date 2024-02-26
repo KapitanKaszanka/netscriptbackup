@@ -31,8 +31,8 @@ class Config_Load:
             self.devices_path = get_and_valid_path(_devices_path)
         except KeyError as e:
             print(
-                f"Loading mandatory parametrs faild"
-                ". Not allowed atribute: {e}"
+                "Loading mandatory parametrs faild"
+                f". Not allowed atribute: {e}"
                 )
             exit()
 
@@ -42,10 +42,14 @@ class Config_Load:
         try:
             _configs_path = self._config["Application_Setup"]["Configs_Path"]
             _configs_path = get_and_valid_path(_configs_path)
+            if _configs_path == None:
+                print(f"{_configs_path} dosn't exist.")
+                exit()
             self.configs_path = _configs_path
         except KeyError as e:
             print(
-                f"Loading mandatory parametrs faild. Not allowed atribute: {e}"
+                f"Loading mandatory parametrs faild. "
+                "Not allowed atribute: {e}"
                 )
             exit()
 
@@ -54,7 +58,11 @@ class Config_Load:
         
         try:
             _logging_path = self._config["Logging"]["File_Path"]
-            self.logging_path = get_and_valid_path(_logging_path)
+            _logging_path = get_and_valid_path(_logging_path)
+            if _logging_path == None:
+                print(f"{_logging_path} dosn't exist.")
+                exit()
+            self.logging_path = _logging_path
         except KeyError as e:
             self.logging_path = "backup_app.log"
 

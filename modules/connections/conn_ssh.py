@@ -14,30 +14,9 @@ class ConnSSH(Conn):
     """
     An object responsible for SSH connections and their validation.
     """
-
-    def __init__(self, device: object) -> "Conn":
-        """
-        A class for SSH connections. Connects via netmiko to the device. 
-        Sends commands and returns output.
-
-        :param connection_parametrs: all the data you need to connect.
-        """
-
-        super().__init__(device)
+    def __init__(self) -> "Conn":
         self.logger = logging.getLogger(
-            f"netscriptbackup.connections.ConnSSH:{device.ip}"
-            )
-        self.connection_parametrs = {
-            "host": self.device.ip,
-            "username": self.device.username,
-            "port": self.device.port,
-            "device_type": self.device.device_type,
-            "password": self.device.password,
-            "secret": self.device.mode_password,
-            "key_file": self.device.key_file,
-            "passphrase": self.device.passphrase
-        }
-
+            f"netscriptbackup.connections.ConnSSH")
     def _set_privilege(self, _connection: object) -> None:
         """
         This function change privilge level if device support it.
@@ -45,10 +24,10 @@ class ConnSSH(Conn):
         :param _connection: netmiko connection object.
         """
 
-        self.logger.debug("Check mode.")
+        self.logger.debug(f"{self.ip}:Check mode.")
         if not _connection.check_enable_mode():
-            self.logger.debug("Change mode.")
-            _connection.enable(cmd=self.device.mode_cmd)
+            self.logger.debug(f"{self.ip}:Change mode.")
+            _connection.enable(cmd=self.mode_cmd)
 
 
     def _send_command(self, _connection: object, command: str) -> object:
@@ -59,7 +38,7 @@ class ConnSSH(Conn):
         :param command_lst: command to send.
         """
 
-        self.logger.debug("Sending commands.")
+        self.logger.debug(f"{self.ip}:Sending commands.")
         output = _connection.send_command(
             command_string=command,
             read_timeout=60
@@ -78,7 +57,7 @@ class ConnSSH(Conn):
         :param command_lst: list of commands to send.
         """
 
-        self.logger.debug("Sending commands.")
+        self.logger.debug(f"{self.ip}:Sending commands.")
         output = []
         for command in command_lst:
             stdout = _connection.send_command(
@@ -107,10 +86,13 @@ class ConnSSH(Conn):
             output = self._send_command(_connection, commands)
             return output
         else:
-            self.logger.warning("Can't send command.")
+            self.logger.warning(f"{self.ip}:Can't send command.")
             return False
 
-    def _get_conection_and_send(self, commands: str | list) -> object:
+    def _get_conection_and_send(
+        self,
+        commands: str | list
+        ) -> str | bool:
         """
         The function connects to the device and calls functions 
         to set the permission level and send commands
@@ -119,82 +101,87 @@ class ConnSSH(Conn):
         :return: interable netmiko object. 
         """
 
+        conn_parametrs = {
+            "host": self.ip,
+            "username": self.username,
+            "port": self.port,
+            "device_type": self.device_type,
+            "password": self.password,
+            "secret": self.mode_password,
+            "key_file": self.key_file,
+            "passphrase": self.passphrase
+        }
         if not self._check_ping_response():
             return False
         try:
-            self.logger.info("Trying download configuration from the device.")
-            if self.device.key_file == None:
-                self.logger.debug("Attempting connect with password.")
+            self.logger.info(
+                f"{self.ip}:Trying download "
+                "configuration from the device."
+                )
+            if conn_parametrs["key_file"] == None:
+                self.logger.debug(
+                    f"{self.ip}:Attempting "
+                    "connect with password."
+                    )
                 with ConnectHandler(
-                    **self.connection_parametrs,
+                    **conn_parametrs,
                     ssh_strict=True,
                     system_host_keys=True
                     ) as _connection:
-                    self.logger.debug("Connection created.")
+                    self.logger.debug(f"{self.ip}:Connection created.")
                     self._set_privilege(_connection)
                     output = self._send(_connection, commands)
 
-                self.logger.debug("Connection completend sucessfully.")
-                if self.device.ip == "r3.home":
-                    print(output)
+                self.logger.debug(f"{self.ip}:Connection completend sucessfully.")
                 return output
             else:
-                self.logger.debug("Connecting with public key.")
+                self.logger.debug(f"{self.ip}:Connecting with public key.")
                 with ConnectHandler(
-                    **self.connection_parametrs,
+                    **conn_parametrs,
                     use_keys=True,
                     ssh_strict=True,
                     system_host_keys=True
                     ) as _connection:
-                    self.logger.debug("Connection created.")
+                    self.logger.debug(f"{self.ip}:Connection created.")
                     self._set_privilege(_connection)
                     stdout = self._send(_connection, commands)
 
-                self.logger.debug("Connection completend sucessfully.")
+                self.logger.debug(
+                    f"{self.ip}:Connection "
+                    "completend sucessfully."
+                    )
                 return stdout
         except NetmikoTimeoutException as e:
             if "known_hosts" in str(e):
-                self.logger.error("Can't connect. Device "
-                                  "not found in known_host file.")
+                self.logger.error(
+                    f"{self.ip}:Can't connect. Device "
+                    "not found in known_host file."
+                    )
                 return False
             else:
-                self.logger.error(f"Can't connect. {e}")
+                self.logger.error(f"{self.ip}:Can't connect. {e}")
                 return False
         except NetmikoBaseException as e:
-            self.logger.warning("Can't connect.")
-            self.logger.warning(f"Error {e}")
+            self.logger.warning(f"{self.ip}:Can't connect.")
+            self.logger.warning(f"{self.ip}:Error {e}")
             return False
         except NetmikoAuthenticationException as e:
-            self.logger.warning("Can't connect.")
-            self.logger.warning(f"Error {e}")
+            self.logger.warning(f"{self.ip}:Can't connect.")
+            self.logger.warning(f"{self.ip}:Error {e}")
             return False
         except ValueError as e:
             if "enable mode" in str(e):
-                self.logger.warning("Failed enter enable mode. "
-                                    "Check password.")
+                self.logger.warning(
+                    f"{self.ip}:Failed enter enable mode. "
+                    "Check password."
+                    )
                 return False
             else:
-                self.logger.warning("Unsuported device type.")
+                self.logger.warning(f"{self.ip}:Unsuported device type.")
                 return False
         except Exception as e:
-            self.logger.error(f"{self.device.ip} - Exceptation {e}")
+            self.logger.error(f"{self.ip}:Exceptation {e}")
             return False
-
-    def get_config(self) -> bool | str:
-        """
-        The function retrieves the necessary commands 
-        and returns the device configuration.
-
-        :return: filtered device configuration.
-        """
-
-        self.logger.debug("Get command.")
-        command = self.device.command_show_config()
-        output = self._get_conection_and_send(command)
-        if not output:
-            return False
-        pars_output = self.device.config_filternig(output)
-        return pars_output
 
 
 if __name__ == "__main__":

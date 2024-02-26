@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import logging
 import json
-from pathlib import Path
+from modules.functions import get_and_valid_path
 from modules.devices.cisco import Cisco
 from modules.devices.mikrotik import Mikrotik
 from modules.devices.juniper import Juniper
@@ -18,7 +18,12 @@ class Devices_Load:
             "netscriptbackup.devices.Devices_Load"
             )
 
-    def load_jsons(self, path):
+    def load_jsons(self, path) -> None:
+        """
+        This function loads devices from device.json file. 
+        
+        :param path: str path to devices json file.
+        """
         try:
             self.logger.debug("Loading basic devices list.")
             with open(path, "r") as f:
@@ -36,16 +41,11 @@ class Devices_Load:
             self.logger.critical(f"{e}")
             exit()
 
-    def create_devices(self):
-        def _get_and_valid_path(path, ip):
-            valid_path = Path(path)
-            if valid_path.exists():
-                return valid_path
-            else:
-                self.logger.warning(
-                    f"{ip} - Path to key doesn't exist {path}."
-                    )
-                return None
+    def create_devices(self) -> None:
+        """
+        The function is responsible for creating 
+        all devices based on the loaded json file
+        """
         self.logger.info(f"Creating device objects..")
         devices = self.devices_data
         for ip in devices:
@@ -72,12 +72,15 @@ class Devices_Load:
                             _device_parametrs["mode_cmd"] = mode[0]
                         _device_parametrs["mode_password"] = mode[1]
                 if devices[ip]["key_file"] != None:
-                    _device_parametrs["key_file"] = _get_and_valid_path(
-                        devices[ip]["key_file"], ip
+                    # check if path to file exist.
+                    _device_parametrs["key_file"] = get_and_valid_path(
+                        devices[ip]["key_file"]
                         )
+                    if _device_parametrs == None:
+                        pass
                     _device_parametrs["passphrase"] = devices[ip]["passphrase"]
             except KeyError as e:
-                self.logger.warning(f"{ip} - KeyError in devices file: {e}")
+                self.logger.warning(f"{ip}:KeyError in devices file: {e}")
                 pass
             except Exception as e:
                 self.logger.critical(f"Error ocure {e}")
@@ -89,7 +92,7 @@ class Devices_Load:
             elif devices[ip]["vendor"] == "juniper":
                 Juniper(**_device_parametrs)
             else:
-                self.logger.warning(f"{ip} - Device is not supported.")
+                self.logger.warning(f"{ip}:Device is not supported.")
                 pass
 
 

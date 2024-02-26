@@ -30,28 +30,29 @@ def save_to_file(
         else:
             dir_path = path / f"{name}_{ip}"
             file_path = path / f"{name}_{ip}" / f"{ip}_conf.txt"
-        logger.debug(f"{ip} - Check if the folder exist.")
+        logger.debug(f"{ip}:Check if the folder exist.")
         if not dir_path.is_dir():
             logger.info(
-                f"{ip} - The folder doesn't exist "
+                f"{ip}:The folder doesn't exist "
                 "or account doesn't have permissions."
                 )
-            logger.info(f"{ip} - Creating a folder.")
+            logger.info(f"{ip}:Creating a folder.")
             dir_path.mkdir()
         try:
-            logger.debug(f"{ip} - Opening the file.")
+            logger.debug(f"{ip}:Opening the file.")
             with open(file_path, "w") as f:
                 logger.debug(f"{ip} - Writing config.")
                 f.writelines(data)
             return True
         except PermissionError:
             logger.warning(
-                f"{ip} - The file cannot be opened. Permission error."
+                f"{ip}:The file cannot be opened. Permission error."
                 )
             return False
     except Exception as e:
-        logger.error(f"{ip} - Error: {e}")
+        logger.error(f"{ip}:Error: {e}")
         return False
+
 
 def get_and_valid_path(path) -> object:
     """
@@ -62,8 +63,8 @@ def get_and_valid_path(path) -> object:
     if valid_path.exists():
         return valid_path
     else:
-        print(f"Error: {path} doesn't exist.")
-        exit()
+        logger.error(f"Error: {path} doesn't exist.")
+        return None
 
 
 if __name__ == "__main__":

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3.10
 import logging
 from modules.devices.base_device import BaseDevice
+from modules.connections.conn_ssh import ConnSSH
 
-
-class Cisco(BaseDevice):
+class Cisco(BaseDevice, ConnSSH):
     """Cisco device object."""
 
     def __init__(
@@ -34,17 +34,17 @@ class Cisco(BaseDevice):
             passphrase
             )
         self.logger = logging.getLogger(
-            f"netscriptbackup.devices.Cisco:{ip}"
+            f"netscriptbackup.devices.Cisco"
             )
         self.logger.debug("Creatad.")
         self.device_type = "cisco_ios"
 
     def command_show_config(self):
-        self.logger.debug("Returning commands.")
+        self.logger.debug(f"{self.ip}:Returning commands.")
         return "show running-config view full"
 
     def config_filternig(self, config):
-        self.logger.debug("Configuration filtering.")
+        self.logger.debug(f"{self.ip}:Configuration filtering.")
         _tmp_config = []
         config = config.splitlines()
         # add_enter = True
@@ -55,13 +55,13 @@ class Cisco(BaseDevice):
                     add_enter = False
                 continue
             elif "Building configuration" in line:
-                self.logger.info("Skiping line '{line}'.")
+                self.logger.info(f"{self.ip}:Skiping line '{line}'.")
                 continue
             elif "Current configuration" in line:
-                self.logger.info("Skiping line '{line}'.")
+                self.logger.info(f"{self.ip}:Skiping line '{line}'.")
                 continue
             elif len(line) == 0:
-                self.logger.debug("Skiping empty line for.")
+                self.logger.debug(f"{self.ip}:Skiping empty line for.")
                 continue
             else:
                 _tmp_config.append(line)

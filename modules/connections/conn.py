@@ -16,10 +16,9 @@ class Conn:
     :param device: Device object.
     """
 
-    def __init__(self, device: object) -> None:
-        self.device = device
+    def __init__(self) -> None:
         self.logger = logging.getLogger(
-            f"backup_app.connections.Dev_connection:{device.ip}"
+            f"netscriptbackup.connections.Conn"
             )
 
     def _check_ping_response(self) -> bool:
@@ -31,16 +30,16 @@ class Conn:
         """
 
         try:
-            self.logger.debug("Checking if the host is responding")
-            ping = ["/usr/bin/ping", "-W", "1", "-c", "4", self.device.ip]
+            self.logger.debug(f"{self.ip}:Checking if the host is responding")
+            ping = ["/usr/bin/ping", "-W", "1", "-c", "4", self.ip]
             subproc_check_outpu(ping, stderr=subproc_DEVNULL)
             self.logger.debug("The host responds")
             return True
         except subproc_CalledProcessError:
-            self.logger.warning("Host isn't responding. Skip.")
+            self.logger.warning(f"{self.ip}:Host isn't responding. Skip.")
             return False
         except Exception as e:
-            self.logger.error(f"Exception: {e}. Skip")
+            self.logger.error(f"{self.ip}:Exception: {e}. Skip")
             return False
 
 

@@ -9,7 +9,7 @@ from modules.git_operations import Git
 from modules.functions import save_to_file
 
 
-class Aplication:
+class Application:
     """
     An object that collects functions that manage
     the correct execution of the script.
@@ -19,7 +19,9 @@ class Aplication:
             self, 
             configs_path: object
             ) -> None:
-        self.logger = logging.getLogger("backup_app.Backup")
+        self.logger = logging.getLogger(
+            "netscriptbackup.application.Application"
+            )
         self.devices = Device.devices_lst
         self.configs_path = configs_path
 
@@ -37,6 +39,7 @@ class Aplication:
         self.logger.info(f"{dev.ip} - Trying create backup.")
         ssh = ConnSSH(dev)
         stdout = ssh.get_config()
+
         if isinstance(stdout, str):
             self.logger.debug(f"{dev.ip} - Writing config to the file.")
             done = save_to_file(self.configs_path, dev.ip, dev.name, stdout)
@@ -79,7 +82,7 @@ def _init_system():
     devices_load = Devices_Load()
     devices_load.load_jsons(config_loaded.devices_path)
     devices_load.create_devices()
-    return Aplication(config_loaded.configs_path)
+    return Application(config_loaded.configs_path)
 
 
 def backup_execute():

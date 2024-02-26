@@ -25,7 +25,7 @@ class ConnSSH(Conn):
 
         super().__init__(device)
         self.logger = logging.getLogger(
-            f"backup_app.connections.ConnSSH:{device.ip}"
+            f"netscriptbackup.connections.ConnSSH:{device.ip}"
             )
         self.connection_parametrs = {
             "host": self.device.ip,
@@ -195,3 +195,7 @@ class ConnSSH(Conn):
             return False
         pars_output = self.device.config_filternig(output)
         return pars_output
+
+
+if __name__ == "__main__":
+    pass

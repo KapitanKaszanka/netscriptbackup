@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 
 
-logger = logging.getLogger("backup.functions")
+logger = logging.getLogger("netscriptbackup.functions")
 
 
 def save_to_file(
@@ -16,7 +16,7 @@ def save_to_file(
     The function that is responsible for creating and saving 
     data to system files.
 
-    :param path:
+    :param path: path to file
     :param ip: device ip used for log and naming purposes,
     :param name: name of device, used for naming purpose,
     :param data: data that will be saved,
@@ -53,7 +53,7 @@ def save_to_file(
         logger.error(f"{ip} - Error: {e}")
         return False
 
-def get_and_valid_path(path) -> object | bool:
+def get_and_valid_path(path) -> object:
     """
     The function check if path or file exist.
     :return: Path | bool
@@ -64,3 +64,7 @@ def get_and_valid_path(path) -> object | bool:
     else:
         print(f"Error: {path} doesn't exist.")
         exit()
+
+
+if __name__ == "__main__":
+    pass

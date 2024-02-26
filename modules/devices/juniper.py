@@ -1,8 +1,8 @@
 import logging
-from modules.devices.base_device import Device
+from modules.devices.base_device import BaseDevice
 
 
-class Juniper(Device):
+class Juniper(BaseDevice):
     """Juniper device object."""
 
     def __init__(
@@ -18,7 +18,7 @@ class Juniper(Device):
             mode_password: str,
             key_file: str,
             passphrase: str
-            ) -> "Device":
+            ) -> "BaseDevice":
         super().__init__(
             ip,
             port,
@@ -32,23 +32,28 @@ class Juniper(Device):
             key_file,
             passphrase
             )
-        self.logger = logging.getLogger("backup_app.devices.Juniper")
-        self.logger.debug(f"Device {self.ip} creatad.")
+        self.logger = logging.getLogger(
+            f"netscriptbackup.devices.Juniper:{ip}")
+        self.logger.debug("Creatad.")
         self.device_type = "juniper"
 
     def command_show_config(self):
-        self.logger.debug(f"{self.ip} - Returning commands.")
+        self.logger.debug("Returning commands.")
         return "show config | display set"
 
     def config_filternig(self, config):
-        self.logger.debug(f"{self.ip} - Configuration filtering.")
+        self.logger.debug("Configuration filtering.")
         _tmp_config = []
         config = config.splitlines()
         for line in config:
             if "#" in line:
-                self.logger.info(f"{self.ip} - Skiping line '{line}'.")
+                self.logger.debug(f"Skiping line '{line}'.")
                 continue
             _tmp_config.append(line)
         config_to_return = "\n".join(_tmp_config)
         print(type(config_to_return))
         return config_to_return
+
+
+if __name__ == "__main__":
+    pass

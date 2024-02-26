@@ -1,9 +1,9 @@
 #!/usr/bin/env python3.10
 import logging
-from modules.devices.base_device import Device
+from modules.devices.base_device import BaseDevice
 
 
-class Cisco(Device):
+class Cisco(BaseDevice):
     """Cisco device object."""
 
     def __init__(
@@ -19,7 +19,7 @@ class Cisco(Device):
             mode_password: str,
             key_file: str,
             passphrase: str
-            ) -> "Device":
+            ) -> "BaseDevice":
         super().__init__(
             ip,
             port,
@@ -33,7 +33,9 @@ class Cisco(Device):
             key_file,
             passphrase
             )
-        self.logger = logging.getLogger(f"backup_app.devices.Cisco:{self.ip}")
+        self.logger = logging.getLogger(
+            f"netscriptbackup.devices.Cisco:{ip}"
+            )
         self.logger.debug("Creatad.")
         self.device_type = "cisco_ios"
 
@@ -66,3 +68,7 @@ class Cisco(Device):
                 add_enter = True
         config_to_return = "\n".join(_tmp_config)
         return config_to_return
+
+
+if __name__ == "__main__":
+    pass

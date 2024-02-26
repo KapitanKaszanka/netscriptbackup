@@ -31,7 +31,9 @@ class Git:
         :param configs_path: path to file where configs are store
         """
 
-        self.logger = logging.getLogger("backup_app.git_operations.Git")
+        self.logger = logging.getLogger(
+            "netscriptbackup.git_operations.Git"
+            )
         self.ip = ip
         self.name = name
         self.dir_path = configs_path / f"{self.name}_{self.ip}"
@@ -240,4 +242,8 @@ class Git:
             return self._commiting_git_repo() 
         else:
             return False
+
+
+if __name__ == "__main__":
+    pass
 

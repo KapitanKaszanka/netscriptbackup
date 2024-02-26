@@ -19,7 +19,7 @@ class Conn:
     def __init__(self, device: object) -> None:
         self.device = device
         self.logger = logging.getLogger(
-            f"backup_app.connections. Dev_connection:{device.ip}"
+            f"backup_app.connections.Dev_connection:{device.ip}"
             )
 
     def _check_ping_response(self) -> bool:
@@ -44,3 +44,5 @@ class Conn:
             return False
 
 
+if __name__ == "__main__":
+    pass

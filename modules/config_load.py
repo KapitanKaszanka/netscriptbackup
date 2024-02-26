@@ -92,7 +92,7 @@ class Config_Load:
     def set_logging(self):
         """Function responsible for setting the login system"""
         
-        logger = logging.getLogger("backup_app")
+        logger = logging.getLogger("netscriptbackup")
         if self.logging_level.lower() == "debug":
             logger.setLevel(logging.DEBUG)
         elif self.logging_level.lower() == "info":
@@ -124,3 +124,7 @@ class Config_Load:
         logger.addHandler(file_handler)
         logger.addHandler(stream_handler)
         return logger
+
+
+if __name__ == "__main__":
+    pass

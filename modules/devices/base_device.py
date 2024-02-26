@@ -2,7 +2,7 @@
 import logging
 
 
-class Device:
+class BaseDevice:
     """
     Main device object. Assigns all necessary information.
     Returns appropriate variables when the object's child
@@ -37,7 +37,11 @@ class Device:
         self.password = password
         self.mode_cmd = mode_cmd
         self.mode_password = mode_password
-        Device.devices_lst.append(self)
+        BaseDevice.devices_lst.append(self)
 
     def config_filternig(self, config):
         return config
+
+
+if __name__ == "__main__":
+    pass

@@ -14,7 +14,9 @@ class Devices_Load:
     """
 
     def __init__(self) -> None:
-        self.logger = logging.getLogger("backup_app.devices.Devices_Load")
+        self.logger = logging.getLogger(
+            "netscriptbackup.devices.Devices_Load"
+            )
 
     def load_jsons(self, path):
         try:
@@ -89,3 +91,7 @@ class Devices_Load:
             else:
                 self.logger.warning(f"{ip} - Device is not supported.")
                 pass
+
+
+if __name__ == "__main__":
+    pass

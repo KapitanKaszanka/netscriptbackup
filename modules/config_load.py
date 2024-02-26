@@ -1,11 +1,10 @@
 #!/usr/bin/env python3.10
-
-from configparser import ConfigParser
 import logging
+from configparser import ConfigParser
 from modules.functions import get_and_valid_path
 
 
-class Config_Load():
+class Config_Load:
     """
     An object that has the necessary functions 
     to load config.ini and validate it.
@@ -21,7 +20,6 @@ class Config_Load():
             print(e)
             exit()
 
-
     def _load_devices_path(self):
         """
         Loads path information with a list
@@ -33,13 +31,14 @@ class Config_Load():
             self.devices_path = get_and_valid_path(_devices_path)
         except KeyError as e:
             print(
-                f"Loading mandatory parametrs faild. Not allowed atribute: {e}"
+                f"Loading mandatory parametrs faild"
+                ". Not allowed atribute: {e}"
                 )
             exit()
 
     def _load_configs_path(self):
         """Loads path where config will be stored."""
-        
+
         try:
             _configs_path = self._config["Application_Setup"]["Configs_Path"]
             _configs_path = get_and_valid_path(_configs_path)
@@ -49,7 +48,7 @@ class Config_Load():
                 f"Loading mandatory parametrs faild. Not allowed atribute: {e}"
                 )
             exit()
-    
+
     def _load_logging_path(self):
         """Loads path where logs will be stored."""
         
@@ -61,7 +60,7 @@ class Config_Load():
 
     def _load_logging_level(self):
         """Loads logging level"""
-        
+
         try:
             _logging_lv_lst = [
                 "debug",
@@ -89,7 +88,6 @@ class Config_Load():
         self._load_configs_path()
         self._load_logging_path()
         self._load_logging_level()
-
 
     def set_logging(self):
         """Function responsible for setting the login system"""

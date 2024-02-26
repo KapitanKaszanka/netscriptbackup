@@ -1,14 +1,15 @@
 #!/usr/bin/env python3.10
 import logging
+from concurrent.futures import ThreadPoolExecutor
 from modules.config_load import Config_Load
-from modules.devices import Devices_Load, Device
+from modules.devices.base_device import Device
+from modules.devices.devices_load import Devices_Load
 from modules.connections.ssh import SSH_Connection
 from modules.git_operations import Git
-from concurrent.futures import ThreadPoolExecutor
 from modules.functions import save_config_to_file
 
 
-class Aplication():
+class Aplication:
     """
     An object that collects functions that manage
     the correct execution of the script.
@@ -16,7 +17,7 @@ class Aplication():
 
     def __init__(
             self, 
-            configs_path: str | object
+            configs_path: object
             ) -> None:
         self.logger = logging.getLogger("backup_app.Backup")
         self.devices = Device.devices_lst
@@ -30,7 +31,6 @@ class Aplication():
         The functions is responsible for creating bakup with ssh module.
 
         :param dev: device object,
-        
         :return bool: done or not.
         """
 
@@ -74,12 +74,12 @@ class Aplication():
 def _init_system():
     """The function initialize all needed objects."""
 
-    CONFIG_LOADED = Config_Load()
-    CONFIG_LOADED.set_logging()
+    config_loaded = Config_Load()
+    config_loaded.set_logging()
     devices_load = Devices_Load()
-    devices_load.load_jsons(CONFIG_LOADED.devices_path)
+    devices_load.load_jsons(config_loaded.devices_path)
     devices_load.create_devices()
-    return Aplication(CONFIG_LOADED.configs_path)
+    return Aplication(config_loaded.configs_path)
 
 
 def backup_execute():

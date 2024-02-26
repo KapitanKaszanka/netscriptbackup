@@ -22,7 +22,7 @@ class SSH_Connection(Dev_Connection):
 
         :param connection_parametrs: all the data you need to connect.
         """
-        
+
         super().__init__(device)
         self.logger = logging.getLogger(
             f"backup_app.connections.SSH_Connection:{self.device.ip}"

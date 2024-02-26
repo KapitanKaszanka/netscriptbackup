@@ -10,7 +10,7 @@ from subprocess import (
 )
 
 
-class Git():
+class Git:
     """
     An object that collects all 
     the functions needed to operate on the Git repository.

@@ -6,8 +6,8 @@ from pathlib import Path
 logger = logging.getLogger("backup.functions")
 
 
-def save_config_to_file(
-    config_path: object,
+def save_to_file(
+    path: object,
     ip: str,
     name: str,
     data: str
@@ -16,20 +16,20 @@ def save_config_to_file(
     The function that is responsible for creating and saving 
     data to system files.
 
+    :param path:
     :param ip: device ip used for log and naming purposes,
     :param name: name of device, used for naming purpose,
     :param data: data that will be saved,
-
     :return bool: done or not.
     """
 
     try:
         if name == None:
-            dir_path = config_path / f"{ip}"
-            file_path = config_path / f"{ip}" / f"{ip}_conf.txt"
+            dir_path = path / f"{ip}"
+            file_path = path / f"{ip}" / f"{ip}_conf.txt"
         else:
-            dir_path = config_path / f"{name}_{ip}"
-            file_path = config_path / f"{name}_{ip}" / f"{ip}_conf.txt"
+            dir_path = path / f"{name}_{ip}"
+            file_path = path / f"{name}_{ip}" / f"{ip}_conf.txt"
         logger.debug(f"{ip} - Check if the folder exist.")
         if not dir_path.is_dir():
             logger.info(
@@ -53,9 +53,11 @@ def save_config_to_file(
         logger.error(f"{ip} - Error: {e}")
         return False
 
-
-
 def get_and_valid_path(path) -> object | bool:
+    """
+    The function check if path or file exist.
+    :return: Path | bool
+    """
     valid_path = Path(path)
     if valid_path.exists():
         return valid_path

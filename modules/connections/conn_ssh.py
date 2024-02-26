@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.10
 
 import logging
-from modules.connections.dev_connection import Dev_Connection
+from modules.connections.conn import Conn
 from netmiko import (
     ConnectHandler,
     NetmikoBaseException,
@@ -10,12 +10,12 @@ from netmiko import (
 )
 
 
-class Conn_SSH(Dev_Connection):
+class ConnSSH(Conn):
     """
     An object responsible for SSH connections and their validation.
     """
 
-    def __init__(self, device: object) -> "Dev_Connection":
+    def __init__(self, device: object) -> "Conn":
         """
         A class for SSH connections. Connects via netmiko to the device. 
         Sends commands and returns output.
@@ -25,7 +25,7 @@ class Conn_SSH(Dev_Connection):
 
         super().__init__(device)
         self.logger = logging.getLogger(
-            f"backup_app.connections.SSH_Connection:{self.device.ip}"
+            f"backup_app.connections.SSH_Connection:{device.ip}"
             )
         self.connection_parametrs = {
             "host": self.device.ip,

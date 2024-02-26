@@ -9,7 +9,7 @@ from subprocess import (
 )
 
 
-class Dev_Connection:
+class Conn:
     """
     Base class for creating connection objects.
 

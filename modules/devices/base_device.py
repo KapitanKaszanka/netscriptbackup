@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.10
 import logging
 
+
 class Device:
     """
     Main device object. Assigns all necessary information.

@@ -4,7 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 from modules.config_load import Config_Load
 from modules.devices.base_device import Device
 from modules.devices.devices_load import Devices_Load
-from modules.connections.conn_ssh import Conn_SSH
+from modules.connections.conn_ssh import ConnSSH
 from modules.git_operations import Git
 from modules.functions import save_to_file
 
@@ -35,7 +35,7 @@ class Aplication:
         """
 
         self.logger.info(f"{dev.ip} - Trying create backup.")
-        ssh = Conn_SSH(dev)
+        ssh = ConnSSH(dev)
         stdout = ssh.get_config()
         if isinstance(stdout, str):
             self.logger.debug(f"{dev.ip} - Writing config to the file.")

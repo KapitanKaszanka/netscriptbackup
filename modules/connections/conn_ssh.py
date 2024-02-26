@@ -10,7 +10,7 @@ from netmiko import (
 )
 
 
-class SSH_Connection(Dev_Connection):
+class Conn_SSH(Dev_Connection):
     """
     An object responsible for SSH connections and their validation.
     """

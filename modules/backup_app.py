@@ -4,9 +4,9 @@ from concurrent.futures import ThreadPoolExecutor
 from modules.config_load import Config_Load
 from modules.devices.base_device import Device
 from modules.devices.devices_load import Devices_Load
-from modules.connections.ssh import SSH_Connection
+from modules.connections.conn_ssh import Conn_SSH
 from modules.git_operations import Git
-from modules.functions import save_config_to_file
+from modules.functions import save_to_file
 
 
 class Aplication:
@@ -35,11 +35,11 @@ class Aplication:
         """
 
         self.logger.info(f"{dev.ip} - Trying create backup.")
-        ssh = SSH_Connection(dev)
+        ssh = Conn_SSH(dev)
         stdout = ssh.get_config()
         if isinstance(stdout, str):
             self.logger.debug(f"{dev.ip} - Writing config to the file.")
-            done = save_config_to_file(dev.ip, dev.name, stdout)
+            done = save_to_file(dev.ip, dev.name, stdout)
             if done:
                 self.logger.debug(f"{dev.ip} - Git commands execute.")
                 _git = Git(dev.ip, dev.name, self.configs_path)

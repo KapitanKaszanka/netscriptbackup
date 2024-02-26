@@ -1,7 +1,6 @@
 #!/usr/bin/env python3.10
 import logging
 
-
 class Device:
     """
     Main device object. Assigns all necessary information.
@@ -38,7 +37,6 @@ class Device:
         self.mode_cmd = mode_cmd
         self.mode_password = mode_password
         Device.devices_lst.append(self)
-
 
     def config_filternig(self, config):
         return config

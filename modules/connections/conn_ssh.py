@@ -25,7 +25,7 @@ class ConnSSH(Conn):
 
         super().__init__(device)
         self.logger = logging.getLogger(
-            f"backup_app.connections.SSH_Connection:{device.ip}"
+            f"backup_app.connections.ConnSSH:{device.ip}"
             )
         self.connection_parametrs = {
             "host": self.device.ip,
@@ -188,7 +188,7 @@ class ConnSSH(Conn):
         :return: filtered device configuration.
         """
 
-        self.logger.debug("Filtering the configuration file.")
+        self.logger.debug("Get command.")
         command = self.device.command_show_config()
         output = self._get_conection_and_send(command)
         if not output:

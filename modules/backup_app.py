@@ -39,7 +39,7 @@ class Aplication:
         stdout = ssh.get_config()
         if isinstance(stdout, str):
             self.logger.debug(f"{dev.ip} - Writing config to the file.")
-            done = save_to_file(dev.ip, dev.name, stdout)
+            done = save_to_file(self.configs_path, dev.ip, dev.name, stdout)
             if done:
                 self.logger.debug(f"{dev.ip} - Git commands execute.")
                 _git = Git(dev.ip, dev.name, self.configs_path)

@@ -33,16 +33,16 @@ class Cisco(Device):
             key_file,
             passphrase
             )
-        self.logger = logging.getLogger("backup_app.devices.Cisco")
-        self.logger.debug(f"{self.ip} - Creatad.")
+        self.logger = logging.getLogger(f"backup_app.devices.Cisco:{self.ip}")
+        self.logger.debug("Creatad.")
         self.device_type = "cisco_ios"
 
     def command_show_config(self):
-        self.logger.debug(f"{self.ip} - Returning commands.")
+        self.logger.debug("Returning commands.")
         return "show running-config view full"
 
     def config_filternig(self, config):
-        self.logger.debug(f"{self.ip} - Configuration filtering.")
+        self.logger.debug("Configuration filtering.")
         _tmp_config = []
         config = config.splitlines()
         # add_enter = True
@@ -53,13 +53,13 @@ class Cisco(Device):
                     add_enter = False
                 continue
             elif "Building configuration" in line:
-                self.logger.info(f"{self.ip} - Skiping line '{line}'.")
+                self.logger.info("Skiping line '{line}'.")
                 continue
             elif "Current configuration" in line:
-                self.logger.info(f"{self.ip} - Skiping line '{line}'.")
+                self.logger.info("Skiping line '{line}'.")
                 continue
             elif len(line) == 0:
-                self.logger.debug(f"{self.ip} - Skiping empty line for.")
+                self.logger.debug("Skiping empty line for.")
                 continue
             else:
                 _tmp_config.append(line)

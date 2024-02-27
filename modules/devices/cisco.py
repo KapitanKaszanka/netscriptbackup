@@ -1,7 +1,13 @@
 #!/usr/bin/env python3.10
+
+"""
+Cisco object with all necessary parameters and functions.
+"""
+
 import logging
 from modules.devices.base_device import BaseDevice
 from modules.connections.conn_ssh import ConnSSH
+
 
 class Cisco(BaseDevice, ConnSSH):
     """Cisco device object."""
@@ -39,7 +45,7 @@ class Cisco(BaseDevice, ConnSSH):
         self.logger.debug("Creatad.")
         self.device_type = "cisco_ios"
 
-    def command_show_config(self):
+    def get_command_show_config(self):
         self.logger.debug(f"{self.ip}:Returning commands.")
         return "show running-config view full"
 
@@ -47,18 +53,19 @@ class Cisco(BaseDevice, ConnSSH):
         self.logger.debug(f"{self.ip}:Configuration filtering.")
         _tmp_config = []
         config = config.splitlines()
-        # add_enter = True
+        add_enter = True
         for line in config:
             if "!" in line:
                 if add_enter == True:
+                    self.logger.debug(f"{self.ip}:Skiping '!'.")
                     _tmp_config.append("")
                     add_enter = False
                 continue
             elif "Building configuration" in line:
-                self.logger.info(f"{self.ip}:Skiping line '{line}'.")
+                self.logger.debug(f"{self.ip}:Skiping line '{line}'.")
                 continue
             elif "Current configuration" in line:
-                self.logger.info(f"{self.ip}:Skiping line '{line}'.")
+                self.logger.debug(f"{self.ip}:Skiping line '{line}'.")
                 continue
             elif len(line) == 0:
                 self.logger.debug(f"{self.ip}:Skiping empty line for.")

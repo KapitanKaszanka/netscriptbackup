@@ -20,7 +20,7 @@ class Devices_Load:
 
     def load_jsons(self, path) -> None:
         """
-        This function loads devices from device.json file. 
+        This function loads devices from device.json file.
         
         :param path: str path to devices json file.
         """
@@ -29,7 +29,6 @@ class Devices_Load:
             with open(path, "r") as f:
                 _basic_devs = json.load(f)
             self.devices_data = _basic_devs
-            self.logger.debug(f"Empty RAM memory.")
             del _basic_devs
         except FileNotFoundError as e:
             self.logger.critical(f"{e}")
@@ -64,15 +63,14 @@ class Devices_Load:
                     "passphrase": None
                 }
                 if devices[ip]["change_mode"] != None:
-                    mode = devices[ip]["change_mode"]
-                    if isinstance(devices[ip]["change_mode"], list):
-                        if mode[0] == None:
-                            _device_parametrs["mode_cmd"] = ""
-                        else:
-                            _device_parametrs["mode_cmd"] = mode[0]
-                        _device_parametrs["mode_password"] = mode[1]
+                    change_mode = devices[ip]["change_mode"]
+                    if isinstance(change_mode, list):
+                        if change_mode[0] != None:
+                            _device_parametrs["mode_cmd"] = change_mode[0]
+                        _device_parametrs["mode_password"] = change_mode[1]
+                    else:
+                        _device_parametrs["mode_password"] = change_mode
                 if devices[ip]["key_file"] != None:
-                    # check if path to file exist.
                     _device_parametrs["key_file"] = get_and_valid_path(
                         devices[ip]["key_file"]
                         )

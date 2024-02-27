@@ -1,46 +1,74 @@
 {
-    "r1.lab.home": {
+    "192.168.11.11": {
         "name": "R1",
         "vendor": "cisco",
         "port": 22,
         "connection": "ssh",
         "username": "cisco",
         "password": "cisco",
-        "change_mode": null,
+        "change_mode": [
+            "enable 5",
+            "superstrongpassword"
+        ],
         "key_file": null,
         "passphrase": null
     },
-    "r2.lab.home": {
+    "2001:db8::2": {
         "name": "R2",
         "vendor": "cisco",
         "port": 22,
         "connection": "ssh",
         "username": "cisco",
         "password": "cisco",
-        "change_mode": null,
-        "key_file": null,
-        "passphrase": null
+        "change_mode": [
+            null,
+            "superstrongpassword"
+        ],
+        "key_file": "/home/backup_app/.ssh/cisco_id_rsa",
+        "passphrase": "strongpassword"
     },
-    "r3.lab.home": {
+    "192.168.11.13": {
         "name": "R3",
         "vendor": "mikrotik",
-        "username": "mikrotik",
         "port": 22,
         "connection": "ssh",
+        "username": "mikrotik",
         "password": "mikrotik",
         "change_mode": null,
         "key_file": null,
         "passphrase": null
     },
-    "r4.lab.home": {
+    "192.168.11.14": {
         "name": "R4",
         "vendor": "mikrotik",
-        "username": "backup_tool",
         "port": 22,
         "connection": "ssh",
-        "password": "password",
+        "username": "mikrotik",
+        "password": "mikrotik",
+        "change_mode": null,
+        "key_file": "/home/backup_app/.ssh/mikrotik_id_rsa",
+        "passphrase": "strongpassword"
+    },
+    "192.168.11.15": {
+        "port": 22,
+        "name": "R5",
+        "vendor": "juniper",
+        "connection": "ssh",
+        "username": "juniper",
+        "password": "juniper",
         "change_mode": null,
         "key_file": null,
         "passphrase": null
+    },
+    "r6.juniper.network": {
+        "name": "R6",
+        "vendor": "juniper",
+        "port": 22,
+        "connection": "ssh",
+        "username": "juniper",
+        "password": "juniper",
+        "change_mode": null,
+        "key_file": "/home/backup_app/.ssh/juniper_id_rsa",
+        "passphrase": "superstrongpassword"
     }
 }

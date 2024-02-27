@@ -1,8 +1,10 @@
 #!/usr/bin/env python3.10
 
-import logging
+"""
+Base connection object. 
+"""
+
 from subprocess import (
-    Popen as subproc_Popen,
     check_output as subproc_check_outpu,
     CalledProcessError as subproc_CalledProcessError,
     DEVNULL as subproc_DEVNULL
@@ -16,12 +18,7 @@ class Conn:
     :param device: Device object.
     """
 
-    def __init__(self) -> None:
-        self.logger = logging.getLogger(
-            f"netscriptbackup.connections.Conn"
-            )
-
-    def _check_ping_response(self) -> bool:
+    def check_ping_response(self) -> bool:
         """
         Sends 4 pings, and check if host is responding.
         Work only for linux.

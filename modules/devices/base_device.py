@@ -1,6 +1,4 @@
 #!/usr/bin/env python3.10
-import logging
-
 
 class BaseDevice:
     """
@@ -25,7 +23,6 @@ class BaseDevice:
             key_file: str,
             passphrase: str
             ) -> None:
-        self.logger = logging.getLogger("netscriptbackup.Device")
         self.name = name
         self.vendor = vendor
         self.ip = ip
@@ -41,23 +38,6 @@ class BaseDevice:
 
     def config_filternig(self, config):
         return config
-
-    def get_config(self) -> str:
-        """
-        The function retrieves the necessary commands 
-        and returns the device configuration.
-
-        :return: filtered device configuration.
-        """
-
-        self.logger.debug(f"{self.ip}:Get command.")
-        command = self.command_show_config()
-        self.logger.debug(f"{self.ip}:Set connection parametrs.")
-        output = self._get_conection_and_send(command)
-        if not output:
-            return None
-        pars_output = self.config_filternig(output)
-        return pars_output
 
 
 if __name__ == "__main__":

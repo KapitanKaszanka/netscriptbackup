@@ -14,13 +14,13 @@ def save_to_file(
     ) -> bool:
     """
     The function that is responsible for creating and saving 
-    data to system files.
+    data to the file.
 
     :param path: path to file
     :param ip: device ip used for log and naming purposes,
     :param name: name of device, used for naming purpose,
     :param data: data that will be saved,
-    :return bool: done or not.
+    :return: bool done or not.
     """
 
     try:
@@ -46,7 +46,7 @@ def save_to_file(
             return True
         except PermissionError:
             logger.warning(
-                f"{ip}:The file cannot be opened. Permission error."
+                f"{ip}:The file cannot be opened. Permissions error."
                 )
             return False
     except Exception as e:
@@ -54,16 +54,17 @@ def save_to_file(
         return False
 
 
-def get_and_valid_path(path) -> object:
+def get_and_valid_path(path) -> object | None:
     """
     The function check if path or file exist.
-    :return: Path | bool
+
+    :return: Path or None
     """
     valid_path = Path(path)
     if valid_path.exists():
         return valid_path
     else:
-        logger.error(f"Error: {path} doesn't exist.")
+        logger.error(f"{path} doesn't exist.")
         return None
 
 

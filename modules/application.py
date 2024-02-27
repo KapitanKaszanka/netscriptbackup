@@ -19,7 +19,7 @@ class Application:
             configs_path: object
             ) -> None:
         self.logger = logging.getLogger(
-            "netscriptbackup.application.Application"
+            "netscriptbackup.Application"
             )
         self.devices = BaseDevice.devices_lst
         self.configs_path = configs_path
@@ -29,17 +29,17 @@ class Application:
             dev: object
             ) -> bool:
         """
-        The functions is responsible for creating bakup with ssh module.
+        The functions is responsible for creating bakup with object.
 
         :param dev: device object,
         :return bool: done or not.
         """
 
-        self.logger.info(f"{dev.ip}:Trying create backup.")
+        self.logger.info(f"{dev.ip}:Attempting to create a backup.")
         config_string = dev.get_config()
 
         if config_string is not None:
-            self.logger.debug(f"{dev.ip}:Writing config to the file.")
+            self.logger.debug(f"{dev.ip}:Saving the configuration to a file.")
             done = save_to_file(
                 self.configs_path,
                 dev.ip,
@@ -47,11 +47,13 @@ class Application:
                 config_string
                 )
             if done:
-                self.logger.debug(f"{dev.ip}:Git commands execute.")
+                self.logger.debug(
+                    f"{dev.ip}:Operating on the Git repository."
+                    )
                 _git = Git(dev.ip, dev.name, self.configs_path)
                 done = _git.git_exceute()
                 if done:
-                    self.logger.info(f"{dev.ip}:Backup completed.")
+                    self.logger.info(f"{dev.ip}:Backup created.")
                     return True
                 else:
                     self.logger.warning(
@@ -69,7 +71,7 @@ class Application:
 
     def start_backup(self):
         """
-        Functions used to implement multithreading in a script.
+        The function used to implement multithreading in a script.
         """
 
         self.logger.info(f"Start creating backup for devices.")
@@ -89,6 +91,9 @@ def _init_system():
 
 
 def backup_execute():
+    """
+    The function starts backing up the device configuration.
+    """
     app = _init_system()
     app.start_backup()
     return True

@@ -1,6 +1,13 @@
+#!/usr/bin/env python3.10
+
+"""
+Juniper object with all necessary parameters and functions.
+"""
+
 import logging
 from modules.devices.base_device import BaseDevice
 from modules.connections.conn_ssh import ConnSSH
+
 
 class Juniper(BaseDevice, ConnSSH):
     """Juniper device object."""
@@ -37,7 +44,7 @@ class Juniper(BaseDevice, ConnSSH):
         self.logger.debug(f"{self.ip}:Creatad.")
         self.device_type = "juniper"
 
-    def command_show_config(self):
+    def get_command_show_config(self):
         self.logger.debug(f"{self.ip}:Returning commands.")
         return "show config | display set"
 

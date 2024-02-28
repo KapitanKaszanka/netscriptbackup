@@ -14,7 +14,7 @@ from concurrent.futures import (
 class Multithreading:
 
     def __init__(self) -> None:
-        self.cpus = cpu_count() - 1
+        self.cpus = int(cpu_count() / 2)
 
     def _split_list_into_smaller_lists(self, lst: list) -> None:
         """
@@ -30,7 +30,7 @@ class Multithreading:
         for index, element in enumerate(lst):
             self.split_lst[index % self.cpus].append(element)
 
-    def _threading(self, func, lst: list) -> None:
+    def _threading(self, lst: list) -> None:
         """
         The function divides processes into threads.
 
@@ -38,10 +38,10 @@ class Multithreading:
         :param lst: list of variables to pass
         :return: None
         """
-        with ThreadPoolExecutor(max_workers=self.cpus * 4) as executor:
-            wait([executor.submit(func, i) for i in lst])
+        with ThreadPoolExecutor() as executor:
+            wait([executor.submit(self.func, i) for i in lst])
 
-    def _multi_procesing(self, func) -> None:
+    def _multi_procesing(self) -> None:
         """
         The function starts separate processes on 
         each CPU -1 the device has. 
@@ -50,12 +50,8 @@ class Multithreading:
         :param func: function to perform
         :return: None
         """
-        with ProcessPoolExecutor(self.cpus) as exe:
-            wait([exe.submit(
-                self._threading, 
-                func, 
-                i
-                ) for i in self.split_lst])
+        with ProcessPoolExecutor(max_workers=self.cpus) as exe:
+            wait([exe.submit(self._threading, i) for i in self.split_lst])
 
     def execute_multitreading(self, func, lst: list) -> None:
         """
@@ -67,5 +63,6 @@ class Multithreading:
                     the sent function is to be executed
         :return: None
         """
+        self.func = func
         self._split_list_into_smaller_lists(lst)
-        self._multi_procesing(func)
+        self._multi_procesing()

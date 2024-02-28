@@ -11,6 +11,7 @@ profiling.prof
 ## App
 files/log/backup_app.log
 files/backup_test.json
+files/devices_test.json
 files/backup_configuration/
 files/log/netscriptbackup.log
 config.ini.cp

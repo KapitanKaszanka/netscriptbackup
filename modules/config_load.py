@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.10
 import logging
 from configparser import ConfigParser
-from modules.functions import get_and_valid_path
+from modules.other.functions import get_and_valid_path
 
 
 class Config_Load:

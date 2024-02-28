@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import logging
 import json
-from modules.functions import get_and_valid_path
+from modules.other.functions import get_and_valid_path
 from modules.devices.cisco import Cisco
 from modules.devices.mikrotik import Mikrotik
 from modules.devices.juniper import Juniper

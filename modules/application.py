@@ -1,11 +1,12 @@
 #!/usr/bin/env python3.10
 import logging
-from concurrent.futures import ThreadPoolExecutor
 from modules.config_load import Config_Load
-from modules.devices.base_device import BaseDevice
 from modules.devices.devices_load import Devices_Load
+from modules.multithreading import Multithreading
+from modules.devices.base_device import BaseDevice
 from modules.git_operations import Git
-from modules.functions import save_to_file
+from modules.other.functions import save_to_file
+
 
 
 class Application:
@@ -23,6 +24,7 @@ class Application:
             )
         self.devices = BaseDevice.devices_lst
         self.configs_path = configs_path
+        self.execute = Multithreading()
 
     def _make_backup_ssh(
             self, 
@@ -75,8 +77,7 @@ class Application:
         """
 
         self.logger.info(f"Start creating backup for devices.")
-        with ThreadPoolExecutor() as executor:
-            executor.map(self._make_backup_ssh, self.devices)
+        self.execute.execute_multitreading(self._make_backup_ssh, self.devices)
 
 
 def _init_system():
@@ -94,6 +95,7 @@ def backup_execute():
     """
     The function starts backing up the device configuration.
     """
+
     app = _init_system()
     app.start_backup()
     return True

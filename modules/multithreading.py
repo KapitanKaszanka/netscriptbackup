@@ -116,3 +116,7 @@ class Multithreading:
             self._multi_processing(True)
         elif self.threading and not self.process:
             self._threading(self.lst)
+
+
+if __name__ == "__main__":
+    pass

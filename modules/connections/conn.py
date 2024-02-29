@@ -17,7 +17,6 @@ class Conn:
 
     :param device: Device object.
     """
-
     def check_ping_response(self) -> bool:
         """
         Sends 4 pings, and check if host is responding.
@@ -25,7 +24,6 @@ class Conn:
 
         :return: False if host is not responding, or domain name is wrong.
         """
-
         try:
             self.logger.debug(f"{self.ip}:Checking if the host is responding")
             ping = ["/usr/bin/ping", "-W", "1", "-c", "4", self.ip]

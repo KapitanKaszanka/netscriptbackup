@@ -107,7 +107,6 @@ class Git:
                 )
             return 4
 
-
     def _add_file_to_git(self) -> bool:
         """
         The function adds the file to the git repository

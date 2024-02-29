@@ -3,7 +3,6 @@ import logging
 from configparser import ConfigParser
 from modules.other.functions import get_and_valid_path
 
-
 class Config_Load:
     """
     An object that has the necessary functions 

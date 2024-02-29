@@ -1,5 +1,5 @@
 
-### Linux setup. How I do it.
+### Linux basic setup. How I do it.
 #### Setup is done on Ubuntu 22.04
 
 1. Log in to linux server.
@@ -75,7 +75,7 @@ git clone https://github.com/krupczynskimateusz/netscriptbackup.git
 nano files/devices.json
 ```
   
-Well, do it yourself ;)
+Well then, do it yourself. [Click](./docs/doc_devices_file.md)
 
 11. Setup python
 - I recommend using a python virtual environment.
@@ -110,16 +110,12 @@ git config --global init.defaultBranch main # Optional
 14. Checking if everything works properly.
 ```bash
 ls /script/netscriptbackup/backup_configuration/
-cd /script/netscriptbackup/backup_configuration/r1.network/
+cd /script/netscriptbackup/backup_configuration/<device name>/ 
 cat r1.network_conf.txt
 git status
 git log
 ```
 
 15. If everything works correctly, you can automate it and put it into production. Remember, single tests do not guarantee that everything will work. Don't forget to uncomment what you commented. This will really increase the security of your network. 
-
-16. What else?
-- linux hardering,
-- nftables.
 
 ### Good luck.

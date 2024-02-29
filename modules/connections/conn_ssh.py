@@ -3,6 +3,7 @@
 SSH connection object with all necesery parametrs and funcitons.
 """
 
+import logging
 from modules.connections.conn import Conn
 from netmiko import (
     ConnectHandler,
@@ -16,6 +17,9 @@ class ConnSSH(Conn):
     """
     An object responsible for SSH connections and their validation.
     """
+    def __init__(self) -> "Conn":
+        self.logger = logging.getLogger(
+            f"netscriptbackup.connections.ConnSSH")
     def _set_privilege(self, _connection: object) -> None:
         """
         This function change privilge level if device support it.

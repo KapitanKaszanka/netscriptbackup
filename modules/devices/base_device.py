@@ -6,7 +6,6 @@ class BaseDevice:
     Returns appropriate variables when the object's child
     does not support the given module.
     """
-
     devices_lst = []
 
     def __init__(

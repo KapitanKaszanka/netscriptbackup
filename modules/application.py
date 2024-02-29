@@ -8,13 +8,11 @@ from modules.git_operations import Git
 from modules.other.functions import save_to_file
 
 
-
 class Application:
     """
     An object that collects functions that manage
     the correct execution of the script.
     """
-
     def __init__(
             self, 
             configs_path: object
@@ -35,7 +33,6 @@ class Application:
         :param dev: device object,
         :return bool: done or not.
         """
-
         self.logger.info(f"{dev.ip}:Attempting to create a backup.")
         config_string = dev.get_config()
 
@@ -74,7 +71,6 @@ class Application:
         """
         The function used to implement multithreading in a script.
         """
-
         self.logger.info(f"Start creating backup for devices.")
         execute = Multithreading()
         execute.execute(self._make_backup_ssh, self.devices)
@@ -82,7 +78,6 @@ class Application:
 
 def _init_system():
     """The function initialize all needed objects."""
-
     config_loaded = Config_Load()
     config_loaded.set_logging()
     devices_load = Devices_Load()
@@ -95,7 +90,6 @@ def backup_execute():
     """
     The function starts backing up the device configuration.
     """
-
     app = _init_system()
     app.start_backup()
     return True

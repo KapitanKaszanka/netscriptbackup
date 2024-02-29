@@ -11,7 +11,6 @@ from modules.connections.conn_ssh import ConnSSH
 
 class Cisco(BaseDevice, ConnSSH):
     """Cisco device object."""
-
     def __init__(
             self,
             ip: str,

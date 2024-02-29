@@ -9,7 +9,6 @@ class Config_Load:
     An object that has the necessary functions 
     to load config.ini and validate it.
     """
-
     def __init__(self):
         self._config = ConfigParser()
         try:
@@ -24,7 +23,6 @@ class Config_Load:
         """
         Load the path to the file with device parameters.
         """
-
         try:
             _devices_path = self._config["Application_Setup"]["Devices_Path"]
             self.devices_path = get_and_valid_path(_devices_path)
@@ -37,7 +35,6 @@ class Config_Load:
 
     def _load_configs_path(self):
         """Load the path to the folder where the backups will be stored."""
-
         try:
             _configs_path = self._config["Application_Setup"]["Configs_Path"]
             _configs_path = get_and_valid_path(_configs_path)
@@ -54,7 +51,6 @@ class Config_Load:
 
     def _load_logging_path(self):
         """Load the path to the folder where the logs will be stored."""
-        
         try:
             _logging_path = self._config["Logging"]["File_Path"]
             _logging_path = get_and_valid_path(_logging_path)
@@ -67,7 +63,6 @@ class Config_Load:
 
     def _load_logging_level(self):
         """Load the selected login level."""
-
         try:
             _logging_lv_lst = [
                 "debug",
@@ -90,7 +85,6 @@ class Config_Load:
         The function is responsible for executing functions that 
         load configuration from the 'config.ini' file.
         """
-
         self._load_devices_path()
         self._load_configs_path()
         self._load_logging_path()
@@ -98,7 +92,6 @@ class Config_Load:
 
     def set_logging(self):
         """The function responsible for setting the logging system"""
-        
         logger = logging.getLogger("netscriptbackup")
         if self.logging_level.lower() == "debug":
             logger.setLevel(logging.DEBUG)

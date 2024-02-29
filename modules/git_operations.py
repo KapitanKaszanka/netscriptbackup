@@ -18,7 +18,6 @@ class Git:
     An object that collects all the functions
     needed to operate on the Git repository.
     """
-
     def __init__(
             self,
             ip: str,
@@ -30,7 +29,6 @@ class Git:
         :param name: str device name,
         :param configs_path: str path to dir where configs are store
         """
-
         self.logger = logging.getLogger(
             "netscriptbackup.git_operations.Git"
             )
@@ -50,7 +48,6 @@ class Git:
                         |3:untracked
                         |4:error
         """
-
         self.logger.debug(f"{self.ip}:Checking status.")
         try:
             _cmd = subproc_Popen(
@@ -118,7 +115,6 @@ class Git:
         :return: True when the process completes successfully 
                  or Flase when a problem occurs.
         """
-
         try:
             self.logger.debug(f"{self.ip}:Adding file to repozitory.")
             subproc_Popen(
@@ -140,7 +136,6 @@ class Git:
 
         :return: bool
         """
-
         try:
             self.logger.debug(f"{self.ip}:Creating repozitory.")
             _cmd = subproc_Popen([
@@ -175,7 +170,6 @@ class Git:
 
         :return: bool
         """
-
         try:
             timestamp = datetime.now()
             timestamp = timestamp.strftime("%d/%m/%Y - %H:%M:%S")
@@ -218,7 +212,6 @@ class Git:
 
         :return: bool
         """
-
         self.logger.debug(f"{self.ip}:Checking if git repozitory exists.")
         if not self.git_path.is_dir():
             self.logger.debug(

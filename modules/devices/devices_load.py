@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.10
 import logging
 import json
 from modules.other.functions import get_and_valid_path
@@ -12,7 +12,6 @@ class Devices_Load:
     An object that collects all the functions 
     needed to create device objects.
     """
-
     def __init__(self) -> None:
         self.logger = logging.getLogger(
             "netscriptbackup.devices.Devices_Load"

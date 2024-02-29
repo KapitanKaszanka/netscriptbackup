@@ -16,7 +16,6 @@ class ConnSSH(Conn):
     """
     An object responsible for SSH connections and their validation.
     """
-
     def _set_privilege(self, _connection: object) -> None:
         """
         This function change privilge level if device support it.
@@ -37,7 +36,6 @@ class ConnSSH(Conn):
         :param _connection: netmiko connection object.
         :param command_lst: command to send.
         """
-
         self.logger.debug(f"{self.ip}:Sending command.")
         output = _connection.send_command(
             command_string=command,
@@ -56,7 +54,6 @@ class ConnSSH(Conn):
         :param _connection: netmiko connection object.
         :param command_lst: list of commands to send.
         """
-
         self.logger.debug(f"{self.ip}:Sending commands.")
         output = []
         for command in command_lst:
@@ -78,7 +75,6 @@ class ConnSSH(Conn):
         :param _connection: netmiko connection object.
         :param command_lst: str or list of command(s) to send.
         """
-
         if isinstance(commands, list):
             output = self._send_commands(_connection, commands)
             return output
@@ -101,7 +97,6 @@ class ConnSSH(Conn):
         :param commands: commands list or string,
         :return: interable netmiko object. 
         """
-
         if not self.check_ping_response():
             return False
         conn_parametrs = {
@@ -186,7 +181,6 @@ class ConnSSH(Conn):
 
         :return: filtered device configuration.
         """
-
         self.logger.debug(f"{self.ip}:Get command.")
         command = self.get_command_show_config()
         self.logger.debug(f"{self.ip}:Set connection parametrs.")

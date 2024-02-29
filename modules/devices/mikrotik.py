@@ -11,7 +11,6 @@ from modules.connections.conn_ssh import ConnSSH
 
 class Mikrotik(BaseDevice, ConnSSH):
     """Mikrotik device object."""
-
     def __init__(
             self,
             ip: str,

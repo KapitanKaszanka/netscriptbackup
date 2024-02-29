@@ -22,7 +22,6 @@ def save_to_file(
     :param data: data that will be saved,
     :return: bool done or not.
     """
-
     try:
         if name == None:
             dir_path = path / f"{ip}"

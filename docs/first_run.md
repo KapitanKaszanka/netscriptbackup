@@ -12,8 +12,6 @@ cd netscriptbackup/
 ```
 #### 3. Configure the script settings. The file is located in the config.ini folder by default.
 There are paths where device data will be downloaded, where backups will be saved, and where the script logs will be stored.
-I highly suggest changing to the settings recommended in the config.ini documentation for practical reasons.
-*[Config.ini documentation](doc_config.md)*
 ```bash
 nano config.ini
 ```

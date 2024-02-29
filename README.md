@@ -44,7 +44,7 @@ The script is created to automate backup creation and collect telemetry from net
 | 2 | [Supported devices](./docs/supported_vendors.md) |
 | 3 | [Config file - docs](./docs/doc_config.md) |
 | 4 | [Device parametrs - docs](./docs/doc_devices_file.md) |
-| 5 | [Linux setup - docs](./docs/linux_steup.md)
+| 5 | [Linux setup - docs](./docs/linux_setup.md)
 
 /linux_steup.md)|
 

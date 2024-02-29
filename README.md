@@ -11,9 +11,9 @@ The script is created to automate backup creation and collect telemetry from net
 - Mikrotik RouterOSv6, RouterOSv7.
 - Juniper.
 
-### Basic operation of the script:
+### How it works:
 #### Short version:
-- [1] Configuration parsing.
+- [1] Loading configuration.
 - [2] Creating device objects.
 - [3] Connecting to device, downloading configuration.
 - [4] Filtering downloaded configuration.

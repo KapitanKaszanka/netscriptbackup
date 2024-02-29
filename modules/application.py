@@ -24,7 +24,6 @@ class Application:
             )
         self.devices = BaseDevice.devices_lst
         self.configs_path = configs_path
-        self.execute = Multithreading()
 
     def _make_backup_ssh(
             self, 
@@ -77,7 +76,8 @@ class Application:
         """
 
         self.logger.info(f"Start creating backup for devices.")
-        self.execute.execute_multitreading(self._make_backup_ssh, self.devices)
+        execute = Multithreading()
+        execute.execute(self._make_backup_ssh, self.devices)
 
 
 def _init_system():

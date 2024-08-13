@@ -3,7 +3,7 @@
 #### 1. Download the repository to your local system:
 
 ```bash
-git clone http://github.com/krupczynskimateusz/netscriptbackup.git
+git clone http://github.com/kapitankaszanka/netscriptbackup.git
 ```
 #### 2. Go to the repository folder:
 

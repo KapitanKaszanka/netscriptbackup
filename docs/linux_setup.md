@@ -4,7 +4,7 @@
 
 1. Log in to linux server.
 ```bash
-ssh mateusz@backup_server.network
+ssh kaszanka@backup_server.network
 ```
 
 2. First, let's create a new user who will run the script. This user will be responsible only for executing the script, and this user's keys will also be used to connect to the devices. Therefore, we do not want anyone to be able to log in to it
@@ -54,7 +54,7 @@ ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "diffrentstrongpassword"
 
 9. Downloading the git repository
 ```bash
-git clone https://github.com/krupczynskimateusz/netscriptbackup.git
+git clone https://github.com/kapitankaszanka/netscriptbackup.git
 ````
 
 10. Changing script setting.

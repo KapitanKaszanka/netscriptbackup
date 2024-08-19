@@ -1,10 +1,9 @@
 #!/usr/bin/env python3.10
 """
-SSH connection object with all necesery parametrs and funcitons.
+ssh connection object with all necesery parametrs and funcitons.
 """
 
 import logging
-from modules.connections.conn import Conn
 from netmiko import (
     ConnectHandler,
     NetmikoBaseException,
@@ -13,23 +12,24 @@ from netmiko import (
 )
 
 
-class ConnSSH(Conn):
+class ConnSSH:
     """
-    An object responsible for SSH connections and their validation.
+    an object responsible for SSH connections and their validation.
     """
-    def __init__(self) -> "Conn":
+    def __init__(self) -> None:
         self.logger = logging.getLogger(
             f"netscriptbackup.connections.ConnSSH")
+
     def _set_privilege(self, _connection: object) -> None:
         """
-        This function change privilge level if device support it.
+        this function change privilge level if device support it.
 
         :param _connection: netmiko connection object.
         """
 
-        self.logger.debug(f"{self.ip}:Check mode.")
+        self.logger.debug(f"{self.ip}:Check privilege mode.")
         if not _connection.check_enable_mode():
-            self.logger.debug(f"{self.ip}:Change mode.")
+            self.logger.debug(f"{self.ip}:Change privilege mode.")
             _connection.enable(cmd=self.mode_cmd)
 
 

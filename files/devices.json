@@ -6,7 +6,7 @@
         "connection": "ssh",
         "username": "cisco",
         "password": "cisco",
-        "change_mode": [
+        "change_privilege": [
             "enable 5",
             "superstrongpassword"
         ],
@@ -20,7 +20,7 @@
         "connection": "ssh",
         "username": "cisco",
         "password": "cisco",
-        "change_mode": [
+        "change_privilege": [
             null,
             "superstrongpassword"
         ],
@@ -34,7 +34,7 @@
         "connection": "ssh",
         "username": "mikrotik",
         "password": "mikrotik",
-        "change_mode": null,
+        "change_privilege": null,
         "key_file": null,
         "passphrase": null
     },
@@ -45,7 +45,7 @@
         "connection": "ssh",
         "username": "mikrotik",
         "password": "mikrotik",
-        "change_mode": null,
+        "change_privilege": null,
         "key_file": "/home/backup_app/.ssh/mikrotik_id_rsa",
         "passphrase": "strongpassword"
     },
@@ -56,7 +56,7 @@
         "connection": "ssh",
         "username": "juniper",
         "password": "juniper",
-        "change_mode": null,
+        "change_privilege": null,
         "key_file": null,
         "passphrase": null
     },
@@ -67,7 +67,7 @@
         "connection": "ssh",
         "username": "juniper",
         "password": "juniper",
-        "change_mode": null,
+        "change_privilege": null,
         "key_file": "/home/backup_app/.ssh/juniper_id_rsa",
         "passphrase": "superstrongpassword"
     }

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3.10
 import logging
-from modules.config_load import Config_Load
-from modules.devices.devices_load import Devices_Load
-from modules.multithreading import Multithreading
-from modules.devices.base_device import BaseDevice
-from modules.git_operations import Git
-from modules.other.functions import save_to_file
+from pathlib import Path
+from config_load import Config_Load
+from devices.devices_load import Devices_Load
+from multithreading import Multithreading
+from devices.base_device import BaseDevice
+from git_operations import Git
+from other.functions import save_to_file
 
 
 class Application:
@@ -14,13 +15,13 @@ class Application:
     the correct execution of the script.
     """
     def __init__(
-            self, 
-            configs_path: object
+            self,
+            configs_path: Path
             ) -> None:
         self.logger = logging.getLogger(
             "netscriptbackup.Application"
             )
-        self.devices = BaseDevice.devices_lst
+        self.devices: list[BaseDevice] = BaseDevice.devices_lst
         self.configs_path = configs_path
 
     def _make_backup_ssh(
@@ -81,7 +82,7 @@ def _init_system():
     config_loaded = Config_Load()
     config_loaded.set_logging()
     devices_load = Devices_Load()
-    devices_load.load_jsons(config_loaded.devices_path)
+    devices_load.load_devices_file(config_loaded.devices_path)
     devices_load.create_devices()
     return Application(config_loaded.configs_path)
 

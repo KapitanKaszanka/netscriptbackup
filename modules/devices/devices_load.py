@@ -1,10 +1,11 @@
 #!/usr/bin/env python3.10
 import logging
 import json
-from modules.other.functions import get_and_valid_path
-from modules.devices.cisco import Cisco
-from modules.devices.mikrotik import Mikrotik
-from modules.devices.juniper import Juniper
+from pathlib import Path
+from other.functions import get_and_valid_path
+from devices.cisco import Cisco
+from devices.mikrotik import Mikrotik
+from devices.juniper import Juniper
 
 
 class Devices_Load:
@@ -13,22 +14,22 @@ class Devices_Load:
     needed to create device objects.
     """
     def __init__(self) -> None:
-        self.logger = logging.getLogger(
+        self.logger: logging = logging.getLogger(
             "netscriptbackup.devices.Devices_Load"
             )
 
-    def load_jsons(self, path) -> None:
+    def load_devices_file(self, path: Path) -> None:
         """
         This function loads devices from device.json file.
         
-        :param path: str path to devices json file.
+        :param path: path to devices json file.
         """
         try:
             self.logger.debug("Loading basic devices list.")
             with open(path, "r") as f:
-                _basic_devs = json.load(f)
-            self.devices_data = _basic_devs
-            del _basic_devs
+                _loded_devs: dict[dict] = json.load(f)
+            self.devices_data: dict[dict] = _loaded_devices
+            del _loaded_devices
         except FileNotFoundError as e:
             self.logger.critical(f"{e}")
             exit()
@@ -45,10 +46,10 @@ class Devices_Load:
         all devices based on the loaded json file
         """
         self.logger.info(f"Creating device objects..")
-        devices = self.devices_data
+        devices: dict[dict] = self.devices_data
         for ip in devices:
             try:
-                _device_parametrs = {
+                device_parametrs: dict = {
                     "ip": ip,
                     "port": devices[ip]["port"],
                     "name": devices[ip]["name"],
@@ -56,26 +57,26 @@ class Devices_Load:
                     "connection": devices[ip]["connection"],
                     "username": devices[ip]["username"],
                     "password": devices[ip]["password"],
-                    "mode_cmd": "",
-                    "mode_password": None,
+                    "privilege_cmd": "",
+                    "privilege_password": None,
                     "key_file": None,
                     "passphrase": None
                 }
-                if devices[ip]["change_mode"] != None:
-                    change_mode = devices[ip]["change_mode"]
-                    if isinstance(change_mode, list):
-                        if change_mode[0] != None:
-                            _device_parametrs["mode_cmd"] = change_mode[0]
-                        _device_parametrs["mode_password"] = change_mode[1]
+                if devices[ip]["change_privilege"] != None:
+                    change_privilege = devices[ip]["change_privilege"]
+                    if isinstance(change_privilege, list):
+                        if change_privilege[0] != None:
+                            device_parametrs["privilege_cmd"] = change_privilege[0]
+                        device_parametrs["privilege_password"] = change_privilege[1]
                     else:
-                        _device_parametrs["mode_password"] = change_mode
+                        device_parametrs["privilege_password"] = change_privilege
                 if devices[ip]["key_file"] != None:
-                    _device_parametrs["key_file"] = get_and_valid_path(
+                    device_parametrs["key_file"] = get_and_valid_path(
                         devices[ip]["key_file"]
                         )
-                    if _device_parametrs == None:
+                    if device_parametrs == None:
                         pass
-                    _device_parametrs["passphrase"] = devices[ip]["passphrase"]
+                    device_parametrs["passphrase"] = devices[ip]["passphrase"]
             except KeyError as e:
                 self.logger.warning(f"{ip}:KeyError in devices file: {e}")
                 pass
@@ -83,11 +84,11 @@ class Devices_Load:
                 self.logger.critical(f"Error ocure {e}")
                 exit()
             if devices[ip]["vendor"] == "cisco":
-                Cisco(**_device_parametrs)
+                Cisco(**device_parametrs)
             elif devices[ip]["vendor"] == "mikrotik":
-                Mikrotik(**_device_parametrs)
+                Mikrotik(**device_parametrs)
             elif devices[ip]["vendor"] == "juniper":
-                Juniper(**_device_parametrs)
+                Juniper(**device_parametrs)
             else:
                 self.logger.warning(f"{ip}:Device is not supported.")
                 pass

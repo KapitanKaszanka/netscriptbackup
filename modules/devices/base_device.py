@@ -2,8 +2,8 @@
 
 class BaseDevice:
     """
-    Main device object. Assigns all necessary information.
-    Returns appropriate variables when the object's child
+    main device object. Assigns all necessary information.
+    returns appropriate variables when the object's child
     does not support the given module.
     """
     devices_lst = []
@@ -17,8 +17,8 @@ class BaseDevice:
             connection: str,
             username: str,
             password: str,
-            mode_cmd: str,
-            mode_password: str,
+            privilege_cmd: str,
+            privilege_password: str,
             key_file: str,
             passphrase: str
             ) -> None:
@@ -31,8 +31,8 @@ class BaseDevice:
         self.passphrase = passphrase
         self.key_file = key_file
         self.password = password
-        self.mode_cmd = mode_cmd
-        self.mode_password = mode_password
+        self.privilege_cmd = privilege_cmd
+        self.privilege_password = privilege_password
         BaseDevice.devices_lst.append(self)
 
     def config_filternig(self, config):

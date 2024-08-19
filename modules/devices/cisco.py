@@ -1,16 +1,16 @@
 #!/usr/bin/env python3.10
 
 """
-Cisco object with all necessary parameters and functions.
+cisco object with all necessary parameters and functions.
 """
 
 import logging
-from modules.devices.base_device import BaseDevice
-from modules.connections.conn_ssh import ConnSSH
+from devices.base_device import BaseDevice
+from connections.conn_ssh import ConnSSH
 
 
 class Cisco(BaseDevice, ConnSSH):
-    """Cisco device object."""
+    """cisco device object."""
     def __init__(
             self,
             ip: str,
@@ -20,8 +20,8 @@ class Cisco(BaseDevice, ConnSSH):
             connection: str,
             username: str,
             password: str,
-            mode_cmd: str,
-            mode_password: str,
+            privilege_cmd: str,
+            privilege_password: str,
             key_file: str,
             passphrase: str
             ) -> "BaseDevice":
@@ -33,8 +33,8 @@ class Cisco(BaseDevice, ConnSSH):
             connection,
             username,
             password,
-            mode_cmd,
-            mode_password,
+            privilege_cmd,
+            privilege_password,
             key_file,
             passphrase
             )
@@ -45,14 +45,16 @@ class Cisco(BaseDevice, ConnSSH):
         self.device_type = "cisco_ios"
 
     def get_command_show_config(self):
+        """returns a command that display the current configuration"""
         self.logger.debug(f"{self.ip}:Returning commands.")
         return "show running-config view full"
 
     def config_filternig(self, config):
+        """filters config from unnecessary information"""
         self.logger.debug(f"{self.ip}:Configuration filtering.")
-        _tmp_config = []
-        config = config.splitlines()
-        add_enter = True
+        _tmp_config: list = []
+        config: str = config.splitlines()
+        add_enter: bool = True
         for line in config:
             if "!" in line:
                 if add_enter == True:
@@ -72,7 +74,7 @@ class Cisco(BaseDevice, ConnSSH):
             else:
                 _tmp_config.append(line)
                 add_enter = True
-        config_to_return = "\n".join(_tmp_config)
+        config_to_return: str = "\n".join(_tmp_config)
         return config_to_return
 
 

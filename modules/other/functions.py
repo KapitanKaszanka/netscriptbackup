@@ -53,7 +53,7 @@ def save_to_file(
         return False
 
 
-def get_and_valid_path(path) -> object | None:
+def get_and_valid_path(path: str) -> Path | None:
     """
     The function check if path or file exist.
 

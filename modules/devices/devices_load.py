@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.10
 import logging
 import json
+import sys
 from pathlib import Path
 from other.functions import get_and_valid_path
 from devices.cisco import Cisco
@@ -10,18 +11,17 @@ from devices.juniper import Juniper
 
 class Devices_Load:
     """
-    An object that collects all the functions 
+    An object that collects all the functions
     needed to create device objects.
     """
+
     def __init__(self) -> None:
-        self.logger: logging = logging.getLogger(
-            "netscriptbackup.devices.Devices_Load"
-            )
+        self.logger: logging = logging.getLogger("netscriptbackup.devices.Devices_Load")
 
     def load_devices_file(self, path: Path) -> None:
         """
         This function loads devices from device.json file.
-        
+
         :param path: path to devices json file.
         """
         try:
@@ -32,17 +32,17 @@ class Devices_Load:
             del _loaded_devices
         except FileNotFoundError as e:
             self.logger.critical(f"{e}")
-            exit()
+            sys.exit(1)
         except json.decoder.JSONDecodeError as e:
             self.logger.critical(f"{e}")
-            exit()
+            sys.exit(1)
         except Exception as e:
             self.logger.critical(f"{e}")
-            exit()
+            sys.exit(2)
 
     def create_devices(self) -> None:
         """
-        The function is responsible for creating 
+        The function is responsible for creating
         all devices based on the loaded json file
         """
         self.logger.info(f"Creating device objects..")
@@ -60,20 +60,20 @@ class Devices_Load:
                     "privilege_cmd": "",
                     "privilege_password": None,
                     "key_file": None,
-                    "passphrase": None
+                    "passphrase": None,
                 }
-                if devices[ip]["change_privilege"] != None:
-                    change_privilege = devices[ip]["change_privilege"]
-                    if isinstance(change_privilege, list):
-                        if change_privilege[0] != None:
-                            device_parametrs["privilege_cmd"] = change_privilege[0]
-                        device_parametrs["privilege_password"] = change_privilege[1]
+                if devices[ip]["privilege"] != None:
+                    privilege: list[str | None] | None = devices[ip]["privilege"]
+                    if isinstance(privilege, list):
+                        if privilege[0] != None:
+                            device_parametrs["privilege_cmd"] = privilege[0]
+                        device_parametrs["privilege_password"] = privilege[1]
                     else:
-                        device_parametrs["privilege_password"] = change_privilege
+                        device_parametrs["privilege_password"] = privilege
                 if devices[ip]["key_file"] != None:
                     device_parametrs["key_file"] = get_and_valid_path(
                         devices[ip]["key_file"]
-                        )
+                    )
                     if device_parametrs == None:
                         pass
                     device_parametrs["passphrase"] = devices[ip]["passphrase"]
@@ -82,7 +82,7 @@ class Devices_Load:
                 pass
             except Exception as e:
                 self.logger.critical(f"Error ocure {e}")
-                exit()
+                sys.exit(2)
             if devices[ip]["vendor"] == "cisco":
                 Cisco(**device_parametrs)
             elif devices[ip]["vendor"] == "mikrotik":

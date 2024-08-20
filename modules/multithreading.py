@@ -4,10 +4,7 @@ implementing multithreading to optimize code execution
 """
 
 from os import cpu_count
-from concurrent.futures import (
-    ThreadPoolExecutor,
-    wait
-    )
+from concurrent.futures import ThreadPoolExecutor, wait
 
 
 class Multithreading:
@@ -40,15 +37,15 @@ class Multithreading:
         """
         the function begins the process of splitting
         the received function into multiple threads.
-        
+
         :param func: function to perform
         :param lst: List of objects on which
                     the sent function is to be executed.
         :return: None
         """
-        self.func: function = func
+        self.func = func
         self.lst: list = lst
-        self._threading(self.lst)
+        self._threading()
 
 
 if __name__ == "__main__":

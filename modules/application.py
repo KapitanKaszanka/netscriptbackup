@@ -14,20 +14,13 @@ class Application:
     An object that collects functions that manage
     the correct execution of the script.
     """
-    def __init__(
-            self,
-            configs_path: Path
-            ) -> None:
-        self.logger = logging.getLogger(
-            "netscriptbackup.Application"
-            )
+
+    def __init__(self, configs_path: Path) -> None:
+        self.logger = logging.getLogger("netscriptbackup.Application")
         self.devices: list[BaseDevice] = BaseDevice.devices_lst
         self.configs_path = configs_path
 
-    def _make_backup_ssh(
-            self, 
-            dev: object
-            ) -> bool:
+    def _make_backup_ssh(self, dev: object) -> bool:
         """
         The functions is responsible for creating bakup with object.
 
@@ -39,33 +32,22 @@ class Application:
 
         if config_string is not None:
             self.logger.debug(f"{dev.ip}:Saving the configuration to a file.")
-            done = save_to_file(
-                self.configs_path,
-                dev.ip,
-                dev.name,
-                config_string
-                )
+            done = save_to_file(self.configs_path, dev.ip, dev.name, config_string)
             if done:
-                self.logger.debug(
-                    f"{dev.ip}:Operating on the Git repository."
-                    )
+                self.logger.debug(f"{dev.ip}:Operating on the Git repository.")
                 _git = Git(dev.ip, dev.name, self.configs_path)
                 done = _git.git_exceute()
                 if done:
                     self.logger.info(f"{dev.ip}:Backup created.")
                     return True
                 else:
-                    self.logger.warning(
-                        f"{dev.ip}:Unable to create backup."
-                        )
+                    self.logger.warning(f"{dev.ip}:Unable to create backup.")
                     return False
             else:
                 self.logger.warning(f"{dev.ip}:Unable to create backup.")
                 return False
         else:
-            self.logger.warning(
-                f"{dev.ip}:Unable to connect to device."
-                )
+            self.logger.warning(f"{dev.ip}:Unable to connect to device.")
             return False
 
     def start_backup(self):

@@ -11,20 +11,21 @@ from connections.conn_ssh import ConnSSH
 
 class Cisco(BaseDevice, ConnSSH):
     """cisco device object."""
+
     def __init__(
-            self,
-            ip: str,
-            port: int,
-            name: str,
-            vendor: str,
-            connection: str,
-            username: str,
-            password: str,
-            privilege_cmd: str,
-            privilege_password: str,
-            key_file: str,
-            passphrase: str
-            ) -> "BaseDevice":
+        self,
+        ip: str,
+        port: int,
+        name: str,
+        vendor: str,
+        connection: str,
+        username: str,
+        password: str,
+        privilege_cmd: str,
+        privilege_password: str,
+        key_file: str,
+        passphrase: str,
+    ) -> "BaseDevice":
         super().__init__(
             ip,
             port,
@@ -36,11 +37,9 @@ class Cisco(BaseDevice, ConnSSH):
             privilege_cmd,
             privilege_password,
             key_file,
-            passphrase
-            )
-        self.logger = logging.getLogger(
-            f"netscriptbackup.devices.Cisco"
-            )
+            passphrase,
+        )
+        self.logger: logging = logging.getLogger(f"netscriptbackup.devices.Cisco")
         self.logger.debug("Creatad.")
         self.device_type = "cisco_ios"
 
@@ -73,7 +72,7 @@ class Cisco(BaseDevice, ConnSSH):
                 continue
             else:
                 _tmp_config.append(line)
-                add_enter = True
+                add_enter: bool = True
         config_to_return: str = "\n".join(_tmp_config)
         return config_to_return
 

@@ -6,14 +6,9 @@ from pathlib import Path
 logger = logging.getLogger("netscriptbackup.functions")
 
 
-def save_to_file(
-    path: object,
-    ip: str,
-    name: str,
-    data: str
-    ) -> bool:
+def save_to_file(path: Path, ip: str, name: str, data: str) -> bool:
     """
-    The function that is responsible for creating and saving 
+    The function that is responsible for creating and saving
     data to the file.
 
     :param path: path to file
@@ -23,18 +18,19 @@ def save_to_file(
     :return: bool done or not.
     """
     try:
+        logger.info(f"{ip}:Saveing the configuration to file.")
         if name == None:
-            dir_path = path / f"{ip}"
-            file_path = path / f"{ip}" / f"{ip}_conf.txt"
+            dir_path: Path = path / f"{ip}"
+            file_path: Path = path / f"{ip}" / f"{ip}_conf.txt"
         else:
-            dir_path = path / f"{name}_{ip}"
-            file_path = path / f"{name}_{ip}" / f"{ip}_conf.txt"
+            dir_path: Path = path / f"{name}_{ip}"
+            file_path: Path = path / f"{name}_{ip}" / f"{ip}_conf.txt"
         logger.debug(f"{ip}:Check if the folder exist.")
         if not dir_path.is_dir():
             logger.info(
                 f"{ip}:The folder doesn't exist "
                 "or account doesn't have permissions."
-                )
+            )
             logger.info(f"{ip}:Creating a folder.")
             dir_path.mkdir()
         try:
@@ -46,7 +42,7 @@ def save_to_file(
         except PermissionError:
             logger.warning(
                 f"{ip}:The file cannot be opened. Permissions error."
-                )
+            )
             return False
     except Exception as e:
         logger.error(f"{ip}:Error: {e}")

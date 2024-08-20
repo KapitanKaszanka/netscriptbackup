@@ -15,10 +15,10 @@ class Application:
     the correct execution of the script.
     """
 
-    def __init__(self, configs_path: Path) -> None:
+    def __init__(self, backup_files_path: Path) -> None:
         self.logger = logging.getLogger("netscriptbackup.Application")
         self.devices: list[BaseDevice] = BaseDevice.devices_lst
-        self.configs_path = configs_path
+        self.backup_files_path = backup_files_path
 
     def _make_backup_ssh(self, dev: object) -> bool:
         """
@@ -28,15 +28,17 @@ class Application:
         :return bool: done or not.
         """
         self.logger.info(f"{dev.ip}:Attempting to create a backup.")
-        config_string = dev.get_config()
+        config_string: str | None = dev.get_config()
 
         if config_string is not None:
             self.logger.debug(f"{dev.ip}:Saving the configuration to a file.")
-            done = save_to_file(self.configs_path, dev.ip, dev.name, config_string)
+            done: bool = save_to_file(
+                self.backup_files_path, dev.ip, dev.name, config_string
+            )
             if done:
-                self.logger.debug(f"{dev.ip}:Operating on the Git repository.")
-                _git = Git(dev.ip, dev.name, self.configs_path)
-                done = _git.git_exceute()
+                self.logger.info(f"{dev.ip}:Operating on the Git repository.")
+                _git = Git(dev.ip, dev.name, self.backup_files_path)
+                done = _git.git_execute()
                 if done:
                     self.logger.info(f"{dev.ip}:Backup created.")
                     return True

@@ -16,7 +16,9 @@ class Devices_Load:
     """
 
     def __init__(self) -> None:
-        self.logger: logging = logging.getLogger("netscriptbackup.devices.Devices_Load")
+        self.logger: logging = logging.getLogger(
+            "netscriptbackup.devices.Devices_Load"
+        )
 
     def load_devices_file(self, path: Path) -> None:
         """
@@ -63,7 +65,9 @@ class Devices_Load:
                     "passphrase": None,
                 }
                 if devices[ip]["privilege"] != None:
-                    privilege: list[str | None] | None = devices[ip]["privilege"]
+                    privilege: list[str | None] | None = devices[ip][
+                        "privilege"
+                    ]
                     if isinstance(privilege, list):
                         if privilege[0] != None:
                             device_parametrs["privilege_cmd"] = privilege[0]

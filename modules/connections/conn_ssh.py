@@ -39,45 +39,22 @@ class ConnSSH:
         :param command_lst: command to send.
         """
         self.logger.debug(f"{self.ip}:Sending command.")
-        output = self._connection.send_command(
+        output: str = self._connection.send_command(
             command_string=command, read_timeout=60
         )
         return output
 
-    def _send_commands(self, command_lst: list) -> object:
-        """
-        The function sends a list of commands from the device.
-
-        :param _connection: netmiko connection object.
-        :param command_lst: list of commands to send.
-        """
-        self.logger.debug(f"{self.ip}:Sending commands.")
-        output = []
-        for command in command_lst:
-            stdout = self._connection.send_command(
-                command_string=command, read_timeout=60
-            )
-            output.append(stdout)
-        return output
-
-    def _send(self, commands: list | str) -> object | bool:
+    def _send(self, commands: str) -> str:
         """
         The function decide how send commands.
 
         :param _connection: netmiko connection object.
         :param command_lst: str or list of command(s) to send.
         """
-        if isinstance(commands, list):
-            output = self._send_commands(commands)
-            return output
-        elif isinstance(commands, str):
-            output = self._send_command(commands)
-            return output
-        else:
-            self.logger.warning(f"{self.ip}:Can't send command.")
-            return False
+        output = self._send_command(commands)
+        return output
 
-    def _get_conection_and_send(self, commands: str | list) -> str | bool:
+    def _get_conection_and_send(self, command: str) -> str | bool:
         """
         The function connects to the device. If necessary, determines
         the appropriate level of permissions. It then executes functions
@@ -111,7 +88,7 @@ class ConnSSH:
                 ) as self._connection:
                     self.logger.debug(f"{self.ip}:Connection created.")
                     self._set_privilege()
-                    output = self._send(commands)
+                    output = self._send(command)
             else:
                 self.logger.debug(f"{self.ip}:Connecting with public key.")
                 with ConnectHandler(
@@ -122,7 +99,7 @@ class ConnSSH:
                 ) as self._connection:
                     self.logger.debug(f"{self.ip}:Connection created.")
                     self._set_privilege()
-                    output = self._send(commands)
+                    output = self._send(command)
             self.logger.debug(f"{self.ip}:Connection completend sucessfully.")
             return output
         except NetmikoTimeoutException as e:
@@ -166,7 +143,7 @@ class ConnSSH:
         self.logger.debug(f"{self.ip}:Get command.")
         command = self.get_command_show_config()
         self.logger.debug(f"{self.ip}:Set connection parametrs.")
-        output = self._get_conection_and_send(command)
+        output: str = self._get_conection_and_send(command)
         if not output:
             return None
         pars_output = self.config_filternig(output)

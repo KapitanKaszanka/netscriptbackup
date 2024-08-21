@@ -3,7 +3,7 @@ import logging
 import json
 import sys
 from pathlib import Path
-from other.functions import get_and_valid_path
+from modules.functions import get_and_valid_path
 from devices.cisco import Cisco
 from devices.mikrotik import Mikrotik
 from devices.juniper import Juniper
@@ -11,24 +11,25 @@ from devices.juniper import Juniper
 
 class Devices_Load:
     """
-    An object that collects all the functions
+    an object that collects all the functions
     needed to create device objects.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, path: Path) -> None:
         self.logger: logging = logging.getLogger(
             "netscriptbackup.devices.Devices_Load"
         )
+        self.devices_path = path
 
-    def load_devices_file(self, path: Path) -> None:
+    def _load_devices_file(self) -> None:
         """
-        This function loads devices from device.json file.
+        this function loads devices from device.json file.
 
         :param path: path to devices json file.
         """
         try:
             self.logger.debug("Loading basic devices list.")
-            with open(path, "r") as f:
+            with open(self.devices_path, "r") as f:
                 _loded_devs: dict[dict] = json.load(f)
             self.devices_data: dict[dict] = _loaded_devices
             del _loaded_devices
@@ -44,10 +45,12 @@ class Devices_Load:
 
     def create_devices(self) -> None:
         """
-        The function is responsible for creating
+        the function is responsible for creating
         all devices based on the loaded json file
         """
-        self.logger.info(f"Creating device objects..")
+        self.logger.debug(f"Loading devices file...")
+        self._load_devices_file(self.devices_path)
+        self.logger.info(f"Creating device objects...")
         devices: dict[dict] = self.devices_data
         for ip in devices:
             try:

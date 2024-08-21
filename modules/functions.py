@@ -8,7 +8,7 @@ logger = logging.getLogger("netscriptbackup.functions")
 
 def save_to_file(path: Path, ip: str, name: str, data: str) -> bool:
     """
-    The function that is responsible for creating and saving
+    the function that is responsible for creating and saving
     data to the file.
 
     :param path: path to file
@@ -51,7 +51,7 @@ def save_to_file(path: Path, ip: str, name: str, data: str) -> bool:
 
 def get_and_valid_path(path: str) -> Path | None:
     """
-    The function check if path or file exist.
+    the function check if path or file exist.
 
     :return: Path or None
     """

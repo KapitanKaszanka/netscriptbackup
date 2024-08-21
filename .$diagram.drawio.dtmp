@@ -1,0 +1,113 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.5 Chrome/126.0.6478.183 Electron/31.3.0 Safari/537.36" version="24.7.5">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="2181" dy="1967" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="wUca4_fO8tBBxfwGpagT-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-3" target="wUca4_fO8tBBxfwGpagT-6" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="40" y="140" />
+              <mxPoint x="40" y="30" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-3" target="wUca4_fO8tBBxfwGpagT-17" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-3" target="wUca4_fO8tBBxfwGpagT-23" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="40" y="140" />
+              <mxPoint x="40" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-32" value="&lt;div align=&quot;left&quot;&gt;2. Load config.ini file.&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;3. Setup logging.&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;4. Create devices objects.&lt;/div&gt;" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];" parent="wUca4_fO8tBBxfwGpagT-26" vertex="1" connectable="0">
+          <mxGeometry x="-0.6809" y="-3" relative="1" as="geometry">
+            <mxPoint x="-45" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-3" value="Init_System" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="-250" y="120" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="wUca4_fO8tBBxfwGpagT-1" target="WIyWlLk6GJQsqaUBKTNV-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-29" value="1. Initialize system." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="wUca4_fO8tBBxfwGpagT-2" vertex="1" connectable="0">
+          <mxGeometry x="-0.4966" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="wUca4_fO8tBBxfwGpagT-1" target="wUca4_fO8tBBxfwGpagT-4" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-420" y="510" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-28" value="&lt;div&gt;4. Run program.&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="wUca4_fO8tBBxfwGpagT-5" vertex="1" connectable="0">
+          <mxGeometry x="-0.5316" y="4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-1" value="main()" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="-480" y="260" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="wUca4_fO8tBBxfwGpagT-4" target="wUca4_fO8tBBxfwGpagT-33" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-190" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="wUca4_fO8tBBxfwGpagT-4" target="wUca4_fO8tBBxfwGpagT-27" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-37" value="5. --backup" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="wUca4_fO8tBBxfwGpagT-36" vertex="1" connectable="0">
+          <mxGeometry x="-0.1889" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-4" value="Option_Handler" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="-250" y="490" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="wUca4_fO8tBBxfwGpagT-6" target="wUca4_fO8tBBxfwGpagT-13" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="30" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-6" value="&lt;div&gt;Config_Load&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="220" y="10" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-13" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Config Load&lt;br&gt;&lt;/h1&gt;&lt;p&gt;Load user setup from config.ini file. Set up all needed path and posible options.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="460" y="-30" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="wUca4_fO8tBBxfwGpagT-17" target="wUca4_fO8tBBxfwGpagT-18" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-17" value="&lt;div&gt;Logging&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="230" y="120" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-18" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Logging&lt;br&gt;&lt;/h1&gt;&lt;p&gt;Set up logging levels and paths&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="470" y="100" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="wUca4_fO8tBBxfwGpagT-23" target="wUca4_fO8tBBxfwGpagT-24" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-23" value="Devices_Load" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="230" y="230" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-24" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Devices Load&lt;br&gt;&lt;/h1&gt;&lt;p&gt;Downloads devices from the list on which tasks will be performed&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="470" y="211" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-27" value="Backup_Task" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="330" y="490" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="wUca4_fO8tBBxfwGpagT-33" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Option Handler&lt;/h1&gt;&lt;div&gt;Interrogates options provided by the user and performs appropriate tasks.&lt;br&gt;&lt;/div&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="-470" y="610" width="200" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

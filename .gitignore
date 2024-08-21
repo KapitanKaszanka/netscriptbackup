@@ -18,3 +18,4 @@ config.ini.cp
 
 ## Else
 test.txt
+*.drawio

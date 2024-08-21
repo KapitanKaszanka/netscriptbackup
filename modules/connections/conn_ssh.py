@@ -33,7 +33,7 @@ class ConnSSH:
 
     def _send_command(self, command: str) -> object:
         """
-        This function send command to device.
+        this function send command to device.
 
         :param _connection: netmiko connection object.
         :param command_lst: command to send.
@@ -46,7 +46,7 @@ class ConnSSH:
 
     def _send(self, commands: str) -> str:
         """
-        The function decide how send commands.
+        the function decide how send commands.
 
         :param _connection: netmiko connection object.
         :param command_lst: str or list of command(s) to send.
@@ -56,15 +56,13 @@ class ConnSSH:
 
     def _get_conection_and_send(self, command: str) -> str | bool:
         """
-        The function connects to the device. If necessary, determines
+        the function connects to the device. If necessary, determines
         the appropriate level of permissions. It then executes functions
         that send commands.
 
         :param commands: commands list or string,
         :return: interable netmiko object.
         """
-        if not self.check_ping_response():
-            return False
         conn_parametrs = {
             "host": self.ip,
             "username": self.username,
@@ -135,7 +133,7 @@ class ConnSSH:
 
     def get_config(self) -> str:
         """
-        The function retrieves the necessary commands
+        the function retrieves the necessary commands
         and returns the device configuration.
 
         :return: filtered device configuration.

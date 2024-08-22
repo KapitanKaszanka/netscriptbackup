@@ -3,10 +3,11 @@ import logging
 import json
 import sys
 from pathlib import Path
-from modules.functions import get_and_valid_path
-from devices.cisco import Cisco
-from devices.mikrotik import Mikrotik
-from devices.juniper import Juniper
+
+from netinfscript.functions import get_and_valid_path
+from netinfscript.devices.cisco import Cisco
+from netinfscript.devices.mikrotik import Mikrotik
+from netinfscript.devices.juniper import Juniper
 
 
 class Devices_Load:
@@ -30,7 +31,7 @@ class Devices_Load:
         try:
             self.logger.debug("Loading basic devices list.")
             with open(self.devices_path, "r") as f:
-                _loded_devs: dict[dict] = json.load(f)
+                _loaded_devices: dict[dict] = json.load(f)
             self.devices_data: dict[dict] = _loaded_devices
             del _loaded_devices
         except FileNotFoundError as e:

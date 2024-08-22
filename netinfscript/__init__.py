@@ -2,7 +2,7 @@
 import connections
 import devices
 import functions
-import modules.option_handler as option_handler
-import config_load
+import netinfscript.option_handler as option_handler
+import netinfscript.agent.config_load as config_load
 import git_operations
 import multithreading

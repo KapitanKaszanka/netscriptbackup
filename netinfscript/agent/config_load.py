@@ -1,5 +1,4 @@
 #!/usr/bin/env python3.10
-import logging
 import sys
 from configparser import ConfigParser
 from functions import get_and_valid_path

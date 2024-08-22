@@ -1,10 +1,10 @@
 #!/usr/bin/env python3.10
 import logging
 from git_operations import Git
-from modules.functions import save_to_file
+from netinfscript.functions import save_to_file
 
 
-class Backup_Task:
+class BackupTask:
     def _make_backup_ssh(self, dev: object) -> bool:
         """
         the functions is responsible for creating bakup with object.

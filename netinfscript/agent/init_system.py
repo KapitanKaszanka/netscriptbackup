@@ -1,27 +1,26 @@
 #!/usr/bin/env python3.10
 import logging
-from config_load import Config_Load
-from devices.devices_load import Devices_Load
-from devices.base_device import BaseDevice
+
+from netinfscript.agent.config_load import Config_Load
+from netinfscript.agent.devices_load import Devices_Load
 
 
-class Init_System:
+class InitSystem:
     """
     the class responsible for initializa all nedded functions
     """
 
     def __init__(self) -> None:
         self.config_loaded = Config_Load()
+        ## init fucntion for setup logging
         self.logging_level: str = self.config_loaded.logging_level
         self.set_logging()
         devices_loaded = Devices_Load(self.config_loaded.devices_path)
         devices_loaded.create_devices()
-        self.devices_object_lst: list[BaseDevice] = BaseDevice.devices_lst
 
     def set_logging(self) -> None:
         """
-        the function responsible for setting the logging system
-        to_rebuild
+        the function responsible for setting the logging system to do
         """
         logger: logging = logging.getLogger("netscriptbackup")
         if self.logging_level.lower() == "debug":

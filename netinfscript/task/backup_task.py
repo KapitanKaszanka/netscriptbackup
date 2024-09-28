@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.10
 import logging
 from git_operations import Git
-from netinfscript.functions import save_to_file
+from functions import save_to_file
 
 
 class BackupTask:
@@ -36,11 +36,3 @@ class BackupTask:
         else:
             self.logger.warning(f"{dev.ip}:Unable to connect to device.")
             return False
-
-    def start_backup(self):
-        """
-        The function used to implement multithreading in a script.
-        """
-        self.logger.info(f"Start creating backup for devices.")
-        execute = Multithreading()
-        execute.execute(self._make_backup_ssh, self.devices)
